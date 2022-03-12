@@ -1,19 +1,11 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardHeader,
-  Avatar,
-  IconButton,
-} from '@mui/material';
+import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { CPF } from '../../../domain/entities/CPF';
-import { Driver } from '../../../domain/entities/Driver';
+import { Vehicle } from '../../../domain/entities/Vehicle';
 import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
-import { DriverRepositoryDatabase } from '../../../infra/repository/DriverRepositoryDatabase';
 import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
+import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepositoryDatabase';
 
 type Props = {};
 
@@ -25,16 +17,19 @@ const makeInitialFormState = (formFields: IFormField[]) => {
   return state;
 };
 
-export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
+export const RegisterCompanyForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
 
   const driverFields: IFormField[] = [
-    { label: 'Nome', type: 'Short Text', id: 0, index: 0 },
-    { label: 'CNH', type: 'Short Text', id: 1, index: 1 },
-    { label: 'Contato', type: 'Short Text', id: 2, index: 2 },
-    { label: 'Vencimento', type: 'Date', id: 3, index: 3 },
+    { label: 'Número de Contrato', type: 'Short Text', id: 0, index: 0 },
+    { label: 'Código', type: 'Short Text', id: 1, index: 1 },
+    { label: 'Razão Social', type: 'Short Text', id: 2, index: 2 },
+    { label: 'CNPJ', type: 'CNPJ', id: 3, index: 3 },
+    { label: 'Contato', type: 'Phone Number', id: 4, index: 4 },
+    { label: 'Email', type: 'Short Text', id: 5, index: 5 },
+    { label: 'Responsável', type: 'Short Text', id: 6, index: 6 },
   ];
 
   const startState = () => setState(makeInitialFormState(driverFields));
@@ -53,16 +48,14 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
   };
 
   const onSave = async () => {
-    try {
-      const cpf = new CPF(state.CPF);
-      const driver = new Driver(state.name, cpf);
-      const repo = new DriverRepositoryDatabase();
-      await repo.addDriver(driver);
-      setSuccessMessage('Motorista cadastrado!');
-      startState();
-    } catch (error: any) {
-      setError(error.message);
-    }
+    // try {
+    //   const vehicle = new Vehicle(state.number, state.year);
+    //   const repo = new VehicleRepositoryDatabase();
+    //   await repo.addVehicle(vehicle);
+    //   setSuccessMessage('Veículo cadastrado!');
+    // } catch (error: any) {
+    //   setError(error.message);
+    // }
   };
 
   return (
@@ -70,7 +63,7 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
       <CardHeader
         // avatar={<Avatar aria-label=''></Avatar>}
         // action={<IconButton aria-label=''></IconButton>}
-        title='Cadastro de Motorista'
+        title='Cadastro de Transportadora'
         subheader=''
       />
       {driverFields.map((field: IFormField) => {

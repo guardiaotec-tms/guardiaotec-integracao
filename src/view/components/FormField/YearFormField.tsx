@@ -5,7 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { FormFieldStrategyProps } from './Types';
 
-export const DateFormField: FunctionComponent<FormFieldStrategyProps> = ({
+export const YearFormField: FunctionComponent<FormFieldStrategyProps> = ({
   label,
   onChange,
   value,
@@ -15,6 +15,7 @@ export const DateFormField: FunctionComponent<FormFieldStrategyProps> = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
+        views={['year']}
         label={label}
         value={value ? value : null}
         onChange={(newValue) => {

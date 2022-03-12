@@ -3,6 +3,7 @@ export type FormFieldType =
   | 'Long Text'
   | 'Date'
   | 'Date and Time'
+  | 'Year'
   | 'CPF'
   | 'CNPJ'
   | 'List Selection'

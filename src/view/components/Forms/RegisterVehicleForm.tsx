@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions } from '@mui/material';
+import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { CPF } from '../../../domain/entities/CPF';
 import { Vehicle } from '../../../domain/entities/Vehicle';
@@ -22,10 +22,15 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
-
+  //MARCA	MODELO	COR 	ANO FABRICAÇÃO 	ANO MODELO 	PLACA 	CAPACIDADE DE CARGA  m3
   const driverFields: IFormField[] = [
-    { label: 'number', type: 'Short Text', id: 0, index: 0 },
-    { label: 'year', type: 'Short Text', id: 1, index: 1 },
+    { label: 'Marca', type: 'Short Text', id: 0, index: 0 },
+    { label: 'Modelo', type: 'Short Text', id: 1, index: 1 },
+    { label: 'Cor', type: 'Short Text', id: 2, index: 2 },
+    { label: 'Ano Fabricação', type: 'Year', id: 3, index: 3 },
+    { label: 'Ano Modelo', type: 'Year', id: 4, index: 4 },
+    { label: 'Placa', type: 'Short Text', id: 5, index: 5 },
+    { label: 'Capacidade de Carga(m3)', type: 'Short Text', id: 6, index: 6 },
   ];
 
   const startState = () => setState(makeInitialFormState(driverFields));
@@ -55,14 +60,24 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
   };
 
   return (
-    <Card sx={{ maxWidth: '400px', padding: '10px' }}>
+    <Card sx={{ width: '400px', padding: '10px' }}>
+      <CardHeader
+        // avatar={<Avatar aria-label=''></Avatar>}
+        // action={<IconButton aria-label=''></IconButton>}
+        title='Cadastro de Veículo'
+        subheader=''
+      />
       {driverFields.map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>
             {/* <div>
                   <b>{field.label}</b>
                 </div> */}
-            <RenderFormField field={field} onChange={onChange} />
+            <RenderFormField
+              field={field}
+              onChange={onChange}
+              value={state[field.label]}
+            />
           </Box>
         );
       })}

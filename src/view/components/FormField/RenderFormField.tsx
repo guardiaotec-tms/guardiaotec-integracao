@@ -4,6 +4,7 @@ import { RenderStrategy } from './RenderStrategy';
 import { ShortTextFormField } from './ShortTextFormField';
 import { LongTextFormField } from './LongTextFormField';
 import { DateFormField } from './DateFormField';
+import { YearFormField } from './YearFormField';
 import { EmailFormField } from './EmailFormField';
 import { CheckboxFormField } from './CheckboxFormField';
 import { ListSelectionFormField } from './ListSelectionFormField';
@@ -16,11 +17,13 @@ import { NotImplementedFormFieldError } from './NotImplementedFormFieldError';
 type Props = {
   field: IFormField;
   onChange: (label: string, value: FormFieldValue) => void;
+  value?: any;
 };
 
 export const RenderFormField: FunctionComponent<Props> = ({
   field,
   onChange,
+  value,
 }) => {
   const [state, setState] = useState<any>({});
 
@@ -40,6 +43,8 @@ export const RenderFormField: FunctionComponent<Props> = ({
         return DateFormField;
       case 'Date and Time':
         return DateAndTimeFormField;
+      case 'Year':
+        return YearFormField;
       case 'Email':
         return EmailFormField;
       case 'Checkbox':
@@ -62,6 +67,7 @@ export const RenderFormField: FunctionComponent<Props> = ({
       strategyComponent={getStrategyComponent(field.type)}
       field={field}
       onChange={onChange}
+      value={value}
     />
   );
 };
