@@ -30,7 +30,7 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
     { label: 'Ano Fabricação', type: 'Year', id: 3, index: 3 },
     { label: 'Ano Modelo', type: 'Year', id: 4, index: 4 },
     { label: 'Placa', type: 'Short Text', id: 5, index: 5 },
-    { label: 'Capacidade de Carga(m3)', type: 'Short Text', id: 6, index: 6 },
+    { label: 'Capacidade(m3)', type: 'Short Text', id: 6, index: 6 },
   ];
 
   const startState = () => setState(makeInitialFormState(driverFields));
@@ -50,7 +50,10 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
 
   const onSave = async () => {
     try {
-      const vehicle = new Vehicle(state.number, state.year);
+      for (const key in state)
+        if (!state[key]) throw new Error(`Campo ${key} inválido!`);
+
+      const vehicle = new Vehicle(state);
       const repo = new VehicleRepositoryDatabase();
       await repo.addVehicle(vehicle);
       setSuccessMessage('Veículo cadastrado!');

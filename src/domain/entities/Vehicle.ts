@@ -1,8 +1,26 @@
+type VehicleInput = {
+  Marca: string;
+  Modelo: string;
+  Cor: string;
+  'Ano Fabricação': Date;
+  'Ano Modelo': Date;
+  Placa: string;
+  'Capacidade(m3)': string;
+};
+
 export class Vehicle {
-  year: string;
-  constructor(readonly serialNumber: number, year: string) {
-    console.log(year.length, Number(year));
-    if (year.length !== 4 || !Number(year)) throw new Error('Ano inválido!');
-    this.year = year;
+  constructor(readonly values: VehicleInput) {
+    this.validate();
+  }
+
+  isPositiveInteger(str: string) {
+    const num = Number(str);
+    if (Number.isInteger(num) && num > 0) return true;
+    return false;
+  }
+
+  validate() {
+    if (!this.isPositiveInteger(this.values['Capacidade(m3)']))
+      throw new Error('Capacidade deve ser um número!');
   }
 }

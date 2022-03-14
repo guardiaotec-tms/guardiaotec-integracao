@@ -1,10 +1,5 @@
-class A {
-  constructor(a) {
-    this.a = a;
-  }
-}
+const a = '123 1s';
+const b = 123;
 
-const a = new A('love life');
-
-console.log(a);
-console.log(a.prototype);
+console.log(Number(a));
+console.log(Number(b));

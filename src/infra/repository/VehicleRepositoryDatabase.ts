@@ -1,15 +1,13 @@
+import { Vehicle } from './../../domain/entities/Vehicle';
 import {
-  doc,
   addDoc,
   Firestore,
   collection,
-  getDoc,
   getDocs,
   where,
   query,
 } from 'firebase/firestore/lite';
 import { db } from './../../firebase/firebase';
-import { Vehicle } from '../../domain/entities/Vehicle';
 import { VehicleRepository } from '../../domain/repository/VehicleRepository';
 
 export class VehicleRepositoryDatabase implements VehicleRepository {
@@ -21,20 +19,36 @@ export class VehicleRepositoryDatabase implements VehicleRepository {
 
   async addVehicle(vehicle: Vehicle): Promise<void> {
     const colRef = collection(this.db, 'vehicles');
-    const q = query(colRef, where('serialNumber', '==', vehicle.serialNumber));
+    const q = query(colRef, where('Placa', '==', vehicle.values.Placa));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.docs.length > 0)
-      throw new Error('Veículo com este númera já foi cadastrado!');
+      throw new Error('Veículo com esta placa já foi cadastrado!');
 
     const data = {
-      cpf: vehicle.serialNumber,
-      year: vehicle.year,
+      Marca: vehicle.values.Marca,
+      Modelo: vehicle.values.Modelo,
+      Cor: vehicle.values.Cor,
+      'Ano Fabricação': vehicle.values['Ano Fabricação'],
+      'Ano Modelo': vehicle.values['Ano Modelo'],
+      Placa: vehicle.values.Marca,
+      'Capacidade(m3)': vehicle.values['Capacidade(m3)'],
     };
     const vehiclesCollectionRef = collection(db, 'vehicles');
     addDoc(vehiclesCollectionRef, data);
   }
+
   async getVehicles(): Promise<Vehicle[]> {
-    throw new Error('Method not implemented.');
+    const colRef = collection(this.db, 'vehicles');
+    const q = query(colRef);
+    const querySnapshot = await getDocs(q);
+    let vehicles: Vehicle[] = [];
+    querySnapshot.forEach((doc: any) => {
+      const data = doc.data();
+      data['Ano Fabricação'] = data['Ano Fabricação'].toDate();
+      data['Ano Modelo'] = data['Ano Modelo'].toDate();
+      vehicles.push(new Vehicle(data));
+    });
+    return vehicles;
   }
 }

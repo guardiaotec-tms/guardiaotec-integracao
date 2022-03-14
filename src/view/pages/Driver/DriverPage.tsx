@@ -56,20 +56,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
           Cadastrar
         </Button>
       </Box>
-      <CustomTable
-        tableHead={driversTableHead}
-        // tableRows={[['Dimitre', '2312asdasd', '12312asdasd', '123dasd']]}
-        tableRows={driversTableRows}
-      />
-      {/* <Box
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <RegisterDriverForm />
-      </Box> */}
+      <CustomTable tableHead={driversTableHead} tableRows={driversTableRows} />
     </div>
   );
 };
