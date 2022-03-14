@@ -21,20 +21,31 @@ export class DriverRepositoryDatabase implements DriverRepository {
 
   async addDriver(driver: Driver): Promise<void> {
     const colRef = collection(this.db, 'drivers');
-    const q = query(colRef, where('cpf', '==', driver.cpf.value));
+    const q = query(colRef, where('cnh', '==', driver.cnh));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.docs.length > 0)
-      throw new Error('Motorista já cadastrado com esse cpf');
+      throw new Error('Motorista já cadastrado com essa cnh');
 
     const data = {
-      cpf: driver.cpf.value,
-      name: driver.name,
+      cnh: driver.cnh,
+      nome: driver.nome,
+      contato: driver.contato,
+      vencimento: driver.vencimento,
     };
     const driversCollectionRef = collection(db, 'drivers');
     addDoc(driversCollectionRef, data);
   }
-  getDrivers(): Promise<Driver[]> {
-    throw new Error('Method not implemented.');
+  async getDrivers(): Promise<Driver[]> {
+    const colRef = collection(this.db, 'drivers');
+    const q = query(colRef);
+    const querySnapshot = await getDocs(q);
+    let drivers: Driver[] = [];
+    querySnapshot.forEach((doc: any) => {
+      const data = doc.data();
+      data.vencimento = data.vencimento.toDate();
+      drivers.push(data);
+    });
+    return drivers;
   }
 }

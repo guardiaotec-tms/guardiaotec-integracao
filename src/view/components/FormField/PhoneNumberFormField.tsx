@@ -5,7 +5,7 @@ import { isValidPhoneNumber } from './utils/isValidPhoneNumber';
 
 export const PhoneNumberFormField: FunctionComponent<
   FormFieldStrategyProps
-> = ({ label, onChange }) => {
+> = ({ label, onChange, value }) => {
   const [helperText, setHelperText] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +26,7 @@ export const PhoneNumberFormField: FunctionComponent<
       helperText={helperText}
       error={!!helperText}
       label={label}
+      value={value}
       onChange={handleChange}
       variant='outlined'
       onBlur={handleLoseFocus}

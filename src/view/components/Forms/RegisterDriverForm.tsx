@@ -33,7 +33,7 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
   const driverFields: IFormField[] = [
     { label: 'Nome', type: 'Short Text', id: 0, index: 0 },
     { label: 'CNH', type: 'Short Text', id: 1, index: 1 },
-    { label: 'Contato', type: 'Short Text', id: 2, index: 2 },
+    { label: 'Contato', type: 'Phone Number', id: 2, index: 2 },
     { label: 'Vencimento', type: 'Date', id: 3, index: 3 },
   ];
 
@@ -54,8 +54,15 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
 
   const onSave = async () => {
     try {
-      const cpf = new CPF(state.CPF);
-      const driver = new Driver(state.name, cpf);
+      for (const key in state)
+        if (!state[key]) throw new Error(`Campo ${key} inválido!`);
+
+      const driver = new Driver(
+        state.Nome,
+        state.CNH,
+        state.Contato,
+        state.Vencimento
+      );
       const repo = new DriverRepositoryDatabase();
       await repo.addDriver(driver);
       setSuccessMessage('Motorista cadastrado!');
@@ -98,7 +105,7 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
           Salvar
         </Button>
       </CardActions>
-      <AlertSnackbar open={!!error} onClose={onAlertClose} severity='warning'>
+      <AlertSnackbar open={!!error} onClose={onAlertClose} severity='error'>
         {error}
       </AlertSnackbar>
       <AlertSnackbar
