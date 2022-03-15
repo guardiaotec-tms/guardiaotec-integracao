@@ -5,6 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { CustomTableRow } from './CustomTableRow';
 import Paper from '@mui/material/Paper';
 import { uid } from 'react-uid';
 
@@ -53,16 +54,17 @@ export const CustomTable: FunctionComponent<Props> = ({
         </TableHead>
         <TableBody>
           {tableRows.map((row, index) => (
-            <TableRow
-              key={index}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              {row.map((column, index) => (
-                <TableCell align='center' key={uid(column, index)}>
-                  {column}
-                </TableCell>
-              ))}
-            </TableRow>
+            <CustomTableRow row={row} key={index} />
+            // <TableRow
+            //   key={index}
+            //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            // >
+            //   {row.map((column, index) => (
+            //     <TableCell align='center' key={uid(column, index)}>
+            //       {column}
+            //     </TableCell>
+            //   ))}
+            // </TableRow>
           ))}
         </TableBody>
       </Table>
