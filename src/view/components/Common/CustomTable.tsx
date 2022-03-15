@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { uid } from 'react-uid';
 
 function createData(
   name: string,
@@ -39,8 +40,8 @@ export const CustomTable: FunctionComponent<Props> = ({
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
         <TableHead>
           <TableRow>
-            {tableHead.map((column) => (
-              <TableCell align='center' key={column}>
+            {tableHead.map((column, index) => (
+              <TableCell align='center' key={uid(column, index)}>
                 <b>{column}</b>
               </TableCell>
             ))}
@@ -56,8 +57,8 @@ export const CustomTable: FunctionComponent<Props> = ({
               key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              {row.map((column) => (
-                <TableCell align='center' key={column}>
+              {row.map((column, index) => (
+                <TableCell align='center' key={uid(column, index)}>
                   {column}
                 </TableCell>
               ))}

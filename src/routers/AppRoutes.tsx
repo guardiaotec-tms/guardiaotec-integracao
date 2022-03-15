@@ -19,7 +19,7 @@ export const AppRoutes: FunctionComponent<Props> = ({}) => {
       <Route path='/vehicle' element={<VehiclePage />} />
       <Route path='/company/register' element={<RegisterCompanyPage />} />
       <Route path='/company' element={<CompanyPage />} />
-      <Route path='/' element={<App />}></Route>
+      <Route path='/' element={<DriverPage />}></Route>
     </Routes>
   );
 };
