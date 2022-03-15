@@ -9,6 +9,7 @@ export type FormFieldType =
   | 'List Selection'
   | 'Checkbox'
   | 'Phone Number'
+  | 'Email'
   | 'File';
 
 export type FormFieldValue = string | string[] | File | Date;

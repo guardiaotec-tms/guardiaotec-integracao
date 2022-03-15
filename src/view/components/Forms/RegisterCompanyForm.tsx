@@ -6,6 +6,8 @@ import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
 import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
 import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepositoryDatabase';
+import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
+import { Company } from '../../../domain/entities/Company';
 
 type Props = {};
 
@@ -23,12 +25,12 @@ export const RegisterCompanyForm: FunctionComponent<Props> = ({}) => {
   const [successMessage, setSuccessMessage] = useState<string>();
 
   const driverFields: IFormField[] = [
-    { label: 'Número de Contrato', type: 'Short Text', id: 0, index: 0 },
+    { label: 'Numero de Contrato', type: 'Short Text', id: 0, index: 0 },
     { label: 'Código', type: 'Short Text', id: 1, index: 1 },
     { label: 'Razão Social', type: 'Short Text', id: 2, index: 2 },
     { label: 'CNPJ', type: 'CNPJ', id: 3, index: 3 },
     { label: 'Contato', type: 'Phone Number', id: 4, index: 4 },
-    { label: 'Email', type: 'Short Text', id: 5, index: 5 },
+    { label: 'Email', type: 'Email', id: 5, index: 5 },
     { label: 'Responsável', type: 'Short Text', id: 6, index: 6 },
   ];
 
@@ -48,14 +50,14 @@ export const RegisterCompanyForm: FunctionComponent<Props> = ({}) => {
   };
 
   const onSave = async () => {
-    // try {
-    //   const vehicle = new Vehicle(state.number, state.year);
-    //   const repo = new VehicleRepositoryDatabase();
-    //   await repo.addVehicle(vehicle);
-    //   setSuccessMessage('Veículo cadastrado!');
-    // } catch (error: any) {
-    //   setError(error.message);
-    // }
+    try {
+      const company = new Company(state);
+      const repo = new CompanyRepositoryDatabase();
+      await repo.addCompany(company);
+      setSuccessMessage('Transportadora cadastrada!');
+    } catch (error: any) {
+      setError(error.message);
+    }
   };
 
   return (
