@@ -1,14 +1,5 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardHeader,
-  Avatar,
-  IconButton,
-} from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { CPF } from '../../../domain/entities/CPF';
+import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import { Driver } from '../../../domain/entities/Driver';
 import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
 import { DriverRepositoryDatabase } from '../../../infra/repository/DriverRepositoryDatabase';

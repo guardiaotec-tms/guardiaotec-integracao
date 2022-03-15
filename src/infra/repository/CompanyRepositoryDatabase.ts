@@ -1,3 +1,4 @@
+import { Company } from './../../domain/entities/Company';
 import {
   Firestore,
   where,
@@ -6,7 +7,6 @@ import {
   getDocs,
   addDoc,
 } from 'firebase/firestore/lite';
-import { Company } from '../../domain/entities/Company';
 import { db } from '../../firebase/firebase';
 import { CompanyRepository } from './../../domain/repository/CompanyRepository';
 
@@ -29,6 +29,14 @@ export class CompanyRepositoryDatabase implements CompanyRepository {
   }
 
   async getCompanies(): Promise<Company[]> {
-    throw new Error('Method not implemented.');
+    const colRef = collection(this.db, 'companies');
+    const q = query(colRef);
+    const querySnapshot = await getDocs(q);
+    let companies: Company[] = [];
+    querySnapshot.forEach((doc: any) => {
+      const data = doc.data();
+      companies.push(new Company(data));
+    });
+    return companies;
   }
 }

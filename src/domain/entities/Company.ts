@@ -1,6 +1,5 @@
 import { isValidCNPJ } from '../service/ValidateCNPJ';
 import { isValidEmail } from '../service/ValidateEmail';
-//NUMERO DE CONTRATO 	CODIGO 	RAZÃO SOCIAL 	CNPJ	CONTATO 	EMAIL 	RESPONSAVEL
 
 type CompanyInput = {
   'Numero de Contrato': string;
@@ -9,7 +8,7 @@ type CompanyInput = {
   CNPJ: string;
   Contato: string;
   Email: string;
-  Responsavel: string;
+  Responsável: string;
 };
 
 export class Company {

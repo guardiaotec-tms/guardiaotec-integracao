@@ -1,45 +1,53 @@
 import React, { FunctionComponent } from 'react';
-import { Paper, TextField } from '@mui/material';
-import { RegisterDriverForm } from '../../components/Forms/RegisterDriverForm';
 import { Box, Button } from '@mui/material';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 import { Link } from 'react-router-dom';
 import { CustomTable } from '../../components/Common/CustomTable';
 import { useState } from 'react';
 import { Company } from '../../../domain/entities/Company';
+import { useEffect } from 'react';
+import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
 
 type Props = {};
 
 export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const [companies, setCompanies] = useState<Company[]>([]);
 
-  //   useEffect(() => {
-  //     const fetchVehicles = async () => {
-  //       const repo = new VehicleRepositoryDatabase();
-  //       const vehicles = await repo.getVehicles();
-  //       setVehicles(vehicles);
-  //     };
-  //     fetchVehicles();
-  //   }, []);
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      const repo = new CompanyRepositoryDatabase();
+      const companies = await repo.getCompanies();
+      setCompanies(companies);
+    };
+    fetchCompanies();
+  }, []);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const company of companies) {
-      rows.push([]);
+      rows.push([
+        company.values['Numero de Contrato'],
+        company.values['Código'],
+        company.values['Razão Social'],
+        company.values['CNPJ'],
+        company.values['Contato'],
+        company.values['Email'],
+        company.values['Responsável'],
+      ]);
     }
     return rows;
   };
 
-  const vehiclesTableHead = [
-    'Marca',
-    'Modelo',
-    'Cor',
-    'Ano Fabricação',
-    'Ano Modelo',
-    'Placa',
-    'Capacidade(m3)',
+  const companiesTableHead = [
+    'Numero de Contrato',
+    'Código',
+    'Razão Social',
+    'CNPJ',
+    'Contato',
+    'Email',
+    'Responsável',
   ];
-  const vehiclesTableRows = makeTableRows();
+  const companiesTableRows = makeTableRows();
 
   return (
     <div>
@@ -55,8 +63,8 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
         </Button>
       </Box>
       <CustomTable
-        tableHead={vehiclesTableHead}
-        tableRows={vehiclesTableRows}
+        tableHead={companiesTableHead}
+        tableRows={companiesTableRows}
       />
     </div>
   );

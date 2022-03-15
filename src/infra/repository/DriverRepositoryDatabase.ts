@@ -1,10 +1,8 @@
 import { db } from './../../firebase/firebase';
 import {
-  doc,
   addDoc,
   Firestore,
   collection,
-  getDoc,
   getDocs,
   where,
   query,

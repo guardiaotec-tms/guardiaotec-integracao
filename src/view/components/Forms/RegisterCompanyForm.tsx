@@ -1,11 +1,8 @@
 import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { CPF } from '../../../domain/entities/CPF';
-import { Vehicle } from '../../../domain/entities/Vehicle';
 import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
 import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
-import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepositoryDatabase';
 import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
 import { Company } from '../../../domain/entities/Company';
 

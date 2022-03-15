@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Box, Paper, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import { RegisterCompanyForm } from '../../components/Forms/RegisterCompanyForm';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 

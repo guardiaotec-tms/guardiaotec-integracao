@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { RegisterDriverPage } from '../view/pages/Driver/RegisterDriverPage';
 import { RegisterVehiclePage } from '../view/pages/Vehicle/RegisterVehiclePage';
 import { RegisterCompanyPage } from '../view/pages/Company/RegisterCompanyPage';
