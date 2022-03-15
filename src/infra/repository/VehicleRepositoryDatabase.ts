@@ -25,17 +25,7 @@ export class VehicleRepositoryDatabase implements VehicleRepository {
     if (querySnapshot.docs.length > 0)
       throw new Error('Veículo com esta placa já foi cadastrado!');
 
-    const data = {
-      Marca: vehicle.values.Marca,
-      Modelo: vehicle.values.Modelo,
-      Cor: vehicle.values.Cor,
-      'Ano Fabricação': vehicle.values['Ano Fabricação'],
-      'Ano Modelo': vehicle.values['Ano Modelo'],
-      Placa: vehicle.values.Marca,
-      'Capacidade(m3)': vehicle.values['Capacidade(m3)'],
-    };
-    const vehiclesCollectionRef = collection(db, 'vehicles');
-    addDoc(vehiclesCollectionRef, data);
+    addDoc(colRef, vehicle.values);
   }
 
   async getVehicles(): Promise<Vehicle[]> {

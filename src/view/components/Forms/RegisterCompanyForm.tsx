@@ -60,18 +60,10 @@ export const RegisterCompanyForm: FunctionComponent<Props> = ({}) => {
 
   return (
     <Card sx={{ width: '400px', padding: '10px' }}>
-      <CardHeader
-        // avatar={<Avatar aria-label=''></Avatar>}
-        // action={<IconButton aria-label=''></IconButton>}
-        title='Cadastro de Transportadora'
-        subheader=''
-      />
+      <CardHeader title='Cadastro de Transportadora' subheader='' />
       {driverFields.map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>
-            {/* <div>
-                  <b>{field.label}</b>
-                </div> */}
             <RenderFormField
               field={field}
               onChange={onChange}
