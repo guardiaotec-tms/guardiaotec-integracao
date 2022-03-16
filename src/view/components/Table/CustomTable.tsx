@@ -30,11 +30,13 @@ const rows = [
 type Props = {
   tableHead: string[];
   tableRows: string[][];
+  onRowUpdate: (row: string[]) => void;
 };
 
 export const CustomTable: FunctionComponent<Props> = ({
   tableHead,
   tableRows,
+  onRowUpdate,
 }) => {
   return (
     <TableContainer component={Paper}>
@@ -54,7 +56,7 @@ export const CustomTable: FunctionComponent<Props> = ({
         </TableHead>
         <TableBody>
           {tableRows.map((row, index) => (
-            <CustomTableRow row={row} key={index} />
+            <CustomTableRow row={row} key={index} onRowUpdate={onRowUpdate} />
             // <TableRow
             //   key={index}
             //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

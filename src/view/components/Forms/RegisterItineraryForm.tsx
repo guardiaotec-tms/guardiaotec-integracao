@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
-import { Vehicle } from '../../../domain/entities/Vehicle';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
 import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
-import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepositoryDatabase';
+import { ItineraryRepositoryDatabase } from '../../../infra/repository/ItineraryRepositoryDatabase';
+import { Itinerary } from '../../../domain/entities/Itinerary';
 
 type Props = {};
 
@@ -16,31 +16,37 @@ const makeInitialFormState = (formFields: IFormField[]) => {
   return state;
 };
 
-export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
+export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
-  //MARCA	MODELO	COR 	ANO FABRICAÇÃO 	ANO MODELO 	PLACA 	CAPACIDADE DE CARGA  m3
-  const driverFields: IFormField[] = [
-    { label: 'Marca', type: 'Short Text', id: 0, index: 0 },
-    { label: 'Modelo', type: 'Short Text', id: 1, index: 1 },
-    { label: 'Cor', type: 'Short Text', id: 2, index: 2 },
-    { label: 'Ano Fabricação', type: 'Year', id: 3, index: 3 },
-    { label: 'Ano Modelo', type: 'Year', id: 4, index: 4 },
-    { label: 'Placa', type: 'Short Text', id: 5, index: 5 },
-    { label: 'Capacidade(m3)', type: 'Short Text', id: 6, index: 6 },
-    { label: 'Chassi', type: 'Short Text', id: 7, index: 7 },
-    { label: 'Renavam', type: 'Short Text', id: 8, index: 8 },
-    {
-      label: 'Categoria',
-      type: 'List Selection',
-      options: ['Pequeno', 'Grande'],
-      id: 9,
-      index: 9,
-    },
+
+  //   'Sequencia',
+  //   'PontoDeParada',
+  //   'Km',
+  //   'Chegada',
+  //   'Partida',
+  //   'Serviço',
+  //   'Espera',
+  //   'Livre',
+  //   'Horas',
+  //   'Serviços',
+  //   'Endereço',
+
+  const itineraryFields: IFormField[] = [
+    { label: 'Sequencia', type: 'Short Text', id: 0, index: 0 },
+    { label: 'PontoDeParada', type: 'Short Text', id: 1, index: 1 },
+    { label: 'Chegada', type: 'Date and Time', id: 2, index: 2 },
+    { label: 'Partida', type: 'Date and Time', id: 3, index: 3 },
+    { label: 'Serviço', type: 'Short Text', id: 4, index: 4 },
+    { label: 'Espera', type: 'Short Text', id: 5, index: 5 },
+    { label: 'Livre', type: 'Short Text', id: 6, index: 6 },
+    { label: 'Horas', type: 'Short Text', id: 7, index: 7 },
+    { label: 'Serviços', type: 'Short Text', id: 8, index: 8 },
+    { label: 'Endereço', type: 'Short Text', id: 9, index: 9 },
   ];
 
-  const startState = () => setState(makeInitialFormState(driverFields));
+  const startState = () => setState(makeInitialFormState(itineraryFields));
 
   useEffect(() => {
     startState();
@@ -57,13 +63,11 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
 
   const onSave = async () => {
     try {
-      for (const key in state)
-        if (!state[key]) throw new Error(`Campo ${key} inválido!`);
-
-      const vehicle = new Vehicle(state);
-      const repo = new VehicleRepositoryDatabase();
-      await repo.addVehicle(vehicle);
-      setSuccessMessage('Veículo cadastrado!');
+      const itinerary = new Itinerary(state);
+      const repo = new ItineraryRepositoryDatabase();
+      await repo.addItinerary(itinerary);
+      setSuccessMessage('Itinerário cadastrado!');
+      startState();
     } catch (error: any) {
       setError(error.message);
     }
@@ -71,18 +75,10 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
 
   return (
     <Card sx={{ width: '400px', padding: '10px' }}>
-      <CardHeader
-        // avatar={<Avatar aria-label=''></Avatar>}
-        // action={<IconButton aria-label=''></IconButton>}
-        title='Cadastro de Veículo'
-        subheader=''
-      />
-      {driverFields.map((field: IFormField) => {
+      <CardHeader title='Cadastro de Itinerário' subheader='' />
+      {itineraryFields.map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>
-            {/* <div>
-                  <b>{field.label}</b>
-                </div> */}
             <RenderFormField
               field={field}
               onChange={onChange}

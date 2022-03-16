@@ -5,15 +5,15 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
-export const DateAndTimeFormField: FunctionComponent<FormFieldStrategyProps> = ({
-  label,
-  onChange,
-}) => {
+export const DateAndTimeFormField: FunctionComponent<
+  FormFieldStrategyProps
+> = ({ label, onChange, value }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateTimePicker
         renderInput={(params) => <TextField {...params} fullWidth />}
-        value={new Date()}
+        value={value ? value : null}
+        label={label}
         onChange={(newValue) => {
           onChange(label, newValue ? newValue : new Date());
         }}

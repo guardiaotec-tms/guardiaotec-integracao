@@ -9,16 +9,24 @@ import { Link } from 'react-router-dom';
 
 const pages = [
   {
-    name: 'Veículo',
-    path: '/vehicle',
+    name: 'Transportadora',
+    path: '/company',
   },
   {
     name: 'Motorista',
     path: '/driver',
   },
   {
-    name: 'Empresa',
-    path: '/company',
+    name: 'Veículo',
+    path: '/vehicle',
+  },
+  {
+    name: 'Escala de Trabalho',
+    path: '/workscale',
+  },
+  {
+    name: 'Linha de Distribuição',
+    path: '/itinerary',
   },
 ];
 
@@ -37,14 +45,14 @@ export const ResponsiveAppBar = () => {
               verticalAlign: 'center',
             }}
           >
-            <Typography
+            {/* <Typography
               variant='h6'
               noWrap
               component='div'
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               LOGO
-            </Typography>
+            </Typography> */}
 
             {pages.map((page) => (
               <Button
@@ -52,7 +60,7 @@ export const ResponsiveAppBar = () => {
                 to={`${page.path}`}
                 key={page.name}
                 // onClick={() => handleRedirect(page)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ mx: 1, my: 2, color: 'white', display: 'block' }}
               >
                 {page.name}
               </Button>

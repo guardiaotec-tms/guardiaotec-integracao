@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Box, Button } from '@mui/material';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 import { Link } from 'react-router-dom';
-import { CustomTable } from '../../components/Common/CustomTable';
+import { CustomTable } from '../../components/Table/CustomTable';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Driver } from '../../../domain/entities/Driver';
@@ -31,13 +31,18 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
         driver.cnh,
         driver.contato,
         moment(driver.vencimento).format('MM/YYYY'),
+        '',
       ]);
     }
     return rows;
   };
 
-  const driversTableHead = ['Nome', 'CNH', 'Contato', 'Vencimento CNH'];
+  const driversTableHead = ['Nome', 'CNH', 'Contato', 'Vencimento CNH', ''];
   const driversTableRows = makeTableRows();
+
+  const onRowUpdate = () => {
+    console.log('onRowUpdate driverPage');
+  };
 
   return (
     <div>
@@ -54,7 +59,11 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
           Cadastrar
         </Button>
       </Box>
-      <CustomTable tableHead={driversTableHead} tableRows={driversTableRows} />
+      <CustomTable
+        tableHead={driversTableHead}
+        tableRows={driversTableRows}
+        onRowUpdate={onRowUpdate}
+      />
     </div>
   );
 };

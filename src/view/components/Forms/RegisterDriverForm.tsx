@@ -6,7 +6,9 @@ import { DriverRepositoryDatabase } from '../../../infra/repository/DriverReposi
 import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
 
-type Props = {};
+type Props = {
+  initialState?: object;
+};
 
 const makeInitialFormState = (formFields: IFormField[]) => {
   let state: any = {};
@@ -16,7 +18,9 @@ const makeInitialFormState = (formFields: IFormField[]) => {
   return state;
 };
 
-export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
+export const RegisterDriverForm: FunctionComponent<Props> = ({
+  initialState,
+}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
@@ -28,7 +32,9 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
     { label: 'Vencimento', type: 'Date', id: 3, index: 3 },
   ];
 
-  const startState = () => setState(makeInitialFormState(driverFields));
+  const startState = () =>
+    setState(initialState ? initialState : makeInitialFormState(driverFields));
+  const resetState = () => setState(makeInitialFormState(driverFields));
 
   useEffect(() => {
     startState();
@@ -57,7 +63,7 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
       const repo = new DriverRepositoryDatabase();
       await repo.addDriver(driver);
       setSuccessMessage('Motorista cadastrado!');
-      startState();
+      resetState();
     } catch (error: any) {
       setError(error.message);
     }

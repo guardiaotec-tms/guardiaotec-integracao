@@ -6,6 +6,9 @@ type VehicleInput = {
   'Ano Modelo': Date;
   Placa: string;
   'Capacidade(m3)': string;
+  Chassi: string;
+  Renavam: string;
+  Categoria: string;
 };
 
 export class Vehicle {
