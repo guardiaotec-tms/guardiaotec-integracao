@@ -15,12 +15,12 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
 
   useEffect(() => {
-    const fetchVehicles = async () => {
+    const fetchItineraries = async () => {
       const repo = new ItineraryRepositoryDatabase();
       const itineraries = await repo.getItineraries();
       setItineraries(itineraries);
     };
-    fetchVehicles();
+    fetchItineraries();
   }, []);
 
   const makeTableRows = () => {
