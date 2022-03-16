@@ -64,6 +64,7 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
       const repo = new VehicleRepositoryDatabase();
       await repo.addVehicle(vehicle);
       setSuccessMessage('Veículo cadastrado!');
+      startState();
     } catch (error: any) {
       setError(error.message);
     }

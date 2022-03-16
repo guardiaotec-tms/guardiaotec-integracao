@@ -35,7 +35,7 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
 
   const itineraryFields: IFormField[] = [
     { label: 'Sequencia', type: 'Short Text', id: 0, index: 0 },
-    { label: 'PontoDeParada', type: 'Short Text', id: 1, index: 1 },
+    { label: 'Ponto De Parada', type: 'Short Text', id: 1, index: 1 },
     { label: 'Chegada', type: 'Date and Time', id: 2, index: 2 },
     { label: 'Partida', type: 'Date and Time', id: 3, index: 3 },
     { label: 'Serviço', type: 'Short Text', id: 4, index: 4 },

@@ -35,7 +35,13 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
       id: 6,
       index: 6,
     },
-    { label: 'Frequência', type: 'Checkbox', id: 7, index: 7 },
+    {
+      label: 'Frequência',
+      type: 'Checkbox',
+      options: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+      id: 7,
+      index: 7,
+    },
   ];
 
   const startState = () => setState(makeInitialFormState(ftFields));
@@ -67,7 +73,7 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
 
   return (
     <Card sx={{ width: '400px', padding: '10px' }}>
-      <CardHeader title='Cadastro de Itinerário' subheader='' />
+      <CardHeader title='Cadastro de Ficha Técnica' subheader='' />
       {ftFields.map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>

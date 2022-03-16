@@ -26,12 +26,30 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const ft of fts) {
-      rows.push(['ft11']);
+      rows.push([
+        ft.values['Nº da FT'],
+        ft.values['Nº da Linha'],
+        ft.values['Origem'],
+        ft.values['Destino'],
+        moment(ft.values['Data de Vigencia Início']).format('DD/MM/YYYY'),
+        moment(ft.values['Data de Vigencia Fim']).format('DD/MM/YYYY'),
+        ft.values['Tipo de Linha'],
+        ft.values['Frequência'].join(','),
+      ]);
     }
     return rows;
   };
 
-  const ftsTableHead = ['ft1'];
+  const ftsTableHead = [
+    'Nº da FT',
+    'Nº da Linha',
+    'Origem',
+    'Destino',
+    'Data de Vigencia Início',
+    'Data de Vigencia Fim',
+    'Tipo de Linha',
+    'Frequência',
+  ];
   const ftsTableRows = makeTableRows();
 
   const onRowUpdate = () => {

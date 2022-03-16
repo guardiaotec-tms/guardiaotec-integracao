@@ -1,6 +1,6 @@
 type ItineraryValues = {
   Sequencia: string;
-  PontoDeParada: string;
+  'Ponto De Parada': string;
   Km: string;
   Chegada: string;
   Partida: string;

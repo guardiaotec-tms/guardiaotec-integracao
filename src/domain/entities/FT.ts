@@ -3,8 +3,8 @@ type FTValues = {
   'Nº da Linha': string;
   Origem: string;
   Destino: string;
-  'Data de Vigencia Início': string;
-  'Data de Vigencia Fim': string;
+  'Data de Vigencia Início': Date;
+  'Data de Vigencia Fim': Date;
   'Tipo de Linha': string;
   Frequência: string[];
 };

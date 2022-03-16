@@ -26,7 +26,7 @@ export const PhoneNumberFormField: FunctionComponent<
       helperText={helperText}
       error={!!helperText}
       label={label}
-      value={value}
+      value={value || ''}
       onChange={handleChange}
       variant='outlined'
       onBlur={handleLoseFocus}
