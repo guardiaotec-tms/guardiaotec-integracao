@@ -12,15 +12,15 @@ import moment from 'moment';
 type Props = {};
 
 export const FTPage: FunctionComponent<Props> = ({}) => {
-  const [itineraries, setItineraries] = useState<FT[]>([]);
+  const [fts, setFTs] = useState<FT[]>([]);
 
   useEffect(() => {
-    const fetchVehicles = async () => {
+    const fetchFTs = async () => {
       const repo = new FTRepositoryDatabase();
       const fts = await repo.getFTs();
-      setItineraries(fts);
+      setFTs(fts);
     };
-    fetchVehicles();
+    fetchFTs();
   }, []);
 
   const makeTableRows = () => {
@@ -35,7 +35,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   const ftsTableRows = makeTableRows();
 
   const onRowUpdate = () => {
-    console.log('onRowUpdate ItineraryPage');
+    console.log('onRowUpdate FTPage');
   };
 
   return (
@@ -46,7 +46,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
       >
         <Button
           component={Link}
-          to={`/itinerary/register`}
+          to={`/workscale/register`}
           variant='contained'
           color='primary'
         >
