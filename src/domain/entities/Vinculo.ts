@@ -2,8 +2,7 @@ type VinculoValues = {
   'Transportadora (CNPJ)': string;
   'Motorista (CNH)': string;
   'Veículo (Placa)': string;
-  'Linha de Distribuição (LTU)': string;
-  'Escala de Trabalho (LTU)': string;
+  'Nº da FT': string;
 };
 
 export class Vinculo {

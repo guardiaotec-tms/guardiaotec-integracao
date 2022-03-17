@@ -86,19 +86,11 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
       index: 2,
     },
     {
-      label: 'Linha de Distribuição (LTU)',
+      label: 'Nº da FT',
       type: 'List Selection',
-      options: itineraries.map((i) => i.values.LTU),
-      id: 3,
-      index: 3,
+      options: fts.map((ft) => ft.values['Nº da FT']),
     },
-    {
-      label: 'Escala de Trabalho (LTU)',
-      type: 'List Selection',
-      options: fts.map((ft) => ft.values.LTU),
-      id: 4,
-      index: 4,
-    },
+
     // { label: 'Destino', type: 'Short Text', id: 3, index: 3 },
     // { label: 'Data de Vigencia Início', type: 'Date', id: 4, index: 4 },
     // { label: 'Data de Vigencia Fim', type: 'Date', id: 5, index: 5 },

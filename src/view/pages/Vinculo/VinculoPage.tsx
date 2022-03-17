@@ -30,8 +30,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
         vinculo.values['Transportadora (CNPJ)'],
         vinculo.values['Motorista (CNH)'],
         vinculo.values['Veículo (Placa)'],
-        vinculo.values['Linha de Distribuição (LTU)'],
-        vinculo.values['Escala de Trabalho (LTU)'],
+        vinculo.values['Nº da FT'],
       ]);
     }
     return rows;
@@ -41,8 +40,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
     'Transportadora (CNPJ)',
     'Motorista (CNH)',
     'Veículo (Placa)',
-    'Linha de Distribuição (LTU)',
-    'Escala de Trabalho (LTU)',
+    'Nº da FT',
   ];
 
   const vinculosTableRows = makeTableRows();
