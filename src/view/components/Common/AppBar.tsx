@@ -21,13 +21,13 @@ const pages = [
     path: '/vehicle',
   },
   {
-    name: 'Escala de Trabalho',
+    name: 'Ficha Técnica',
     path: '/workscale',
   },
-  {
-    name: 'Linha de Distribuição',
-    path: '/itinerary',
-  },
+  // {
+  //   name: 'Linha de Distribuição',
+  //   path: '/itinerary',
+  // },
   {
     name: 'Vinculo',
     path: '/vinculo',

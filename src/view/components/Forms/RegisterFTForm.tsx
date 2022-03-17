@@ -22,27 +22,24 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
   const [successMessage, setSuccessMessage] = useState<string>();
 
   const ftFields: IFormField[] = [
-    { label: 'Nº da FT', type: 'Short Text', id: 0, index: 0 },
-    { label: 'Nº da Linha', type: 'Short Text', id: 1, index: 1 },
-    { label: 'Origem', type: 'Short Text', id: 2, index: 2 },
-    { label: 'Destino', type: 'Short Text', id: 3, index: 3 },
-    { label: 'Data de Vigencia Início', type: 'Date', id: 4, index: 4 },
-    { label: 'Data de Vigencia Fim', type: 'Date', id: 5, index: 5 },
-    {
-      label: 'Tipo de Linha',
-      type: 'List Selection',
-      options: ['Contratada'],
-      id: 6,
-      index: 6,
-    },
+    { label: 'Nº da FT', type: 'Short Text' },
+    { label: 'Nº da Linha', type: 'Short Text' },
     {
       label: 'Frequência',
       type: 'Checkbox',
       options: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-      id: 7,
-      index: 7,
     },
-    { label: 'LTU', type: 'Short Text', id: 8, index: 8 },
+    { label: 'Sequencia', type: 'Short Text' },
+    { label: 'Ponto De Parada', type: 'Short Text' },
+    { label: 'Chegada', type: 'Date and Time' },
+    { label: 'Partida', type: 'Date and Time' },
+    { label: 'Serviço', type: 'Short Text' },
+    { label: 'Espera', type: 'Short Text' },
+    { label: 'Livre', type: 'Short Text' },
+    { label: 'Horas', type: 'Short Text' },
+    { label: 'Serviços', type: 'Short Text' },
+    { label: 'Endereço', type: 'Short Text' },
+    { label: 'LTU', type: 'Short Text' },
   ];
 
   const startState = () => setState(makeInitialFormState(ftFields));
