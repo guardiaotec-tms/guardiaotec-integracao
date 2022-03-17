@@ -37,6 +37,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
         itinerary.values.Horas,
         itinerary.values.Serviços,
         itinerary.values.Endereço,
+        itinerary.values.LTU,
       ]);
     }
     return rows;
@@ -53,6 +54,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     'Horas',
     'Serviços',
     'Endereço',
+    'LTU',
   ];
   const itinerariesTableRows = makeTableRows();
 

@@ -28,6 +28,10 @@ const pages = [
     name: 'Linha de Distribuição',
     path: '/itinerary',
   },
+  {
+    name: 'Vinculo',
+    path: '/vinculo',
+  },
 ];
 
 export const ResponsiveAppBar = () => {
@@ -60,7 +64,7 @@ export const ResponsiveAppBar = () => {
                 to={`${page.path}`}
                 key={page.name}
                 // onClick={() => handleRedirect(page)}
-                sx={{ mx: 1, my: 2, color: 'white', display: 'block' }}
+                sx={{ mx: 0.8, my: 2, color: 'white', display: 'block' }}
               >
                 {page.name}
               </Button>

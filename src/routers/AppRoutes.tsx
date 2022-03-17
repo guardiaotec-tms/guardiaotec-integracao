@@ -5,12 +5,14 @@ import { RegisterVehiclePage } from '../view/pages/Vehicle/RegisterVehiclePage';
 import { RegisterCompanyPage } from '../view/pages/Company/RegisterCompanyPage';
 import { RegisterItineraryPage } from '../view/pages/Itinerary/RegisterItineraryPage';
 import { RegisterFTPage } from '../view/pages/FT/RegisterFTPage';
+import { RegisterVinculoPage } from '../view/pages/Vinculo/RegisterVinculoPage';
 import { DriverPage } from '../view/pages/Driver/DriverPage';
 import { VehiclePage } from '../view/pages/Vehicle/VehiclePage';
 import { CompanyPage } from '../view/pages/Company/CompanyPage';
 import App from '../App';
 import { ItineraryPage } from '../view/pages/Itinerary/ItineraryPage';
 import { FTPage } from '../view/pages/FT/FTPage';
+import { VinculoPage } from '../view/pages/Vinculo/VinculoPage';
 
 type Props = {};
 
@@ -27,6 +29,8 @@ export const AppRoutes: FunctionComponent<Props> = ({}) => {
       <Route path='/itinerary' element={<ItineraryPage />} />
       <Route path='/workscale' element={<FTPage />} />
       <Route path='/workscale/register' element={<RegisterFTPage />} />
+      <Route path='/vinculo' element={<VinculoPage />} />
+      <Route path='/vinculo/register' element={<RegisterVinculoPage />} />
       <Route path='/' element={<DriverPage />}></Route>
     </Routes>
   );

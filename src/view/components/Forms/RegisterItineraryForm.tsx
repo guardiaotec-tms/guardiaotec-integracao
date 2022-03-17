@@ -44,6 +44,7 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
     { label: 'Horas', type: 'Short Text', id: 7, index: 7 },
     { label: 'Serviços', type: 'Short Text', id: 8, index: 8 },
     { label: 'Endereço', type: 'Short Text', id: 9, index: 9 },
+    { label: 'LTU', type: 'Short Text', id: 10, index: 10 },
   ];
 
   const startState = () => setState(makeInitialFormState(itineraryFields));
