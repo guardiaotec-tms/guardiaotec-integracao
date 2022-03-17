@@ -35,6 +35,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
         moment(ft.values['Data de Vigencia Fim']).format('DD/MM/YYYY'),
         ft.values['Tipo de Linha'],
         ft.values['Frequência'].join(','),
+        ft.values['LTU'],
       ]);
     }
     return rows;
@@ -49,6 +50,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     'Data de Vigencia Fim',
     'Tipo de Linha',
     'Frequência',
+    'LTU',
   ];
   const ftsTableRows = makeTableRows();
 

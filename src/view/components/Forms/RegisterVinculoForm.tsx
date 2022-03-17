@@ -9,6 +9,12 @@ import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepo
 import { Company } from '../../../domain/entities/Company';
 import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepositoryDatabase';
 import { Vehicle } from '../../../domain/entities/Vehicle';
+import { Itinerary } from '../../../domain/entities/Itinerary';
+import { ItineraryRepositoryDatabase } from '../../../infra/repository/ItineraryRepositoryDatabase';
+import { DriverRepositoryDatabase } from '../../../infra/repository/DriverRepositoryDatabase';
+import { Driver } from '../../../domain/entities/Driver';
+import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryDatabase';
+import { FT } from '../../../domain/entities/FT';
 
 type Props = {};
 
@@ -26,7 +32,10 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
   const [successMessage, setSuccessMessage] = useState<string>();
 
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [drivers, setDrivers] = useState<Driver[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [fts, setFTs] = useState<FT[]>([]);
+  const [itineraries, setItineraries] = useState<Itinerary[]>([]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -34,9 +43,21 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
       const companies = await companiesRepo.getCompanies();
       setCompanies(companies);
 
+      const driversRepo = new DriverRepositoryDatabase();
+      const drivers = await driversRepo.getDrivers();
+      setDrivers(drivers);
+
       const vehiclesRepo = new VehicleRepositoryDatabase();
       const vehicles = await vehiclesRepo.getVehicles();
       setVehicles(vehicles);
+
+      const ftsRepo = new FTRepositoryDatabase();
+      const fts = await ftsRepo.getFTs();
+      setFTs(fts);
+
+      const itinerariesRepo = new ItineraryRepositoryDatabase();
+      const itineraries = await itinerariesRepo.getItineraries();
+      setItineraries(itineraries);
     };
 
     fetch();
@@ -51,13 +72,33 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
       index: 0,
     },
     {
-      label: 'Veículo (Placa)',
+      label: 'Motorista (CNH)',
       type: 'List Selection',
-      options: vehicles.map((v) => v.values.Placa),
+      options: drivers.map((d) => d.nome.split(' ')[0] + ' ' + d.cnh),
       id: 1,
       index: 1,
     },
-    // { label: 'Origem', type: 'Short Text', id: 2, index: 2 },
+    {
+      label: 'Veículo (Placa)',
+      type: 'List Selection',
+      options: vehicles.map((v) => v.values.Placa),
+      id: 2,
+      index: 2,
+    },
+    {
+      label: 'Linha de Distribuição (LTU)',
+      type: 'List Selection',
+      options: itineraries.map((i) => i.values.LTU),
+      id: 3,
+      index: 3,
+    },
+    {
+      label: 'Escala de Trabalho (LTU)',
+      type: 'List Selection',
+      options: fts.map((ft) => ft.values.LTU),
+      id: 4,
+      index: 4,
+    },
     // { label: 'Destino', type: 'Short Text', id: 3, index: 3 },
     // { label: 'Data de Vigencia Início', type: 'Date', id: 4, index: 4 },
     // { label: 'Data de Vigencia Fim', type: 'Date', id: 5, index: 5 },

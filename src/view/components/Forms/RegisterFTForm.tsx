@@ -42,6 +42,7 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
       id: 7,
       index: 7,
     },
+    { label: 'LTU', type: 'Short Text', id: 8, index: 8 },
   ];
 
   const startState = () => setState(makeInitialFormState(ftFields));

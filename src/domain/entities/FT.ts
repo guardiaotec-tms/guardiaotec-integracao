@@ -7,6 +7,7 @@ type FTValues = {
   'Data de Vigencia Fim': Date;
   'Tipo de Linha': string;
   Frequência: string[];
+  LTU: string;
 };
 
 export class FT {

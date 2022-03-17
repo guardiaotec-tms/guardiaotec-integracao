@@ -26,12 +26,25 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const vinculo of vinculos) {
-      rows.push(['v11']);
+      rows.push([
+        vinculo.values['Transportadora (CNPJ)'],
+        vinculo.values['Motorista (CNH)'],
+        vinculo.values['Veículo (Placa)'],
+        vinculo.values['Linha de Distribuição (LTU)'],
+        vinculo.values['Escala de Trabalho (LTU)'],
+      ]);
     }
     return rows;
   };
 
-  const vinculosTableHead = ['v1'];
+  const vinculosTableHead = [
+    'Transportadora (CNPJ)',
+    'Motorista (CNH)',
+    'Veículo (Placa)',
+    'Linha de Distribuição (LTU)',
+    'Escala de Trabalho (LTU)',
+  ];
+
   const vinculosTableRows = makeTableRows();
 
   const onRowUpdate = () => {
