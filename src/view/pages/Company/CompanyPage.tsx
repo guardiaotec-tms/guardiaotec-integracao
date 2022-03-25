@@ -41,7 +41,7 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const companiesTableHead = [
     'Numero de Contrato',
     'Código',
-    // 'Razão Social',
+    'Transportadora',
     'CNPJ',
     'Contato',
     'Email',

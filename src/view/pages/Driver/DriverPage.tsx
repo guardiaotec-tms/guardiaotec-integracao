@@ -28,16 +28,15 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     for (const driver of drivers) {
       rows.push([
         driver.nome,
-        driver.cnh,
         driver.contato,
+        driver.cnh,
         moment(driver.vencimento).format('MM/YYYY'),
-        '',
       ]);
     }
     return rows;
   };
 
-  const driversTableHead = ['Nome', 'CNH', 'Contato', 'Vencimento CNH', ''];
+  const driversTableHead = ['Nome', 'Contato', 'CNH', 'Vencimento CNH'];
   const driversTableRows = makeTableRows();
 
   const onRowUpdate = () => {
