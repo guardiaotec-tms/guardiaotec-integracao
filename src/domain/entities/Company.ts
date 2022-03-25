@@ -4,7 +4,7 @@ import { isValidEmail } from '../service/ValidateEmail';
 type CompanyInput = {
   'Numero de Contrato': string;
   Código: string;
-  'Razão Social': string;
+  Transportadora: string;
   CNPJ: string;
   Contato: string;
   Email: string;

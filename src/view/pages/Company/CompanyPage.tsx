@@ -28,7 +28,7 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
       rows.push([
         company.values['Numero de Contrato'],
         company.values['Código'],
-        company.values['Razão Social'],
+        company.values['Transportadora'],
         company.values['CNPJ'],
         company.values['Contato'],
         company.values['Email'],
@@ -41,7 +41,7 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const companiesTableHead = [
     'Numero de Contrato',
     'Código',
-    'Razão Social',
+    // 'Razão Social',
     'CNPJ',
     'Contato',
     'Email',

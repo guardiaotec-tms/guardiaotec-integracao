@@ -35,9 +35,8 @@ export class FTRepositoryDatabase implements FTRepository {
     let fts: FT[] = [];
     querySnapshot.forEach((doc: any) => {
       const data = doc.data();
-      // data['Data de Vigencia Início'] =
-      //   data['Data de Vigencia Início'].toDate();
-      // data['Data de Vigencia Fim'] = data['Data de Vigencia Fim'].toDate();
+      data['Chegada'] = data['Chegada'].toDate();
+      data['Partida'] = data['Partida'].toDate();
 
       fts.push(new FT(data));
     });
