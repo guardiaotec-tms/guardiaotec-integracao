@@ -24,10 +24,10 @@ const pages = [
     name: 'Ficha Técnica',
     path: '/workscale',
   },
-  // {
-  //   name: 'Linha de Distribuição',
-  //   path: '/itinerary',
-  // },
+  {
+    name: 'Plano de Viagem',
+    path: '/itinerary',
+  },
   {
     name: 'Vinculo',
     path: '/vinculo',

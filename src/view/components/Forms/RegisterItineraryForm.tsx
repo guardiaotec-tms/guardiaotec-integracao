@@ -38,8 +38,8 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
       index: 10,
     },
     { label: 'Sequencia', type: 'Short Text', id: 0, index: 0 },
-    { label: 'CTO', type: 'Short Text', id: 0, index: 0 },
-    { label: 'Ponto De Parada', type: 'Short Text', id: 1, index: 1 },
+    { label: 'CTO', type: 'Short Text', id: 10, index: 0 },
+    { label: 'Ponto De Parada', type: 'Short Text', id: 11, index: 1 },
     { label: 'KM', type: 'Short Text', id: 1, index: 1 },
     { label: 'Chegada', type: 'Date and Time', id: 2, index: 2 },
     { label: 'Partida', type: 'Date and Time', id: 3, index: 3 },
@@ -71,7 +71,7 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
       const itinerary = new Itinerary(state);
       const repo = new ItineraryRepositoryDatabase();
       await repo.addItinerary(itinerary);
-      setSuccessMessage('Itinerário cadastrado!');
+      setSuccessMessage('Cadastrado!');
       startState();
     } catch (error: any) {
       setError(error.message);
@@ -80,7 +80,7 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
 
   return (
     <Card sx={{ width: '400px', padding: '10px' }}>
-      <CardHeader title='Cadastro de Itinerário' subheader='' />
+      <CardHeader title='Cadastro de Plano de Viagem' subheader='' />
       {itineraryFields.map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>
