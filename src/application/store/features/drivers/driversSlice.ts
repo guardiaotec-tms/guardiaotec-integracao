@@ -24,4 +24,5 @@ export const driversSlice = createSlice({
 // export const { setUserId } = counterSlice.actions;
 export const driversActions = driversSlice.actions;
 export const { setDrivers } = driversActions;
+export type SetDriversType = typeof setDrivers;
 export default driversSlice.reducer;

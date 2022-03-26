@@ -27,6 +27,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     let rows: string[][] = [];
     for (const itinerary of itineraries) {
       rows.push([
+        itinerary.values['LTU Correspondente'],
         itinerary.values.Sequencia,
         itinerary.values['Ponto De Parada'],
         moment(itinerary.values.Chegada).format('DD/MM/YY hh:mm'),
@@ -37,13 +38,13 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
         itinerary.values.Horas,
         itinerary.values.Serviços,
         itinerary.values.Endereço,
-        itinerary.values.LTU,
       ]);
     }
     return rows;
   };
 
   const itinerariesTableHead = [
+    'LTU Correspondente',
     'Sequencia',
     'Ponto De Parada',
     'Chegada',
@@ -54,7 +55,6 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     'Horas',
     'Serviços',
     'Endereço',
-    'LTU',
   ];
   const itinerariesTableRows = makeTableRows();
 

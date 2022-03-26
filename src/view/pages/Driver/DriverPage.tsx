@@ -5,14 +5,19 @@ import { Link } from 'react-router-dom';
 import { CustomTable } from '../../components/Table/CustomTable';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Driver } from '../../../domain/entities/Driver';
 import { DriverRepositoryDatabase } from '../../../infra/repository/DriverRepositoryDatabase';
 import moment from 'moment';
+import { RootState } from '../../../application/store/configureStore';
+import { useDrivers } from '../../../application/hooks/useDrivers';
 
 type Props = {};
 
 export const DriverPage: FunctionComponent<Props> = ({}) => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
+  // const drivers = useSelector((state: RootState) => state.drivers.drivers);
+  // const drivers = useDrivers();
 
   useEffect(() => {
     const fetchDrivers = async () => {

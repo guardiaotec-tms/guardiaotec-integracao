@@ -5,6 +5,8 @@ import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
 import { ItineraryRepositoryDatabase } from '../../../infra/repository/ItineraryRepositoryDatabase';
 import { Itinerary } from '../../../domain/entities/Itinerary';
+import { FT } from '../../../domain/entities/FT';
+import { fetchFTs } from '../../../infra/services/fetchFTs';
 
 type Props = {};
 
@@ -21,21 +23,24 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
 
-  //   'Sequencia',
-  //   'PontoDeParada',
-  //   'Km',
-  //   'Chegada',
-  //   'Partida',
-  //   'Serviço',
-  //   'Espera',
-  //   'Livre',
-  //   'Horas',
-  //   'Serviços',
-  //   'Endereço',
+  const [fts, setFTs] = useState<FT[]>([]);
+
+  useEffect(() => {
+    fetchFTs(setFTs);
+  }, []);
 
   const itineraryFields: IFormField[] = [
+    {
+      label: 'LTU Correspondente',
+      type: 'List Selection',
+      options: fts.map((ft) => ft.values['Nº da Linha']),
+      id: 10,
+      index: 10,
+    },
     { label: 'Sequencia', type: 'Short Text', id: 0, index: 0 },
+    { label: 'CTO', type: 'Short Text', id: 0, index: 0 },
     { label: 'Ponto De Parada', type: 'Short Text', id: 1, index: 1 },
+    { label: 'KM', type: 'Short Text', id: 1, index: 1 },
     { label: 'Chegada', type: 'Date and Time', id: 2, index: 2 },
     { label: 'Partida', type: 'Date and Time', id: 3, index: 3 },
     { label: 'Serviço', type: 'Short Text', id: 4, index: 4 },
@@ -44,7 +49,6 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
     { label: 'Horas', type: 'Short Text', id: 7, index: 7 },
     { label: 'Serviços', type: 'Short Text', id: 8, index: 8 },
     { label: 'Endereço', type: 'Short Text', id: 9, index: 9 },
-    { label: 'LTU', type: 'Short Text', id: 10, index: 10 },
   ];
 
   const startState = () => setState(makeInitialFormState(itineraryFields));

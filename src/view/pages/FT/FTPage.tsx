@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryDatabase';
 import moment from 'moment';
+import { fetchFTs } from '../../../infra/services/fetchFTs';
 
 type Props = {};
 
@@ -15,12 +16,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   const [fts, setFTs] = useState<FT[]>([]);
 
   useEffect(() => {
-    const fetchFTs = async () => {
-      const repo = new FTRepositoryDatabase();
-      const fts = await repo.getFTs();
-      setFTs(fts);
-    };
-    fetchFTs();
+    fetchFTs(setFTs);
   }, []);
 
   const makeTableRows = () => {

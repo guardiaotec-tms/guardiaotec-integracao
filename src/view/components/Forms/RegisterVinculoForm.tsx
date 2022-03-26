@@ -15,6 +15,8 @@ import { DriverRepositoryDatabase } from '../../../infra/repository/DriverReposi
 import { Driver } from '../../../domain/entities/Driver';
 import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryDatabase';
 import { FT } from '../../../domain/entities/FT';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
 
 type Props = {};
 
@@ -31,8 +33,10 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
 
+  const ds = useSelector((state: RootState) => state.drivers.drivers);
+
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [drivers, setDrivers] = useState<Driver[]>(ds);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [fts, setFTs] = useState<FT[]>([]);
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
@@ -44,8 +48,8 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
       setCompanies(companies);
 
       const driversRepo = new DriverRepositoryDatabase();
-      const drivers = await driversRepo.getDrivers();
-      setDrivers(drivers);
+      //   const drivers = await driversRepo.getDrivers();
+      //   setDrivers(drivers);
 
       const vehiclesRepo = new VehicleRepositoryDatabase();
       const vehicles = await vehiclesRepo.getVehicles();

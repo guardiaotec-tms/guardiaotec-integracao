@@ -1,3 +1,4 @@
+import { SetDriversType } from './../../application/store/features/drivers/driversSlice';
 import { db } from './../../firebase/firebase';
 import {
   addDoc,
@@ -6,7 +7,9 @@ import {
   getDocs,
   where,
   query,
+  getDoc,
 } from 'firebase/firestore/lite';
+import { onSnapshot } from 'firebase/firestore';
 import { Driver } from '../../domain/entities/Driver';
 import { DriverRepository } from './../../domain/repository/DriverRepository';
 
@@ -34,7 +37,9 @@ export class DriverRepositoryDatabase implements DriverRepository {
     const driversCollectionRef = collection(db, 'drivers');
     addDoc(driversCollectionRef, data);
   }
+
   async getDrivers(): Promise<Driver[]> {
+    // async getDrivers(setDrivers: SetDriversType): Promise<void> {
     const colRef = collection(this.db, 'drivers');
     const q = query(colRef);
     const querySnapshot = await getDocs(q);
