@@ -1,14 +1,15 @@
-import { RootState } from './../store/configureStore';
+import { RootState, store } from './../store/configureStore';
 import { useActions } from './useActions';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { setUserId } from '../store/features/auth/authSlice';
+// import { useState } from 'react';
 
-export const useIsLoggedIn = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | 'loading'>('loading');
+export const listenIsLoggedIn = (setIsLoggedIn: any) => {
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean | 'loading'>('loading');
   const auth = getAuth();
-  const { setUserId } = useActions();
-  const currentUserId = useSelector((state: RootState) => state.auth.userId);
+  // const { setUserId } = useActions();
+  // const currentUserId = useSelector((state: RootState) => state.auth.userId);
 
   onAuthStateChanged(auth, (user) => {
     console.log('in useIsLoggedIn');
@@ -17,15 +18,16 @@ export const useIsLoggedIn = () => {
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
       setIsLoggedIn(true);
-      if (!currentUserId) setUserId(uid);
+      store.dispatch(setUserId(uid));
       // ...
     } else {
       setIsLoggedIn(false);
-      setUserId('');
+      // setUserId('');
+      store.dispatch(setUserId(''));
       // User is signed out
       // ...
     }
   });
 
-  return isLoggedIn;
+  // return isLoggedIn;
 };

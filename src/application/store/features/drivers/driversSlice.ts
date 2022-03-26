@@ -1,4 +1,4 @@
-import { Driver } from './../../../../domain/entities/Driver';
+import { Driver } from '../../../../domain/entities/Driver';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface DriversState {
