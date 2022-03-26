@@ -28,9 +28,9 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
     { label: 'Ano Fabricação', type: 'Year', id: 3, index: 3 },
     { label: 'Ano Modelo', type: 'Year', id: 4, index: 4 },
     { label: 'Placa', type: 'Short Text', id: 5, index: 5 },
-    { label: 'Capacidade(m3)', type: 'Short Text', id: 6, index: 6 },
     { label: 'Chassi', type: 'Short Text', id: 7, index: 7 },
     { label: 'Renavam', type: 'Short Text', id: 8, index: 8 },
+    { label: 'Capacidade(m3)', type: 'Short Text', id: 6, index: 6 },
     {
       label: 'Categoria',
       type: 'List Selection',

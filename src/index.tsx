@@ -6,11 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { theme } from './view/materialUI/theme';
 import { ThemeProvider } from '@mui/material';
 import { AppRouter } from './routers/AppRouter';
+import { store } from './application/store/configureStore';
+import { Provider } from 'react-redux';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <AppRouter />
+      <Provider store={store}>
+        <AppRouter />
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

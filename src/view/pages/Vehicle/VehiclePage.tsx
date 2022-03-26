@@ -32,9 +32,9 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
         vehicle.values['Ano Fabricação'].getFullYear().toString(),
         vehicle.values['Ano Modelo'].getFullYear().toString(),
         vehicle.values.Placa,
-        vehicle.values['Capacidade(m3)'].toString(),
         vehicle.values.Chassi,
         vehicle.values.Renavam,
+        vehicle.values['Capacidade(m3)'].toString(),
         vehicle.values.Categoria,
       ]);
     }
@@ -48,9 +48,9 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     'Ano Fabricação',
     'Ano Modelo',
     'Placa',
-    'Capacidade(m3)',
     'Chassi',
     'Renavam',
+    'Capacidade(m3)',
     'Categoria',
   ];
   const vehiclesTableRows = makeTableRows();
