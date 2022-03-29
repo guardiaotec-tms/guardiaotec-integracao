@@ -38,7 +38,7 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
       index: 10,
     },
     { label: 'Sequencia', type: 'Short Text', id: 0, index: 0 },
-    { label: 'CTO', type: 'Short Text', id: 10, index: 0 },
+    { label: 'CTO', type: 'Short Text', id: 12, index: 0 },
     { label: 'Ponto De Parada', type: 'Short Text', id: 11, index: 1 },
     { label: 'KM', type: 'Short Text', id: 1, index: 1 },
     { label: 'Chegada', type: 'Date and Time', id: 2, index: 2 },

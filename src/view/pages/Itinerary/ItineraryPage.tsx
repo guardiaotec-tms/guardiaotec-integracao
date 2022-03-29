@@ -29,7 +29,9 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
       rows.push([
         itinerary.values['LTU Correspondente'],
         itinerary.values.Sequencia,
+        itinerary.values.CTO,
         itinerary.values['Ponto De Parada'],
+        itinerary.values.Km,
         moment(itinerary.values.Chegada).format('DD/MM/YY hh:mm'),
         moment(itinerary.values.Partida).format('DD/MM/YY hh:mm'),
         itinerary.values.Serviço,
@@ -46,7 +48,9 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   const itinerariesTableHead = [
     'LTU Correspondente',
     'Sequencia',
+    'CTO',
     'Ponto De Parada',
+    'KM',
     'Chegada',
     'Partida',
     'Serviço',

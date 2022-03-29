@@ -7,7 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { CustomTableRow } from './CustomTableRow';
 import Paper from '@mui/material/Paper';
-import { uid } from 'react-uid';
+// import { uid } from 'react-uid';
+import uuid from 'react-uuid';
 
 function createData(
   name: string,
@@ -44,7 +45,7 @@ export const CustomTable: FunctionComponent<Props> = ({
         <TableHead>
           <TableRow>
             {tableHead.map((column, index) => (
-              <TableCell align='center' key={uid(column, index)}>
+              <TableCell align='center' key={uuid()}>
                 <b>{column}</b>
               </TableCell>
             ))}

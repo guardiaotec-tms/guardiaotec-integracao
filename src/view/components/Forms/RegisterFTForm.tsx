@@ -5,6 +5,7 @@ import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
 import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryDatabase';
 import { FT } from '../../../domain/entities/FT';
+import uuid from 'react-uuid';
 
 type Props = {};
 
@@ -22,24 +23,27 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
   const [successMessage, setSuccessMessage] = useState<string>();
 
   const ftFields: IFormField[] = [
+    { label: 'Origem/Destino', type: 'Short Text' },
     { label: 'Nº da FT', type: 'Short Text' },
     { label: 'Nº da Linha', type: 'Short Text' },
+    { label: 'Data de Vigencia Inicial', type: 'Date' },
     {
       label: 'Frequência',
       type: 'Checkbox',
       options: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
     },
-    { label: 'Sequencia', type: 'Short Text' },
-    { label: 'Ponto De Parada', type: 'Short Text' },
-    { label: 'Chegada', type: 'Date and Time' },
-    { label: 'Partida', type: 'Date and Time' },
-    { label: 'Serviço', type: 'Short Text' },
-    { label: 'Espera', type: 'Short Text' },
-    { label: 'Livre', type: 'Short Text' },
-    { label: 'Horas', type: 'Short Text' },
-    { label: 'Serviços', type: 'Short Text' },
-    { label: 'Endereço', type: 'Short Text' },
-    { label: 'LTU', type: 'Short Text' },
+    { label: 'Sentido', type: 'Short Text' },
+    // { label: 'Sequencia', type: 'Short Text' },
+    // { label: 'Ponto De Parada', type: 'Short Text' },
+    // { label: 'Chegada', type: 'Date and Time' },
+    // { label: 'Partida', type: 'Date and Time' },
+    // { label: 'Serviço', type: 'Short Text' },
+    // { label: 'Espera', type: 'Short Text' },
+    // { label: 'Livre', type: 'Short Text' },
+    // { label: 'Horas', type: 'Short Text' },
+    // { label: 'Serviços', type: 'Short Text' },
+    // { label: 'Endereço', type: 'Short Text' },
+    // { label: 'LTU', type: 'Short Text' },
   ];
 
   const startState = () => setState(makeInitialFormState(ftFields));
@@ -72,9 +76,9 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
   return (
     <Card sx={{ width: '400px', padding: '10px' }}>
       <CardHeader title='Cadastro de Ficha Técnica' subheader='' />
-      {ftFields.map((field: IFormField) => {
+      {ftFields.map((field: IFormField, index) => {
         return (
-          <Box sx={{ mb: '10px' }} key={field.id}>
+          <Box sx={{ mb: '10px' }} key={index}>
             <RenderFormField
               field={field}
               onChange={onChange}

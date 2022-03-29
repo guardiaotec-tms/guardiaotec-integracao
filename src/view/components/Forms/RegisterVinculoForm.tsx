@@ -48,8 +48,8 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
       setCompanies(companies);
 
       const driversRepo = new DriverRepositoryDatabase();
-      //   const drivers = await driversRepo.getDrivers();
-      //   setDrivers(drivers);
+      const drivers = await driversRepo.getDrivers();
+      setDrivers(drivers);
 
       const vehiclesRepo = new VehicleRepositoryDatabase();
       const vehicles = await vehiclesRepo.getVehicles();
@@ -90,9 +90,16 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
       index: 2,
     },
     {
+      label: 'LTU',
+      type: 'List Selection',
+      options: itineraries.map((i) => i.values['LTU Correspondente']),
+      id: 3,
+    },
+    {
       label: 'Nº da FT',
       type: 'List Selection',
       options: fts.map((ft) => ft.values['Nº da FT']),
+      id: 4,
     },
 
     // { label: 'Destino', type: 'Short Text', id: 3, index: 3 },

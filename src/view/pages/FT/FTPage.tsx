@@ -23,40 +23,43 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     let rows: string[][] = [];
     for (const ft of fts) {
       rows.push([
+        ft.values['Origem/Destino'],
         ft.values['Nº da FT'],
         ft.values['Nº da Linha'],
+        moment(ft.values['Data de Vigencia Inicial']).format('DD/MM/YY'),
         ft.values['Frequência'].join(','),
-        ft.values.Sequencia,
-        ft.values['Ponto De Parada'],
-        moment(ft.values.Chegada).format('DD/MM/YY hh:mm'),
-        moment(ft.values.Partida).format('DD/MM/YY hh:mm'),
-        ft.values.Serviço,
-        ft.values.Espera,
-        ft.values.Livre,
-        ft.values.Horas,
-        ft.values.Serviços,
-        ft.values.Endereço,
-        ft.values['LTU'],
+        ft.values.Sentido,
+        // ft.values['Ponto De Parada'],
+        // moment(ft.values.Chegada).format('DD/MM/YY hh:mm'),
+        // moment(ft.values.Partida).format('DD/MM/YY hh:mm'),
+        // ft.values.Serviço,
+        // ft.values.Espera,
+        // ft.values.Livre,
+        // ft.values.Horas,
+        // ft.values.Serviços,
+        // ft.values.Endereço,
+        // ft.values['LTU'],
       ]);
     }
     return rows;
   };
 
   const ftsTableHead = [
+    'Origem/Destino',
     'Nº da FT',
     'Nº da Linha',
+    'Data de Vigencia Inicial',
     'Frequência',
-    'Sequencia',
-    'Ponto De Parada',
-    'Chegada',
-    'Partida',
-    'Serviço',
-    'Espera',
-    'Livre',
-    'Horas',
-    'Serviços',
-    'Endereço',
-    'LTU',
+    'Sentido',
+    // 'Chegada',
+    // 'Partida',
+    // 'Serviço',
+    // 'Espera',
+    // 'Livre',
+    // 'Horas',
+    // 'Serviços',
+    // 'Endereço',
+    // 'LTU',
   ];
   const ftsTableRows = makeTableRows();
 

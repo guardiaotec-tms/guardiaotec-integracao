@@ -2,6 +2,7 @@ import { TableCell, TableRow } from '@mui/material';
 import React, { FunctionComponent } from 'react';
 import { uid } from 'react-uid';
 import { TableRowOptions } from './TableRowOptions';
+import uuid from 'react-uuid';
 
 type Props = {
   row: string[];
@@ -16,7 +17,7 @@ export const CustomTableRow: FunctionComponent<Props> = ({
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       {row.map((column, index) => {
         return (
-          <TableCell align='center' key={uid(column, index)}>
+          <TableCell align='center' key={uuid()}>
             {column}
           </TableCell>
         );
