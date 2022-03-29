@@ -42,6 +42,10 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
     if (!areSamePasswords()) return setError('Senhas digitadas são diferentes');
     try {
       await signUp(email, password);
+      setSuccessMessage('Usuário Cadastrado');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (error: any) {
       setError(error.message);
     }

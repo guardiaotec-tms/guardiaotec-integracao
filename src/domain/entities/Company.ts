@@ -23,8 +23,8 @@ export class Company {
   }
 
   validate() {
-    if (!this.isPositiveInteger(this.values['Numero de Contrato']))
-      throw new Error('Numero de Contrato deve ser um número!');
+    // if (!this.isPositiveInteger(this.values['Numero de Contrato']))
+    //   throw new Error('Numero de Contrato deve ser um número!');
 
     if (!isValidCNPJ(this.values.CNPJ)) throw new Error('CNPJ Inválido');
 

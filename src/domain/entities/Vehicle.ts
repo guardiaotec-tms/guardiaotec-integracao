@@ -23,7 +23,7 @@ export class Vehicle {
   }
 
   validate() {
-    if (!this.isPositiveInteger(this.values['Capacidade(m3)']))
-      throw new Error('Capacidade deve ser um número!');
+    // if (!this.isPositiveInteger(this.values['Capacidade(m3)']))
+    //   throw new Error('Capacidade deve ser um número!');
   }
 }

@@ -8,7 +8,7 @@ export class CPF {
     this.value = cpf;
 
     if (!this.validate()) {
-      throw new Error('Invalid cpf');
+      throw new Error('CPF Inválido');
     }
   }
 

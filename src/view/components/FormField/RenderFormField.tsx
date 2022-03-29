@@ -4,6 +4,7 @@ import { RenderStrategy } from './RenderStrategy';
 import { ShortTextFormField } from './ShortTextFormField';
 import { LongTextFormField } from './LongTextFormField';
 import { DateFormField } from './DateFormField';
+import { TimeFormField } from './TimeFormField';
 import { YearFormField } from './YearFormField';
 import { EmailFormField } from './EmailFormField';
 import { CheckboxFormField } from './CheckboxFormField';
@@ -41,6 +42,8 @@ export const RenderFormField: FunctionComponent<Props> = ({
         return LongTextFormField;
       case 'Date':
         return DateFormField;
+      case 'Time':
+        return TimeFormField;
       case 'Date and Time':
         return DateAndTimeFormField;
       case 'Year':

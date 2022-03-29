@@ -2,6 +2,7 @@ export type FormFieldType =
   | 'Short Text'
   | 'Long Text'
   | 'Date'
+  | 'Time'
   | 'Date and Time'
   | 'Year'
   | 'CPF'

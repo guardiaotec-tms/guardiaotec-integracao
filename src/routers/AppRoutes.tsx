@@ -13,6 +13,7 @@ import App from '../App';
 import { ItineraryPage } from '../view/pages/Itinerary/ItineraryPage';
 import { FTPage } from '../view/pages/FT/FTPage';
 import { VinculoPage } from '../view/pages/Vinculo/VinculoPage';
+import { SignUpPage } from '../view/pages/SignUp/SignUpPage';
 
 type Props = {};
 
@@ -31,6 +32,7 @@ export const AppRoutes: FunctionComponent<Props> = ({}) => {
       <Route path='/workscale/register' element={<RegisterFTPage />} />
       <Route path='/vinculo' element={<VinculoPage />} />
       <Route path='/vinculo/register' element={<RegisterVinculoPage />} />
+      <Route path='/adicionarusuario' element={<SignUpPage />} />
       <Route path='/' element={<DriverPage />}></Route>
     </Routes>
   );
