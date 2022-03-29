@@ -7,7 +7,6 @@ import { Vinculo } from '../../../domain/entities/Vinculo';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { VinculoRepositoryDatabase } from '../../../infra/repository/VinculoRepositoryDatabase';
-import moment from 'moment';
 
 type Props = {};
 
