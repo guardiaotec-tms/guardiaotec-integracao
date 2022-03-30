@@ -8,11 +8,20 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../application/store/configureStore';
 import { signUp } from '../../../firebase/signUp';
 import { AlertSnackbar } from '../../components/Common/AlertSnackbar';
+import { UserRepositoryDatabase } from '../../../infra/repository/UserRepositoryDatabase';
+import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
+import { fetchCompanies } from '../../../infra/services/fetchCompanies';
+import { Company } from '../../../domain/entities/Company';
 
 type Props = {};
 
@@ -23,6 +32,11 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
+  const [companies, setCompanies] = useState<Company[]>([]);
+
+  useEffect(() => {
+    fetchCompanies(setCompanies);
+  }, []);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -41,11 +55,13 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
   const handleSignUp = async () => {
     if (!areSamePasswords()) return setError('Senhas digitadas são diferentes');
     try {
-      await signUp(email, password);
+      //   await signUp(email, password);
+      const userRepo = new UserRepositoryDatabase();
+      await userRepo.createUser(email, password);
       setSuccessMessage('Usuário Cadastrado');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+      //   setEmail('');
+      //   setPassword('');
+      //   setConfirmPassword('');
     } catch (error: any) {
       setError(error.message);
     }
@@ -55,7 +71,7 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
     setError(undefined);
     setSuccessMessage(undefined);
   };
-
+  //lovelove
   const isAdmin = userId === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
 
   return (
