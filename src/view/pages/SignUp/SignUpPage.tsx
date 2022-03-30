@@ -5,9 +5,12 @@ import {
   CardHeader,
   FormControl,
   FormLabel,
+  InputLabel,
+  MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, {
   ChangeEvent,
   FunctionComponent,
@@ -33,6 +36,8 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [selectedCompany, setSelectedCompany] = useState('');
+  const [selectedAccessType, setSelectedAccessType] = useState('');
 
   useEffect(() => {
     fetchCompanies(setCompanies);
@@ -48,6 +53,14 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
 
   const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
+  };
+
+  const handleSelectCompany = (event: SelectChangeEvent) => {
+    setSelectedCompany(event.target.value);
+  };
+
+  const handleSelectAccessType = (event: SelectChangeEvent) => {
+    setSelectedAccessType(event.target.value);
   };
 
   const areSamePasswords = () => password === confirmPassword && password;
@@ -138,6 +151,56 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
                   label='Confirmar Senha'
                   fullWidth
                 />
+              </Box>
+              <Box sx={{ mb: 1.3 }}>
+                <FormControl sx={{ minWidth: 120 }} fullWidth>
+                  <InputLabel id='demo-simple-select-helper-label'>
+                    Transportadora de participação
+                  </InputLabel>
+                  <Select
+                    labelId='demo-simple-select-helper-label'
+                    id='demo-simple-select-helper'
+                    value={selectedCompany || ''}
+                    label={'Transportadora de participação'}
+                    onChange={handleSelectCompany}
+                    fullWidth
+                  >
+                    {companies &&
+                      companies.map((company: Company) => {
+                        return (
+                          <MenuItem
+                            key={company.values.CNPJ}
+                            value={company.values.Transportadora}
+                          >
+                            {company.values.Transportadora}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box sx={{ mb: 1.3 }}>
+                <FormControl sx={{ minWidth: 120 }} fullWidth>
+                  <InputLabel id='demo-simple-select-helper-label'>
+                    Tipo de acesso
+                  </InputLabel>
+                  <Select
+                    labelId='demo-simple-select-helper-label'
+                    id='demo-simple-select-helper'
+                    value={selectedCompany || ''}
+                    label={'Tipo de acesso'}
+                    onChange={handleSelectCompany}
+                    fullWidth
+                  >
+                    {['Administrador', 'Editor'].map((type) => {
+                      return (
+                        <MenuItem key={type} value={type}>
+                          {type}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
               </Box>
               <Button
                 variant='contained'

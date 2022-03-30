@@ -1,6 +1,6 @@
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
-type CompanyAccessType = 'admin' | 'editor';
+type CompanyAccessType = 'Administrador' | 'Editor';
 
 export const createFirestoreUser = async (
   userId: string,
