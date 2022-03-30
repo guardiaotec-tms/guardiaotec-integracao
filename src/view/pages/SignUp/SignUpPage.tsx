@@ -25,6 +25,10 @@ import { UserRepositoryDatabase } from '../../../infra/repository/UserRepository
 import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
 import { fetchCompanies } from '../../../infra/services/fetchCompanies';
 import { Company } from '../../../domain/entities/Company';
+import {
+  CompanyAccessType,
+  createFirestoreUser,
+} from '../../../infra/services/createUserInFirestore';
 
 type Props = {};
 
@@ -37,7 +41,9 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
   const [successMessage, setSuccessMessage] = useState<string>();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [selectedCompany, setSelectedCompany] = useState('');
-  const [selectedAccessType, setSelectedAccessType] = useState('');
+  const [selectedAccessType, setSelectedAccessType] = useState<
+    CompanyAccessType | ''
+  >('');
 
   useEffect(() => {
     fetchCompanies(setCompanies);
@@ -60,21 +66,37 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
   };
 
   const handleSelectAccessType = (event: SelectChangeEvent) => {
+    //@ts-ignore
     setSelectedAccessType(event.target.value);
+  };
+
+  const reset = () => {
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setSelectedAccessType('');
+    setSelectedCompany('');
   };
 
   const areSamePasswords = () => password === confirmPassword && password;
 
   const handleSignUp = async () => {
     if (!areSamePasswords()) return setError('Senhas digitadas são diferentes');
+    if (!selectedAccessType) return setError('Selecione um tipo de acesso!');
     try {
       //   await signUp(email, password);
       const userRepo = new UserRepositoryDatabase();
-      await userRepo.createUser(email, password);
+      const { userId } = await userRepo.createUser(email, password);
+
+      await createFirestoreUser(
+        userId,
+        selectedCompany,
+        password,
+        selectedAccessType
+      );
+
       setSuccessMessage('Usuário Cadastrado');
-      //   setEmail('');
-      //   setPassword('');
-      //   setConfirmPassword('');
+      reset();
     } catch (error: any) {
       setError(error.message);
     }
@@ -187,9 +209,9 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
                   <Select
                     labelId='demo-simple-select-helper-label'
                     id='demo-simple-select-helper'
-                    value={selectedCompany || ''}
+                    value={selectedAccessType || ''}
                     label={'Tipo de acesso'}
-                    onChange={handleSelectCompany}
+                    onChange={handleSelectAccessType}
                     fullWidth
                   >
                     {['Administrador', 'Editor'].map((type) => {

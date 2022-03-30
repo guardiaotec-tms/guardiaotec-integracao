@@ -6,7 +6,7 @@ import {
   query,
   getDocs,
   addDoc,
-} from 'firebase/firestore/lite';
+} from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { CompanyRepository } from './../../domain/repository/CompanyRepository';
 

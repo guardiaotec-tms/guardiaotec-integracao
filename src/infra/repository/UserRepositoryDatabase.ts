@@ -16,5 +16,11 @@ export class UserRepositoryDatabase {
     }).then((res) => res.json());
 
     console.log(response, 'response');
+
+    if (response.error) {
+      throw new Error(response.error);
+    }
+
+    return response;
   }
 }
