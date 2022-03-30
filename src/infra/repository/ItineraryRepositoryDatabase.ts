@@ -6,7 +6,7 @@ import {
   getDocs,
   where,
   query,
-} from 'firebase/firestore/lite';
+} from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 import { ItineraryRepository } from '../../domain/repository/ItineraryRepository';
 
@@ -38,6 +38,10 @@ export class ItineraryRepositoryDatabase implements ItineraryRepository {
       const data = doc.data();
       data['Chegada'] = data['Chegada'].toDate();
       data['Partida'] = data['Partida'].toDate();
+      data['Serviço'] = data['Serviço'].toDate();
+      data['Espera'] = data['Espera'].toDate();
+      data['Livre'] = data['Livre'].toDate();
+      data['Horas'] = data['Horas'].toDate();
       itineraries.push(new Itinerary(data));
     });
     return itineraries;

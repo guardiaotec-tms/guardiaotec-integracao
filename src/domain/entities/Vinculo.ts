@@ -1,5 +1,5 @@
 type VinculoValues = {
-  'Transportadora (CNPJ)': string;
+  Transportadora: string;
   'Motorista (CNH)': string;
   'Veículo (Placa)': string;
   LTU: string;

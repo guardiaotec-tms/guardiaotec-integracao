@@ -6,7 +6,7 @@ import {
   getDocs,
   where,
   query,
-} from 'firebase/firestore/lite';
+} from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 import { VehicleRepository } from '../../domain/repository/VehicleRepository';
 

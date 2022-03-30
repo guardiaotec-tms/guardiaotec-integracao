@@ -26,7 +26,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
     let rows: string[][] = [];
     for (const vinculo of vinculos) {
       rows.push([
-        vinculo.values['Transportadora (CNPJ)'],
+        vinculo.values['Transportadora'],
         vinculo.values['Motorista (CNH)'],
         vinculo.values['Veículo (Placa)'],
         vinculo.values.LTU,
@@ -37,7 +37,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
   };
 
   const vinculosTableHead = [
-    'Transportadora (CNPJ)',
+    'Transportadora',
     'Motorista (CNH)',
     'Veículo (Placa)',
     'LTU',

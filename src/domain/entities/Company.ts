@@ -9,6 +9,7 @@ type CompanyInput = {
   Contato: string;
   Email: string;
   Responsável: string;
+  Id?: string;
 };
 
 export class Company {

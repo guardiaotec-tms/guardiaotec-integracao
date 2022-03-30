@@ -192,7 +192,7 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
                         return (
                           <MenuItem
                             key={company.values.CNPJ}
-                            value={company.values.Transportadora}
+                            value={company.values.Id!}
                           >
                             {company.values.Transportadora}
                           </MenuItem>

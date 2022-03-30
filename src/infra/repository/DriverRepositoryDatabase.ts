@@ -8,7 +8,7 @@ import {
   where,
   query,
   getDoc,
-} from 'firebase/firestore/lite';
+} from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
 import { Driver } from '../../domain/entities/Driver';
 import { DriverRepository } from './../../domain/repository/DriverRepository';

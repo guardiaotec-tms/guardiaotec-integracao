@@ -11,6 +11,8 @@ import { DriverRepositoryDatabase } from '../../../infra/repository/DriverReposi
 import moment from 'moment';
 import { RootState } from '../../../application/store/configureStore';
 import { useDrivers } from '../../../application/hooks/useDrivers';
+import { db } from '../../../firebase/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 type Props = {};
 
@@ -18,6 +20,33 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   // const drivers = useSelector((state: RootState) => state.drivers.drivers);
   // const drivers = useDrivers();
+
+  const userId = useSelector((state: RootState) => state.auth.userId);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchUserData = async () => {
+      const docRef = doc(db, 'users', userId);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) throw new Error('Usuário não existe!');
+      return docSnap.data();
+    };
+
+    const fetchOneCompany = async (companyId: string) => {
+      const docRef = doc(db, 'companies', companyId);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) throw new Error('Transportadora não encontrada!');
+      console.log(docSnap.data());
+      return docSnap.data();
+    };
+
+    fetchUserData().then((userData: any) => {
+      fetchOneCompany(userData.companyId);
+    });
+  }, [userId]);
 
   useEffect(() => {
     const fetchDrivers = async () => {

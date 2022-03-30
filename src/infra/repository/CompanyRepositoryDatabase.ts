@@ -33,8 +33,9 @@ export class CompanyRepositoryDatabase implements CompanyRepository {
     const q = query(colRef);
     const querySnapshot = await getDocs(q);
     let companies: Company[] = [];
-    querySnapshot.forEach((doc: any) => {
-      const data = doc.data();
+    querySnapshot.forEach((doc) => {
+      const data: any = doc.data();
+      data.Id = doc.id;
       companies.push(new Company(data));
     });
     return companies;

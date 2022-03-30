@@ -69,9 +69,9 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
 
   const vinculoFields: IFormField[] = [
     {
-      label: 'Transportadora (CNPJ)',
+      label: 'Transportadora',
       type: 'List Selection',
-      options: companies.map((c) => c.values.CNPJ),
+      options: companies.map((c) => c.values.Transportadora),
       id: 0,
       index: 0,
     },

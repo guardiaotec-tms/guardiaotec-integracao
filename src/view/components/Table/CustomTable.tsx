@@ -40,8 +40,8 @@ export const CustomTable: FunctionComponent<Props> = ({
   onRowUpdate,
 }) => {
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+    <TableContainer component={Paper} sx={{ height: '100%' }}>
+      <Table sx={{ minWidth: 650, height: '100%' }} aria-label='simple table'>
         <TableHead>
           <TableRow>
             {tableHead.map((column, index) => (
