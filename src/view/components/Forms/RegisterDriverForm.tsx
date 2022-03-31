@@ -5,6 +5,8 @@ import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
 import { DriverRepositoryDatabase } from '../../../infra/repository/DriverRepositoryDatabase';
 import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
 
 type Props = {
   initialState?: object;
@@ -24,6 +26,10 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
 
   const driverFields: IFormField[] = [
     { label: 'Nome', type: 'Short Text', id: 0, index: 0 },
@@ -61,9 +67,16 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({
         state.Vencimento
       );
       const repo = new DriverRepositoryDatabase();
-      await repo.addDriver(driver);
-      setSuccessMessage('Motorista cadastrado!');
-      resetState();
+
+      if (isAdmin && adminSelectedCompanyId) {
+        await repo.addDriver(driver, adminSelectedCompanyId);
+        setSuccessMessage('Motorista cadastrado!');
+        resetState();
+      } else if (userCompanyId) {
+        await repo.addDriver(driver, userCompanyId);
+        setSuccessMessage('Motorista cadastrado!');
+        resetState();
+      }
     } catch (error: any) {
       setError(error.message);
     }

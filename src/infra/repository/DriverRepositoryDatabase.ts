@@ -24,8 +24,8 @@ export class DriverRepositoryDatabase {
     this.db = db;
   }
 
-  async addDriver(driver: Driver): Promise<void> {
-    const colRef = collection(this.db, 'drivers');
+  async addDriver(driver: Driver, companyId: string): Promise<void> {
+    const colRef = collection(this.db, `companies/${companyId}/drivers`);
     const q = query(colRef, where('cnh', '==', driver.cnh));
     const querySnapshot = await getDocs(q);
 
@@ -38,39 +38,24 @@ export class DriverRepositoryDatabase {
       contato: driver.contato,
       vencimento: driver.vencimento,
     };
-    const driversCollectionRef = collection(db, 'drivers');
+
+    const driversCollectionRef = collection(
+      this.db,
+      `companies/${companyId}/drivers`
+    );
     addDoc(driversCollectionRef, data);
   }
 
   async getDrivers(): Promise<Driver[]> {
-    // async getDrivers(setDrivers: SetDriversType): Promise<void> {
     const colRef = collection(this.db, 'drivers');
     const q = query(colRef);
     return this.getDriversFromQuery(q);
-
-    // const querySnapshot = await getDocs(q);
-    // let drivers: Driver[] = [];
-    // querySnapshot.forEach((doc: any) => {
-    //   const data = doc.data();
-    //   data.vencimento = data.vencimento.toDate();
-    //   drivers.push(data);
-    // });
-    // return drivers;
   }
 
   async getDriversFromCompanyId(companyId: string) {
     const colRef = collection(this.db, `companies/${companyId}/drivers`);
     const q = query(colRef);
     return this.getDriversFromQuery(q);
-
-    // const querySnapshot = await getDocs(q);
-    // let drivers: Driver[] = [];
-    // querySnapshot.forEach((doc: any) => {
-    //   const data = doc.data();
-    //   data.vencimento = data.vencimento.toDate();
-    //   drivers.push(data);
-    // });
-    // return drivers;
   }
 
   async getDriversFromQuery(query: Query<DocumentData>) {

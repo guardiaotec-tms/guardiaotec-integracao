@@ -83,7 +83,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       <div>
-        <CompanyFilter />
+        {isAdmin && <CompanyFilter />}
         <Box
           sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
         >
@@ -92,7 +92,10 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
             to={`/driver/register`}
             variant='contained'
             color='primary'
-            disabled={adminSelectedCompanyId === 'Todas'}
+            disabled={
+              adminSelectedCompanyId === 'Todas' ||
+              adminSelectedCompanyId === ''
+            }
           >
             Cadastrar
           </Button>
