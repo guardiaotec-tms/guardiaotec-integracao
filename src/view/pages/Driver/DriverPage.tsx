@@ -23,6 +23,7 @@ import { db } from '../../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { fetchCompanies } from '../../../infra/services/fetchCompanies';
 import { Company } from '../../../domain/entities/Company';
+import { dispatchSetAdminFilterCompanyId } from '../../../application/store/actions/company';
 
 type Props = {};
 
@@ -33,7 +34,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   const [selectedCompany, setSelectedCompany] = useState('');
   const [companies, setCompanies] = useState<Company[]>([]);
 
-  const userId = useSelector((state: RootState) => state.auth.userId);
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const companyId = useSelector(
     (state: RootState) => state.companies.companyId
   );
@@ -52,8 +53,6 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   };
 
   useEffect(() => {
-    const isAdmin = userId === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
-
     if (isAdmin) console.log('sou admin');
     if (!isAdmin) console.log('não sou admin');
 
@@ -79,6 +78,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
       fetchDrivers(true);
     } else {
       fetchDrivers(false, companyId);
+      dispatchSetAdminFilterCompanyId(companyId);
     }
   };
 
