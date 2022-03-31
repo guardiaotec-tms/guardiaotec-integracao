@@ -1,13 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 import { Link } from 'react-router-dom';
 import { CustomTable } from '../../components/Table/CustomTable';
@@ -40,7 +32,6 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
       const drivers = await repo.adminGetAllDrivers();
       setDrivers(drivers);
     } else {
-      console.log('to aqui', userCompanyId);
       const drivers = await repo.getDriversFromCompanyId(userCompanyId!);
       setDrivers(drivers);
     }

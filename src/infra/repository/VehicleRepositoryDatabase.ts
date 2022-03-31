@@ -6,11 +6,14 @@ import {
   getDocs,
   where,
   query,
+  DocumentData,
+  Query,
+  collectionGroup,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 import { VehicleRepository } from '../../domain/repository/VehicleRepository';
 
-export class VehicleRepositoryDatabase implements VehicleRepository {
+export class VehicleRepositoryDatabase {
   db: Firestore;
 
   constructor() {
@@ -30,8 +33,12 @@ export class VehicleRepositoryDatabase implements VehicleRepository {
 
   async getVehicles(): Promise<Vehicle[]> {
     const colRef = collection(this.db, 'vehicles');
-    const q = query(colRef);
-    const querySnapshot = await getDocs(q);
+    // const q = query(colRef);
+    return this.getVehiclesFromQuery(colRef);
+  }
+
+  async getVehiclesFromQuery(query: Query<DocumentData>): Promise<Vehicle[]> {
+    const querySnapshot = await getDocs(query);
     let vehicles: Vehicle[] = [];
     querySnapshot.forEach((doc: any) => {
       const data = doc.data();
@@ -40,5 +47,10 @@ export class VehicleRepositoryDatabase implements VehicleRepository {
       vehicles.push(new Vehicle(data));
     });
     return vehicles;
+  }
+
+  async adminGetAllVehicles() {
+    const q = collectionGroup(db, 'vehicles');
+    return this.getVehiclesFromQuery(q);
   }
 }
