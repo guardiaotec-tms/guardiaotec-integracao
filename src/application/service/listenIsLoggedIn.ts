@@ -1,3 +1,4 @@
+import { listenUser } from './listenUser';
 import { store } from '../store/configureStore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { setIsAdmin, setUserId } from '../store/features/auth/authSlice';
@@ -13,6 +14,7 @@ export const listenIsLoggedIn = (setIsLoggedIn: any) => {
       const isAdmin = uid === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
       store.dispatch(setIsAdmin(isAdmin));
       store.dispatch(setUserId(uid));
+      listenUser(uid);
     } else {
       setIsLoggedIn(false);
       store.dispatch(setUserId(''));

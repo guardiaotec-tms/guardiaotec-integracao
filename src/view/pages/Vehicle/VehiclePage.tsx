@@ -10,12 +10,15 @@ import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepo
 import { RootState } from '../../../application/store/configureStore';
 import { useSelector } from 'react-redux';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
+import { canRegister } from '../../../application/service/canRegister';
 
 type Props = {};
 
 export const VehiclePage: FunctionComponent<Props> = ({}) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userId, isAdmin, user } = useSelector(
+    (state: RootState) => state.auth
+  );
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
@@ -36,7 +39,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
       const vehicles = await repo.adminGetAllVehicles();
       setVehicles(vehicles);
     } else {
-      const vehicles = await repo.getVehicles();
+      const vehicles = await repo.getVehiclesFromCompanyId(companyId!);
       setVehicles(vehicles);
     }
   };
@@ -103,9 +106,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
           to={`/vehicle/register`}
           variant='contained'
           color='primary'
-          disabled={
-            adminSelectedCompanyId === 'Todas' || adminSelectedCompanyId === ''
-          }
+          disabled={!canRegister()}
         >
           Cadastrar
         </Button>

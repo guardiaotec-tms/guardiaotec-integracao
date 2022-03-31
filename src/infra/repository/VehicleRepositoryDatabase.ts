@@ -20,8 +20,8 @@ export class VehicleRepositoryDatabase {
     this.db = db;
   }
 
-  async addVehicle(vehicle: Vehicle): Promise<void> {
-    const colRef = collection(this.db, 'vehicles');
+  async addVehicle(vehicle: Vehicle, companyId: string): Promise<void> {
+    const colRef = collection(this.db, `companies/${companyId}/vehicles`);
     const q = query(colRef, where('Placa', '==', vehicle.values.Placa));
     const querySnapshot = await getDocs(q);
 
@@ -49,8 +49,13 @@ export class VehicleRepositoryDatabase {
     return vehicles;
   }
 
+  async getVehiclesFromCompanyId(companyId: string): Promise<Vehicle[]> {
+    const q = collection(this.db, `companies/${companyId}/vehicles`);
+    return this.getVehiclesFromQuery(q);
+  }
+
   async adminGetAllVehicles() {
-    const q = collectionGroup(db, 'vehicles');
+    const q = collectionGroup(this.db, 'vehicles');
     return this.getVehiclesFromQuery(q);
   }
 }

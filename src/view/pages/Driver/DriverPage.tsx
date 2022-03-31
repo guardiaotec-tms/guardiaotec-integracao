@@ -11,6 +11,7 @@ import { DriverRepositoryDatabase } from '../../../infra/repository/DriverReposi
 import moment from 'moment';
 import { RootState } from '../../../application/store/configureStore';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
+import { canRegister } from '../../../application/service/canRegister';
 
 type Props = {};
 
@@ -83,10 +84,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
             to={`/driver/register`}
             variant='contained'
             color='primary'
-            disabled={
-              adminSelectedCompanyId === 'Todas' ||
-              adminSelectedCompanyId === ''
-            }
+            disabled={!canRegister()}
           >
             Cadastrar
           </Button>

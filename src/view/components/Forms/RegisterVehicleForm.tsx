@@ -5,6 +5,8 @@ import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
 import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
 import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepositoryDatabase';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
 
 type Props = {};
 
@@ -20,6 +22,7 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
+  const { userCompanyId } = useSelector((state: RootState) => state.companies);
   //MARCA	MODELO	COR 	ANO FABRICAÇÃO 	ANO MODELO 	PLACA 	CAPACIDADE DE CARGA  m3
   const driverFields: IFormField[] = [
     { label: 'Marca', type: 'Short Text', id: 0, index: 0 },
@@ -62,7 +65,7 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
 
       const vehicle = new Vehicle(state);
       const repo = new VehicleRepositoryDatabase();
-      await repo.addVehicle(vehicle);
+      await repo.addVehicle(vehicle, userCompanyId);
       setSuccessMessage('Veículo cadastrado!');
       startState();
     } catch (error: any) {
