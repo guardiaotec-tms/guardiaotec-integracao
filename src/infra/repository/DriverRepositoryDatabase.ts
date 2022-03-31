@@ -15,7 +15,6 @@ import {
 import { onSnapshot } from 'firebase/firestore';
 import { Driver } from '../../domain/entities/Driver';
 import { DriverRepository } from './../../domain/repository/DriverRepository';
-import { AnyNsRecord } from 'dns';
 
 // export class DriverRepositoryDatabase implements DriverRepository {
 export class DriverRepositoryDatabase {

@@ -1,5 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import { Box, Button } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 import { Link } from 'react-router-dom';
 import { CustomTable } from '../../components/Table/CustomTable';
@@ -13,6 +21,8 @@ import { RootState } from '../../../application/store/configureStore';
 import { useDrivers } from '../../../application/hooks/useDrivers';
 import { db } from '../../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { fetchCompanies } from '../../../infra/services/fetchCompanies';
+import { Company } from '../../../domain/entities/Company';
 
 type Props = {};
 
@@ -20,11 +30,25 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   // const drivers = useSelector((state: RootState) => state.drivers.drivers);
   // const drivers = useDrivers();
+  const [selectedCompany, setSelectedCompany] = useState('');
+  const [companies, setCompanies] = useState<Company[]>([]);
 
   const userId = useSelector((state: RootState) => state.auth.userId);
   const companyId = useSelector(
     (state: RootState) => state.companies.companyId
   );
+
+  const fetchDrivers = async (shouldGetAll: boolean, companyId?: string) => {
+    const repo = new DriverRepositoryDatabase();
+
+    if (shouldGetAll) {
+      const drivers = await repo.adminGetAllDrivers();
+      setDrivers(drivers);
+    } else {
+      const drivers = await repo.getDriversFromCompanyId(companyId!);
+      setDrivers(drivers);
+    }
+  };
 
   useEffect(() => {
     const isAdmin = userId === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
@@ -32,60 +56,29 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     if (isAdmin) console.log('sou admin');
     if (!isAdmin) console.log('não sou admin');
 
-    const fetchDrivers = async () => {
-      const repo = new DriverRepositoryDatabase();
-
-      if (isAdmin) {
-        const drivers = await repo.adminGetAllDrivers();
-        setDrivers(drivers);
-      } else {
-        const drivers = await repo.getDriversFromCompanyId(companyId);
-        setDrivers(drivers);
-      }
-    };
-
     if (isAdmin) {
-      fetchDrivers();
+      // fetchDrivers();
     } else if (companyId) {
-      fetchDrivers();
+      fetchDrivers(isAdmin);
     }
-
-    // const fetchDrivers = async () => {
-    //   const repo = new DriverRepositoryDatabase();
-    //   const drivers = await repo.getDriversFromCompanyId(companyId);
-    //   setDrivers(drivers);
-    // };
-    // fetchDrivers();
-    // const fetchUserData = async () => {
-    //   const docRef = doc(db, 'users', userId);
-    //   const docSnap = await getDoc(docRef);
-
-    //   if (!docSnap.exists()) throw new Error('Usuário não existe!');
-    //   return docSnap.data();
-    // };
-
-    // const fetchOneCompany = async (companyId: string) => {
-    //   const docRef = doc(db, 'companies', companyId);
-    //   const docSnap = await getDoc(docRef);
-
-    //   if (!docSnap.exists()) throw new Error('Transportadora não encontrada!');
-    //   console.log(docSnap.data());
-    //   return docSnap.data();
-    // };
-
-    // fetchUserData().then((userData: any) => {
-    //   fetchOneCompany(userData.companyId);
-    // });
   }, [companyId, userId]);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
-    // const fetchDrivers = async () => {
-    //   const repo = new DriverRepositoryDatabase();
-    //   const drivers = await repo.getDrivers();
-    //   setDrivers(drivers);
-    // };
-    // fetchDrivers();
+    fetchCompanies(setCompanies);
   }, []);
+
+  const handleSelectCompany = (event: SelectChangeEvent) => {
+    setSelectedCompany(event.target.value);
+    console.log(event.target.value);
+
+    if (event.target.value === 'Todas') {
+      fetchDrivers(true);
+    } else {
+      fetchDrivers(false, companyId);
+    }
+  };
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -110,18 +103,55 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
-      <Box
-        sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
-      >
-        <Button
-          component={Link}
-          to={`/driver/register`}
-          variant='contained'
-          color='primary'
+      <div>
+        <Box sx={{ position: 'absolute', left: 10, top: 80 }}>
+          <Box sx={{ mb: 1.3 }}>
+            <FormControl sx={{ minWidth: 220 }} fullWidth>
+              <InputLabel id='demo-simple-select-helper-label'>
+                Transportadora
+              </InputLabel>
+              <Select
+                labelId='demo-simple-select-helper-label'
+                id='demo-simple-select-helper'
+                value={selectedCompany || ''}
+                label={'Transportadora'}
+                onChange={handleSelectCompany}
+                fullWidth
+              >
+                {companies &&
+                  companies
+                    .map((company: Company) => {
+                      return (
+                        <MenuItem
+                          key={company.values.CNPJ}
+                          value={company.values.Id!}
+                        >
+                          {company.values.Transportadora}
+                        </MenuItem>
+                      );
+                    })
+                    .concat([
+                      <MenuItem key={'unique'} value={'Todas'}>
+                        Todas
+                      </MenuItem>,
+                    ])}
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+        <Box
+          sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
         >
-          Cadastrar
-        </Button>
-      </Box>
+          <Button
+            component={Link}
+            to={`/driver/register`}
+            variant='contained'
+            color='primary'
+          >
+            Cadastrar
+          </Button>
+        </Box>
+      </div>
       <CustomTable
         tableHead={driversTableHead}
         tableRows={driversTableRows}
