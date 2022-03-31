@@ -22,39 +22,69 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   // const drivers = useDrivers();
 
   const userId = useSelector((state: RootState) => state.auth.userId);
+  const companyId = useSelector(
+    (state: RootState) => state.companies.companyId
+  );
 
   useEffect(() => {
-    if (!userId) return;
+    const isAdmin = userId === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
 
-    const fetchUserData = async () => {
-      const docRef = doc(db, 'users', userId);
-      const docSnap = await getDoc(docRef);
+    if (isAdmin) console.log('sou admin');
+    if (!isAdmin) console.log('não sou admin');
 
-      if (!docSnap.exists()) throw new Error('Usuário não existe!');
-      return docSnap.data();
-    };
-
-    const fetchOneCompany = async (companyId: string) => {
-      const docRef = doc(db, 'companies', companyId);
-      const docSnap = await getDoc(docRef);
-
-      if (!docSnap.exists()) throw new Error('Transportadora não encontrada!');
-      console.log(docSnap.data());
-      return docSnap.data();
-    };
-
-    fetchUserData().then((userData: any) => {
-      fetchOneCompany(userData.companyId);
-    });
-  }, [userId]);
-
-  useEffect(() => {
     const fetchDrivers = async () => {
       const repo = new DriverRepositoryDatabase();
-      const drivers = await repo.getDrivers();
-      setDrivers(drivers);
+
+      if (isAdmin) {
+        const drivers = await repo.adminGetAllDrivers();
+        setDrivers(drivers);
+      } else {
+        const drivers = await repo.getDriversFromCompanyId(companyId);
+        setDrivers(drivers);
+      }
     };
-    fetchDrivers();
+
+    if (isAdmin) {
+      fetchDrivers();
+    } else if (companyId) {
+      fetchDrivers();
+    }
+
+    // const fetchDrivers = async () => {
+    //   const repo = new DriverRepositoryDatabase();
+    //   const drivers = await repo.getDriversFromCompanyId(companyId);
+    //   setDrivers(drivers);
+    // };
+    // fetchDrivers();
+    // const fetchUserData = async () => {
+    //   const docRef = doc(db, 'users', userId);
+    //   const docSnap = await getDoc(docRef);
+
+    //   if (!docSnap.exists()) throw new Error('Usuário não existe!');
+    //   return docSnap.data();
+    // };
+
+    // const fetchOneCompany = async (companyId: string) => {
+    //   const docRef = doc(db, 'companies', companyId);
+    //   const docSnap = await getDoc(docRef);
+
+    //   if (!docSnap.exists()) throw new Error('Transportadora não encontrada!');
+    //   console.log(docSnap.data());
+    //   return docSnap.data();
+    // };
+
+    // fetchUserData().then((userData: any) => {
+    //   fetchOneCompany(userData.companyId);
+    // });
+  }, [companyId, userId]);
+
+  useEffect(() => {
+    // const fetchDrivers = async () => {
+    //   const repo = new DriverRepositoryDatabase();
+    //   const drivers = await repo.getDrivers();
+    //   setDrivers(drivers);
+    // };
+    // fetchDrivers();
   }, []);
 
   const makeTableRows = () => {

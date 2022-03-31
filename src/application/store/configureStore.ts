@@ -1,11 +1,13 @@
 import authReducer from './features/auth/authSlice';
 import driversReducer from './features/drivers/driversSlice';
+import companyReducer from './features/company/companySlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     drivers: driversReducer,
+    companies: companyReducer,
   },
 });
 
