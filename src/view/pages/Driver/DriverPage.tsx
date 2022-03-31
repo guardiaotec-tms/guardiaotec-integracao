@@ -45,6 +45,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
       const drivers = await repo.adminGetAllDrivers();
       setDrivers(drivers);
     } else {
+      console.log('to aqui', companyId);
       const drivers = await repo.getDriversFromCompanyId(companyId!);
       setDrivers(drivers);
     }
@@ -72,6 +73,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   const handleSelectCompany = (event: SelectChangeEvent) => {
     setSelectedCompany(event.target.value);
     console.log(event.target.value);
+    const companyId = event.target.value;
 
     if (event.target.value === 'Todas') {
       fetchDrivers(true);
@@ -147,6 +149,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
             to={`/driver/register`}
             variant='contained'
             color='primary'
+            disabled={selectedCompany === 'Todas'}
           >
             Cadastrar
           </Button>
