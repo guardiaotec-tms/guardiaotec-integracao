@@ -1,6 +1,6 @@
 import { store } from '../configureStore';
-import { setAdminFilterCompanyId } from '../features/company/companySlice';
+import { setAdminSelectedCompanyId } from '../features/company/companySlice';
 
-export const dispatchSetAdminFilterCompanyId = (companyId: string) => {
-  store.dispatch(setAdminFilterCompanyId(companyId));
+export const dispatchSetAdminSelectedCompanyId = (companyId: string) => {
+  store.dispatch(setAdminSelectedCompanyId(companyId));
 };

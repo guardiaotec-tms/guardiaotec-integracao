@@ -18,69 +18,46 @@ import { Driver } from '../../../domain/entities/Driver';
 import { DriverRepositoryDatabase } from '../../../infra/repository/DriverRepositoryDatabase';
 import moment from 'moment';
 import { RootState } from '../../../application/store/configureStore';
-import { useDrivers } from '../../../application/hooks/useDrivers';
-import { db } from '../../../firebase/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import { fetchCompanies } from '../../../infra/services/fetchCompanies';
-import { Company } from '../../../domain/entities/Company';
-import { dispatchSetAdminFilterCompanyId } from '../../../application/store/actions/company';
+import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 
 type Props = {};
 
 export const DriverPage: FunctionComponent<Props> = ({}) => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
-  // const drivers = useSelector((state: RootState) => state.drivers.drivers);
-  // const drivers = useDrivers();
-  const [selectedCompany, setSelectedCompany] = useState('');
-  const [companies, setCompanies] = useState<Company[]>([]);
 
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
-  const companyId = useSelector(
-    (state: RootState) => state.companies.companyId
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
   );
 
-  const fetchDrivers = async (shouldGetAll: boolean, companyId?: string) => {
+  const fetchDrivers = async (
+    shouldGetAll: boolean,
+    userCompanyId?: string
+  ) => {
     const repo = new DriverRepositoryDatabase();
 
     if (shouldGetAll) {
       const drivers = await repo.adminGetAllDrivers();
       setDrivers(drivers);
     } else {
-      console.log('to aqui', companyId);
-      const drivers = await repo.getDriversFromCompanyId(companyId!);
+      console.log('to aqui', userCompanyId);
+      const drivers = await repo.getDriversFromCompanyId(userCompanyId!);
       setDrivers(drivers);
     }
   };
 
   useEffect(() => {
-    if (isAdmin) console.log('sou admin');
-    if (!isAdmin) console.log('não sou admin');
-
-    if (isAdmin) {
-      // fetchDrivers();
-    } else if (companyId) {
-      fetchDrivers(isAdmin);
+    if (!isAdmin && userCompanyId) {
+      fetchDrivers(false, userCompanyId);
     }
-  }, [companyId, userId]);
-
-  useEffect(() => {}, []);
+  }, [userCompanyId, userId]);
 
   useEffect(() => {
-    fetchCompanies(setCompanies);
-  }, []);
-
-  const handleSelectCompany = (event: SelectChangeEvent) => {
-    setSelectedCompany(event.target.value);
-    console.log(event.target.value);
-    const companyId = event.target.value;
-
-    if (event.target.value === 'Todas') {
-      fetchDrivers(true);
-    } else {
-      fetchDrivers(false, companyId);
-      dispatchSetAdminFilterCompanyId(companyId);
+    if (isAdmin && adminSelectedCompanyId) {
+      const shouldGetAll = adminSelectedCompanyId === 'Todas';
+      fetchDrivers(shouldGetAll, adminSelectedCompanyId);
     }
-  };
+  }, [isAdmin, adminSelectedCompanyId]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -106,41 +83,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       <div>
-        <Box sx={{ position: 'absolute', left: 10, top: 80 }}>
-          <Box sx={{ mb: 1.3 }}>
-            <FormControl sx={{ minWidth: 220 }} fullWidth>
-              <InputLabel id='demo-simple-select-helper-label'>
-                Transportadora
-              </InputLabel>
-              <Select
-                labelId='demo-simple-select-helper-label'
-                id='demo-simple-select-helper'
-                value={selectedCompany || ''}
-                label={'Transportadora'}
-                onChange={handleSelectCompany}
-                fullWidth
-              >
-                {companies &&
-                  companies
-                    .map((company: Company) => {
-                      return (
-                        <MenuItem
-                          key={company.values.CNPJ}
-                          value={company.values.Id!}
-                        >
-                          {company.values.Transportadora}
-                        </MenuItem>
-                      );
-                    })
-                    .concat([
-                      <MenuItem key={'unique'} value={'Todas'}>
-                        Todas
-                      </MenuItem>,
-                    ])}
-              </Select>
-            </FormControl>
-          </Box>
-        </Box>
+        <CompanyFilter />
         <Box
           sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
         >
@@ -149,7 +92,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
             to={`/driver/register`}
             variant='contained'
             color='primary'
-            disabled={selectedCompany === 'Todas'}
+            disabled={adminSelectedCompanyId === 'Todas'}
           >
             Cadastrar
           </Button>
