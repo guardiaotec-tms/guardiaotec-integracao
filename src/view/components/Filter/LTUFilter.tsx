@@ -43,7 +43,7 @@ export const LTUFilter: FunctionComponent<Props> = ({}) => {
   return (
     <Box sx={{ position: 'absolute', left: 220, top: 80 }}>
       <Box sx={{ mb: 1.3 }}>
-        <FormControl sx={{ minWidth: 200 }} fullWidth>
+        <FormControl sx={{ minWidth: 180 }} fullWidth>
           <InputLabel id='demo-simple-select-helper-label'>LTU</InputLabel>
           <Select
             labelId='demo-simple-select-helper-label'

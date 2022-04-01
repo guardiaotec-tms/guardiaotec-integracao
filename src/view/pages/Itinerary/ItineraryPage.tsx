@@ -119,7 +119,8 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       {isAdmin && <CompanyFilter />}
-      {isAdmin && <LTUFilter />}
+      {/* {isAdmin && <LTUFilter />} */}
+      <LTUFilter />
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >

@@ -7,20 +7,35 @@ import { Vinculo } from '../../../domain/entities/Vinculo';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { VinculoRepositoryDatabase } from '../../../infra/repository/VinculoRepositoryDatabase';
+import { RootState } from '../../../application/store/configureStore';
+import { useSelector } from 'react-redux';
+import { fetchVinculos } from '../../../infra/services/fetchVinculos';
+import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 
 type Props = {};
 
 export const VinculoPage: FunctionComponent<Props> = ({}) => {
   const [vinculos, setVinculos] = useState<Vinculo[]>([]);
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
+  const { userId, isAdmin, user } = useSelector(
+    (state: RootState) => state.auth
+  );
+  //   useEffect(() => {
+  //     const fetchVinculos = async () => {
+  //       const repo = new VinculoRepositoryDatabase();
+  //       const Vinculos = await repo.getVinculos();
+  //       setVinculos(Vinculos);
+  //     };
+  //     fetchVinculos();
+  //   }, []);
 
   useEffect(() => {
-    const fetchVinculos = async () => {
-      const repo = new VinculoRepositoryDatabase();
-      const Vinculos = await repo.getVinculos();
-      setVinculos(Vinculos);
-    };
-    fetchVinculos();
-  }, []);
+    if (adminSelectedCompanyId || userCompanyId) {
+      fetchVinculos(setVinculos);
+    }
+  }, [adminSelectedCompanyId, userCompanyId]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -53,6 +68,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
+      {isAdmin && <CompanyFilter />}
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
