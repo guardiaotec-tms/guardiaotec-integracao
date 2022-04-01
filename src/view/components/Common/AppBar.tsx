@@ -6,12 +6,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../../application/store/configureStore';
+import { useSelector } from 'react-redux';
+import { MarkEmailReadOutlined } from '@mui/icons-material';
 
 const pages = [
-  {
-    name: 'Transportadora',
-    path: '/company',
-  },
   {
     name: 'Motorista',
     path: '/driver',
@@ -36,6 +35,19 @@ const pages = [
 
 export const ResponsiveAppBar = () => {
   // const handleRedirect = (page) => {};
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+
+  const makePages = () => {
+    if (isAdmin) {
+      return [
+        {
+          name: 'Transportadora',
+          path: '/company',
+        },
+      ].concat(pages);
+    }
+    return pages;
+  };
 
   return (
     <AppBar position='static' sx={{ marginBottom: '15px' }}>
@@ -58,7 +70,7 @@ export const ResponsiveAppBar = () => {
               LOGO
             </Typography> */}
 
-            {pages.map((page) => (
+            {makePages().map((page) => (
               <Button
                 component={Link}
                 to={`${page.path}`}

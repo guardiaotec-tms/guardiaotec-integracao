@@ -6,12 +6,15 @@ import { CustomTable } from '../../components/Table/CustomTable';
 import { useState } from 'react';
 import { Company } from '../../../domain/entities/Company';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
+import { RootState } from '../../../application/store/configureStore';
 
 type Props = {};
 
 export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const [companies, setCompanies] = useState<Company[]>([]);
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -59,14 +62,16 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
-        <Button
-          component={Link}
-          to={`/company/register`}
-          variant='contained'
-          color='primary'
-        >
-          Cadastrar
-        </Button>
+        {isAdmin && (
+          <Button
+            component={Link}
+            to={`/company/register`}
+            variant='contained'
+            color='primary'
+          >
+            Cadastrar
+          </Button>
+        )}
       </Box>
       <CustomTable
         tableHead={companiesTableHead}
