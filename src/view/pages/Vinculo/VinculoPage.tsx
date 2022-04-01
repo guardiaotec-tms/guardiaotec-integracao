@@ -11,6 +11,7 @@ import { RootState } from '../../../application/store/configureStore';
 import { useSelector } from 'react-redux';
 import { fetchVinculos } from '../../../infra/services/fetchVinculos';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
+import { canRegister } from '../../../application/service/canRegister';
 
 type Props = {};
 
@@ -77,6 +78,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
           to={`/vinculo/register`}
           variant='contained'
           color='primary'
+          disabled={!canRegister()}
         >
           Cadastrar
         </Button>

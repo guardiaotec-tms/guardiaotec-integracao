@@ -1,4 +1,11 @@
-import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardHeader,
+  TextField,
+} from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
 import { AlertSnackbar } from '../Common/AlertSnackbar';
@@ -17,6 +24,7 @@ import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryData
 import { FT } from '../../../domain/entities/FT';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../application/store/configureStore';
+import { getCompanyInfo } from '../../../application/service/getUserCompanyInfo';
 
 type Props = {};
 
@@ -32,49 +40,72 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
+  const [companyName, setCompanyName] = useState('');
 
-  const ds = useSelector((state: RootState) => state.drivers.drivers);
+  //   const ds = useSelector((state: RootState) => state.drivers.drivers);
 
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [drivers, setDrivers] = useState<Driver[]>(ds);
+  const [drivers, setDrivers] = useState<Driver[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [fts, setFTs] = useState<FT[]>([]);
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
 
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { selectedLTU, adminSelectedCompanyId, userCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
+
+  const [selectedCompanyId, setSelectedCompanyId] = useState('');
+
   useEffect(() => {
+    if (isAdmin && adminSelectedCompanyId) {
+      setSelectedCompanyId(adminSelectedCompanyId);
+    } else if (!isAdmin && userCompanyId) {
+      setSelectedCompanyId(userCompanyId);
+    }
+  }, [adminSelectedCompanyId, userCompanyId]);
+
+  useEffect(() => {
+    if (!selectedCompanyId) return;
     const fetch = async () => {
-      const companiesRepo = new CompanyRepositoryDatabase();
-      const companies = await companiesRepo.getCompanies();
-      setCompanies(companies);
+      //   const companiesRepo = new CompanyRepositoryDatabase();
+      //   const companies = await companiesRepo.getCompanies();
+      //   setCompanies(companies);
 
       const driversRepo = new DriverRepositoryDatabase();
-      const drivers = await driversRepo.getDrivers();
+      const drivers = await driversRepo.getDriversFromCompanyId(
+        selectedCompanyId
+      );
       setDrivers(drivers);
 
       const vehiclesRepo = new VehicleRepositoryDatabase();
-      const vehicles = await vehiclesRepo.getVehicles();
+      const vehicles = await vehiclesRepo.getVehiclesFromCompanyId(
+        selectedCompanyId
+      );
       setVehicles(vehicles);
 
       const ftsRepo = new FTRepositoryDatabase();
-      const fts = await ftsRepo.getFTs();
+      const fts = await ftsRepo.getFTsFromCompanyId(selectedCompanyId);
       setFTs(fts);
 
       const itinerariesRepo = new ItineraryRepositoryDatabase();
-      const itineraries = await itinerariesRepo.getItineraries();
+      const itineraries = await itinerariesRepo.getItinerariesFromCompanyId(
+        selectedCompanyId
+      );
       setItineraries(itineraries);
     };
 
     fetch();
-  }, []);
+  }, [selectedCompanyId]);
 
   const vinculoFields: IFormField[] = [
-    {
-      label: 'Transportadora',
-      type: 'List Selection',
-      options: companies.map((c) => c.values.Transportadora),
-      id: 0,
-      index: 0,
-    },
+    // {
+    //   label: 'Transportadora',
+    //   type: 'List Selection',
+    //   options: companies.map((c) => c.values.Transportadora),
+    //   id: 0,
+    //   index: 0,
+    // },
     {
       label: 'Motorista (CNH)',
       type: 'List Selection',
@@ -92,7 +123,7 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
     {
       label: 'LTU',
       type: 'List Selection',
-      options: itineraries.map((i) => i.values['LTU Correspondente']),
+      options: fts.map((ft) => ft.values['Nº da Linha']),
       id: 3,
     },
     {
@@ -138,19 +169,59 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
 
   const onSave = async () => {
     try {
-      const vinculo = new Vinculo(state);
+      const vinculo = new Vinculo({ Transportadora: companyName, ...state });
       const repo = new VinculoRepositoryDatabase();
-      await repo.addVinculo(vinculo);
-      setSuccessMessage('Vinculo cadastrado!');
-      startState();
+
+      if (isAdmin && adminSelectedCompanyId) {
+        await repo.addVinculo(vinculo, adminSelectedCompanyId);
+        setSuccessMessage('Vinculo cadastrado!');
+        startState();
+      } else if (userCompanyId) {
+        await repo.addVinculo(vinculo, userCompanyId);
+        setSuccessMessage('Vinculo cadastrado!');
+        startState();
+      }
     } catch (error: any) {
       setError(error.message);
     }
   };
 
+  const getCompanyId = () => {
+    if (isAdmin && adminSelectedCompanyId) return adminSelectedCompanyId;
+    if (userCompanyId) return userCompanyId;
+
+    //@ts-ignore
+    window.location = '/vinculo';
+    return 'Erro! Volte para a página de vínculo!';
+  };
+
+  const getCompanyName = async (companyId: string) => {
+    const info = await getCompanyInfo(companyId);
+    return info!.Transportadora;
+  };
+
+  useEffect(() => {
+    const func = async () => {
+      const id = getCompanyId();
+      const name = await getCompanyName(id);
+      setCompanyName(name);
+    };
+    func();
+  }, [adminSelectedCompanyId, userCompanyId]);
+
   return (
     <Card sx={{ width: '400px', padding: '10px' }}>
       <CardHeader title='Cadastro de Vínculo' subheader='' />
+      <Box sx={{ mb: '10px' }}>
+        <TextField
+          id='transportadora'
+          label='Transportadora'
+          value={companyName}
+          onChange={() => {}}
+          disabled
+          fullWidth
+        />
+      </Box>
       {vinculoFields.map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>

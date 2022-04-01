@@ -13,15 +13,15 @@ import {
 import { db } from './../../firebase/firebase';
 import { VinculoRepository } from '../../domain/repository/VinculoRepository';
 
-export class VinculoRepositoryDatabase implements VinculoRepository {
+export class VinculoRepositoryDatabase {
   db: Firestore;
 
   constructor() {
     this.db = db;
   }
 
-  async addVinculo(vinculo: Vinculo): Promise<void> {
-    const colRef = collection(this.db, 'vinculos');
+  async addVinculo(vinculo: Vinculo, companyId: string): Promise<void> {
+    const colRef = collection(this.db, `companies/${companyId}/vinculos`);
     // // const q = query(colRef, where('Placa', '==', Vinculo.values.Placa));
     // const q = query(colRef);
     // const querySnapshot = await getDocs(q);

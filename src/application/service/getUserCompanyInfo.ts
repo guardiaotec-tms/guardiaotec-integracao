@@ -1,7 +1,22 @@
 import { getDoc, doc } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 import { store } from '../store/configureStore';
-import { setUserCompanyId } from '../store/features/company/companySlice';
+import {
+  setUserCompanyId,
+  setCompanyInfo,
+} from '../store/features/company/companySlice';
+
+export const getCompanyInfo = async (companyId: string) => {
+  if (!companyId) return;
+  const companyDoc = await getDoc(doc(db, 'companies', companyId));
+  const companyData = companyDoc.data();
+  return companyData;
+};
+
+const dispatchCompanyInfo = async (companyId: string) => {
+  const data = await getCompanyInfo(companyId);
+  store.dispatch(setCompanyInfo(data));
+};
 
 export const getUserCompanyInfo = async (userId: string) => {
   console.log(userId);
@@ -11,4 +26,5 @@ export const getUserCompanyInfo = async (userId: string) => {
   console.log(companyId);
 
   store.dispatch(setUserCompanyId(companyId));
+  dispatchCompanyInfo(companyId);
 };

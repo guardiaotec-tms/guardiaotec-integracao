@@ -4,12 +4,14 @@ export interface CompanyState {
   userCompanyId: string;
   adminSelectedCompanyId: string;
   selectedLTU: string;
+  companyInfo: { nome: string } | null;
 }
 
 const initialState: CompanyState = {
   userCompanyId: '',
   adminSelectedCompanyId: '',
   selectedLTU: '',
+  companyInfo: null,
 };
 
 export const companySlice = createSlice({
@@ -29,12 +31,20 @@ export const companySlice = createSlice({
       const selectedLTU = action.payload;
       state.selectedLTU = selectedLTU;
     },
+    setCompanyInfo: (state, action: PayloadAction<any>) => {
+      const companyInfo = action.payload;
+      state.companyInfo = companyInfo;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
 // export const { setUserId } = counterSlice.actions;
 export const companyActions = companySlice.actions;
-export const { setUserCompanyId, setAdminSelectedCompanyId, setSelectedLTU } =
-  companyActions;
+export const {
+  setUserCompanyId,
+  setAdminSelectedCompanyId,
+  setSelectedLTU,
+  setCompanyInfo,
+} = companyActions;
 export default companySlice.reducer;
