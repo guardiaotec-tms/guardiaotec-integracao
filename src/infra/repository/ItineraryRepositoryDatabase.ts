@@ -62,4 +62,11 @@ export class ItineraryRepositoryDatabase {
     const colRef = collection(this.db, `companies/${companyId}/itineraries`);
     return this.getItinerariesFromQuery(colRef);
   }
+
+  async getItinerariesFromLTU(LTU: string) {
+    const group = collectionGroup(this.db, 'itineraries');
+    console.log(LTU, 'LTU');
+    const q = query(group, where('LTU Correspondente', '==', LTU));
+    return this.getItinerariesFromQuery(q);
+  }
 }

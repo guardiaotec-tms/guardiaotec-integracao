@@ -11,13 +11,15 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../application/store/configureStore';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
+import { canRegister } from '../../../application/service/canRegister';
+import { LTUFilter } from '../../components/Filter/LTUFilter';
 
 type Props = {};
 
 export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
-  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+  const { userCompanyId, adminSelectedCompanyId, selectedLTU } = useSelector(
     (state: RootState) => state.companies
   );
 
@@ -30,35 +32,45 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   //   fetchItineraries();
   // }, []);
 
-  const fetchItineraries = async (
-    shouldGetAll: boolean,
-    userCompanyId?: string
-  ) => {
+  // const fetchItineraries = async (
+  //   shouldGetAll: boolean,
+  //   userCompanyId?: string
+  // ) => {
+  //   const repo = new ItineraryRepositoryDatabase();
+  //   //const itineraries = await repo.getItineraries();
+  //   if (shouldGetAll) {
+  //     const itineraries = await repo.adminGetAllItineraries();
+  //     setItineraries(itineraries);
+  //   } else {
+  //     const itineraries = await repo.getItinerariesFromCompanyId(
+  //       userCompanyId!
+  //     );
+  //     setItineraries(itineraries);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!isAdmin && userCompanyId) {
+  //     fetchItineraries(false, userCompanyId);
+  //   }
+  // }, [userCompanyId, userId]);
+
+  // useEffect(() => {
+  //   if (isAdmin && adminSelectedCompanyId) {
+  //     const shouldGetAll = adminSelectedCompanyId === 'Todas';
+  //     fetchItineraries(shouldGetAll, adminSelectedCompanyId);
+  //   }
+  // }, [isAdmin, adminSelectedCompanyId]);
+
+  const fetchItinerariesFromLTU = async (LTU: string) => {
     const repo = new ItineraryRepositoryDatabase();
-    //const itineraries = await repo.getItineraries();
-    if (shouldGetAll) {
-      const itineraries = await repo.adminGetAllItineraries();
-      setItineraries(itineraries);
-    } else {
-      const itineraries = await repo.getItinerariesFromCompanyId(
-        userCompanyId!
-      );
-      setItineraries(itineraries);
-    }
+    const itineraries = await repo.getItinerariesFromLTU(LTU);
+    setItineraries(itineraries);
   };
 
   useEffect(() => {
-    if (!isAdmin && userCompanyId) {
-      fetchItineraries(false, userCompanyId);
-    }
-  }, [userCompanyId, userId]);
-
-  useEffect(() => {
-    if (isAdmin && adminSelectedCompanyId) {
-      const shouldGetAll = adminSelectedCompanyId === 'Todas';
-      fetchItineraries(shouldGetAll, adminSelectedCompanyId);
-    }
-  }, [isAdmin, adminSelectedCompanyId]);
+    fetchItinerariesFromLTU(selectedLTU);
+  }, [selectedLTU]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -107,6 +119,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       {isAdmin && <CompanyFilter />}
+      {isAdmin && <LTUFilter />}
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
@@ -115,6 +128,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
           to={`/itinerary/register`}
           variant='contained'
           color='primary'
+          disabled={!canRegister()}
         >
           Cadastrar
         </Button>
