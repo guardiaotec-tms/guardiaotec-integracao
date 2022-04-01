@@ -22,30 +22,36 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     (state: RootState) => state.companies
   );
 
-  const fetchFTs = async (shouldGetAll: boolean, userCompanyId?: string) => {
-    const repo = new FTRepositoryDatabase();
+  // const fetchFTs = async (shouldGetAll: boolean, userCompanyId?: string) => {
+  //   const repo = new FTRepositoryDatabase();
 
-    if (shouldGetAll) {
-      const fts = await repo.adminGetAllFTs();
-      setFTs(fts);
-    } else {
-      const fts = await repo.getFTsFromCompanyId(userCompanyId!);
-      setFTs(fts);
-    }
-  };
+  //   if (shouldGetAll) {
+  //     const fts = await repo.adminGetAllFTs();
+  //     setFTs(fts);
+  //   } else {
+  //     const fts = await repo.getFTsFromCompanyId(userCompanyId!);
+  //     setFTs(fts);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!isAdmin && userCompanyId) {
+  //     fetchFTs(false, userCompanyId);
+  //   }
+  // }, [userCompanyId, userId]);
+
+  // useEffect(() => {
+  //   if (isAdmin && adminSelectedCompanyId) {
+  //     const shouldGetAll = adminSelectedCompanyId === 'Todas';
+  //     fetchFTs(shouldGetAll, adminSelectedCompanyId);
+  //   }
+  // }, [isAdmin, adminSelectedCompanyId]);
 
   useEffect(() => {
-    if (!isAdmin && userCompanyId) {
-      fetchFTs(false, userCompanyId);
+    if (adminSelectedCompanyId || userCompanyId) {
+      fetchFTs(setFTs);
     }
-  }, [userCompanyId, userId]);
-
-  useEffect(() => {
-    if (isAdmin && adminSelectedCompanyId) {
-      const shouldGetAll = adminSelectedCompanyId === 'Todas';
-      fetchFTs(shouldGetAll, adminSelectedCompanyId);
-    }
-  }, [isAdmin, adminSelectedCompanyId]);
+  }, [adminSelectedCompanyId, userCompanyId]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];

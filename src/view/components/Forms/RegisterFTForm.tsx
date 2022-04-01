@@ -75,12 +75,10 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
       if (isAdmin && adminSelectedCompanyId) {
         await repo.addFT(ft, adminSelectedCompanyId);
         setSuccessMessage('Ficha Técnica cadastrada!');
-        // resetState();
         startState();
       } else if (userCompanyId) {
         await repo.addFT(ft, userCompanyId);
         setSuccessMessage('Ficha Técnica cadastrada!');
-        // resetState();
         startState();
       }
     } catch (error: any) {

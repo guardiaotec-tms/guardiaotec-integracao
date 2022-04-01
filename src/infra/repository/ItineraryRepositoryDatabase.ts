@@ -6,6 +6,9 @@ import {
   getDocs,
   where,
   query,
+  Query,
+  DocumentData,
+  collectionGroup,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 import { ItineraryRepository } from '../../domain/repository/ItineraryRepository';
@@ -31,8 +34,11 @@ export class ItineraryRepositoryDatabase {
 
   async getItineraries(): Promise<Itinerary[]> {
     const colRef = collection(this.db, 'itineraries');
-    const q = query(colRef);
-    const querySnapshot = await getDocs(q);
+    return this.getItinerariesFromQuery(colRef);
+  }
+
+  async getItinerariesFromQuery(query: Query<DocumentData>) {
+    const querySnapshot = await getDocs(query);
     let itineraries: Itinerary[] = [];
     querySnapshot.forEach((doc: any) => {
       const data = doc.data();
@@ -45,5 +51,15 @@ export class ItineraryRepositoryDatabase {
       itineraries.push(new Itinerary(data));
     });
     return itineraries;
+  }
+
+  async adminGetAllItineraries() {
+    const query = collectionGroup(this.db, 'itineraries');
+    return this.getItinerariesFromQuery(query);
+  }
+
+  async getItinerariesFromCompanyId(companyId: string) {
+    const colRef = collection(this.db, `companies/${companyId}/itineraries`);
+    return this.getItinerariesFromQuery(colRef);
   }
 }

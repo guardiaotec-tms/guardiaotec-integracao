@@ -8,20 +8,57 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { ItineraryRepositoryDatabase } from '../../../infra/repository/ItineraryRepositoryDatabase';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
+import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 
 type Props = {};
 
 export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
+
+  // useEffect(() => {
+  //   const fetchItineraries = async () => {
+  //     const repo = new ItineraryRepositoryDatabase();
+  //     const itineraries = await repo.getItineraries();
+  //     setItineraries(itineraries);
+  //   };
+  //   fetchItineraries();
+  // }, []);
+
+  const fetchItineraries = async (
+    shouldGetAll: boolean,
+    userCompanyId?: string
+  ) => {
+    const repo = new ItineraryRepositoryDatabase();
+    //const itineraries = await repo.getItineraries();
+    if (shouldGetAll) {
+      const itineraries = await repo.adminGetAllItineraries();
+      setItineraries(itineraries);
+    } else {
+      const itineraries = await repo.getItinerariesFromCompanyId(
+        userCompanyId!
+      );
+      setItineraries(itineraries);
+    }
+  };
 
   useEffect(() => {
-    const fetchItineraries = async () => {
-      const repo = new ItineraryRepositoryDatabase();
-      const itineraries = await repo.getItineraries();
-      setItineraries(itineraries);
-    };
-    fetchItineraries();
-  }, []);
+    if (!isAdmin && userCompanyId) {
+      fetchItineraries(false, userCompanyId);
+    }
+  }, [userCompanyId, userId]);
+
+  useEffect(() => {
+    if (isAdmin && adminSelectedCompanyId) {
+      const shouldGetAll = adminSelectedCompanyId === 'Todas';
+      fetchItineraries(shouldGetAll, adminSelectedCompanyId);
+    }
+  }, [isAdmin, adminSelectedCompanyId]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -69,6 +106,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
+      {isAdmin && <CompanyFilter />}
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
