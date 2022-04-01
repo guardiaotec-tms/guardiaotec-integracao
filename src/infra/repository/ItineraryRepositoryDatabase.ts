@@ -10,15 +10,15 @@ import {
 import { db } from './../../firebase/firebase';
 import { ItineraryRepository } from '../../domain/repository/ItineraryRepository';
 
-export class ItineraryRepositoryDatabase implements ItineraryRepository {
+export class ItineraryRepositoryDatabase {
   db: Firestore;
 
   constructor() {
     this.db = db;
   }
 
-  async addItinerary(itinerary: Itinerary): Promise<void> {
-    const colRef = collection(this.db, 'itineraries');
+  async addItinerary(itinerary: Itinerary, companyId: string): Promise<void> {
+    const colRef = collection(this.db, `companies/${companyId}/itineraries`);
     // // const q = query(colRef, where('Placa', '==', itinerary.values.Placa));
     // const q = query(colRef);
     // const querySnapshot = await getDocs(q);

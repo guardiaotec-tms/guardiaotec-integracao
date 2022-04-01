@@ -7,6 +7,8 @@ import { ItineraryRepositoryDatabase } from '../../../infra/repository/Itinerary
 import { Itinerary } from '../../../domain/entities/Itinerary';
 import { FT } from '../../../domain/entities/FT';
 import { fetchFTs } from '../../../infra/services/fetchFTs';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
 
 type Props = {};
 
@@ -22,7 +24,10 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
-
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
   const [fts, setFTs] = useState<FT[]>([]);
 
   useEffect(() => {
@@ -70,9 +75,15 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
     try {
       const itinerary = new Itinerary(state);
       const repo = new ItineraryRepositoryDatabase();
-      await repo.addItinerary(itinerary);
-      setSuccessMessage('Cadastrado!');
-      startState();
+      if (isAdmin && adminSelectedCompanyId) {
+        await repo.addItinerary(itinerary, adminSelectedCompanyId);
+        setSuccessMessage('Cadastrado!');
+        startState();
+      } else if (userCompanyId) {
+        await repo.addItinerary(itinerary, userCompanyId);
+        setSuccessMessage('Cadastrado!');
+        startState();
+      }
     } catch (error: any) {
       setError(error.message);
     }
