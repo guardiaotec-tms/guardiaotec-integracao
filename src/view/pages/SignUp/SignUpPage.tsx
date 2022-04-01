@@ -29,6 +29,7 @@ import {
   CompanyAccessType,
   createFirestoreUser,
 } from '../../../infra/services/createUserInFirestore';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -116,16 +117,37 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
           <Box
             sx={{
               width: '100%',
-              height: '35px',
               backgroundColor: 'primary.main',
               color: 'white',
               display: 'flex',
-              justifyContent: 'center',
+              //   justifyContent: 'center',
               verticalAlign: 'center',
               marginBottom: '15px',
+              height: '40px',
             }}
           >
-            <Typography variant='h5'>GuardiaoTec</Typography>
+            <Box
+              sx={{
+                paddingLeft: 2,
+                heigth: '100%',
+                flexGrow: 1,
+                verticalAlign: 'center',
+              }}
+            >
+              <Typography variant='h5'>GuardiaoTec</Typography>
+            </Box>
+            <Box sx={{ color: 'white' }}>
+              <Button
+                component={Link}
+                to='/'
+                variant='outlined'
+                //   color=''
+                size='medium'
+                sx={{ color: 'white' }}
+              >
+                voltar
+              </Button>
+            </Box>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Card

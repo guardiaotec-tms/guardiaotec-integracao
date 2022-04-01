@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { RootState } from '../../../application/store/configureStore';
 import { useSelector } from 'react-redux';
 import { MarkEmailReadOutlined } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
+import { AppBarOptionsPopover } from './AppBarOptionsPopover';
 
 const pages = [
   {
@@ -81,6 +83,15 @@ export const ResponsiveAppBar = () => {
                 {page.name}
               </Button>
             ))}
+          </Box>
+          <Box>
+            {/* <IconButton
+              onClick={() => {}}
+              sx={{ mx: 0.8, my: 2, color: 'white', display: 'block' }}
+            >
+              <MoreVertIcon />
+            </IconButton> */}
+            <AppBarOptionsPopover />
           </Box>
 
           {/* <Box sx={{ flexGrow: 0 }}>

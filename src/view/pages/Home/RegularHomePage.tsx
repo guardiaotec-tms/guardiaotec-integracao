@@ -1,0 +1,51 @@
+import { Box, Card, CardContent, CardHeader } from '@mui/material';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { ResponsiveAppBar } from '../../components/Common/AppBar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
+import { getCompanyInfo } from '../../../application/service/getUserCompanyInfo';
+// import { RootState } from '../application/store/configureStore';
+
+type Props = {};
+
+export const RegularHomePage: FunctionComponent<Props> = ({}) => {
+  const [companyInfo, setCompanyInfo] = useState<any>();
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  console.log(companyInfo);
+
+  useEffect(() => {
+    const getInfo = async (companyId: string) => {
+      const info = await getCompanyInfo(companyId);
+      setCompanyInfo(info);
+    };
+    if (user?.companyId) {
+      getInfo(user.companyId);
+    }
+  }, [user?.companyId]);
+
+  return (
+    <div>
+      <ResponsiveAppBar />
+      <Box
+        sx={{
+          flexGrow: 1,
+          textAlign: 'center',
+          fontSize: '2rem',
+          fontWeight: '600',
+          letterSpacing: 1.5,
+        }}
+      >
+        {/* <Typography variant='h1'>GuardiaoTech</Typography> */}
+        <br />
+
+        <Card>
+          <CardHeader title={companyInfo?.Transportadora} />
+          <CardContent>
+            Responsável: {companyInfo && companyInfo['Responsável']}
+          </CardContent>
+        </Card>
+      </Box>
+    </div>
+  );
+};
