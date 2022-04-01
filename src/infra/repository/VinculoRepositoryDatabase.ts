@@ -21,7 +21,30 @@ export class VinculoRepositoryDatabase {
   }
 
   async addVinculo(vinculo: Vinculo, companyId: string): Promise<void> {
-    const colRef = collection(this.db, `companies/${companyId}/vinculos`);
+    const numeroFT = vinculo.values['Nº da FT'];
+    const LTU = vinculo.values['LTU'];
+    const colRef = collection(this.db, `companies/${companyId}/fts`);
+    const q = query(colRef, where('Nº da FT', '==', numeroFT));
+    const qSnapshot = await getDocs(q);
+
+    const ftData = qSnapshot.docs[0].data();
+    if (ftData['Nº da Linha'] !== LTU)
+      throw new Error('LTU fornecida não pertence a esta Ficha Técnica');
+
+    const vinculosColRef = collection(
+      this.db,
+      `companies/${companyId}/vinculos`
+    );
+    const vinculosQuery = query(
+      vinculosColRef,
+      where('Nº da FT', '==', numeroFT)
+    );
+    const vinculosSnapshot = await getDocs(vinculosQuery);
+    if (vinculosSnapshot.docs.length > 0)
+      throw new Error(
+        'Impossivel adicionar vínculo! Nº da FT já possui vínculo relacionado!'
+      );
+
     // // const q = query(colRef, where('Placa', '==', Vinculo.values.Placa));
     // const q = query(colRef);
     // const querySnapshot = await getDocs(q);
@@ -29,7 +52,7 @@ export class VinculoRepositoryDatabase {
     // if (querySnapshot.docs.length > 0)
     //   throw new Error('Itinerário já cadastrado!');
 
-    addDoc(colRef, vinculo.values);
+    addDoc(vinculosColRef, vinculo.values);
   }
 
   async getVinculos(): Promise<Vinculo[]> {

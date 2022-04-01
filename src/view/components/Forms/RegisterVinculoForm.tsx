@@ -12,7 +12,6 @@ import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
 import { VinculoRepositoryDatabase } from '../../../infra/repository/VinculoRepositoryDatabase';
 import { Vinculo } from '../../../domain/entities/Vinculo';
-import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
 import { Company } from '../../../domain/entities/Company';
 import { VehicleRepositoryDatabase } from '../../../infra/repository/VehicleRepositoryDatabase';
 import { Vehicle } from '../../../domain/entities/Vehicle';
@@ -41,20 +40,15 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
   const [companyName, setCompanyName] = useState('');
-
-  //   const ds = useSelector((state: RootState) => state.drivers.drivers);
-
   const [companies, setCompanies] = useState<Company[]>([]);
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [fts, setFTs] = useState<FT[]>([]);
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
-
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const { selectedLTU, adminSelectedCompanyId, userCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
-
   const [selectedCompanyId, setSelectedCompanyId] = useState('');
 
   useEffect(() => {
@@ -68,10 +62,6 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
   useEffect(() => {
     if (!selectedCompanyId) return;
     const fetch = async () => {
-      //   const companiesRepo = new CompanyRepositoryDatabase();
-      //   const companies = await companiesRepo.getCompanies();
-      //   setCompanies(companies);
-
       const driversRepo = new DriverRepositoryDatabase();
       const drivers = await driversRepo.getDriversFromCompanyId(
         selectedCompanyId
@@ -99,13 +89,6 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
   }, [selectedCompanyId]);
 
   const vinculoFields: IFormField[] = [
-    // {
-    //   label: 'Transportadora',
-    //   type: 'List Selection',
-    //   options: companies.map((c) => c.values.Transportadora),
-    //   id: 0,
-    //   index: 0,
-    // },
     {
       label: 'Motorista (CNH)',
       type: 'List Selection',
@@ -132,24 +115,6 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
       options: fts.map((ft) => ft.values['Nº da FT']),
       id: 4,
     },
-
-    // { label: 'Destino', type: 'Short Text', id: 3, index: 3 },
-    // { label: 'Data de Vigencia Início', type: 'Date', id: 4, index: 4 },
-    // { label: 'Data de Vigencia Fim', type: 'Date', id: 5, index: 5 },
-    // {
-    //   label: 'Tipo de Linha',
-    //   type: 'List Selection',
-    //   options: ['Contratada'],
-    //   id: 6,
-    //   index: 6,
-    // },
-    // {
-    //   label: 'Frequência',
-    //   type: 'Checkbox',
-    //   options: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-    //   id: 7,
-    //   index: 7,
-    // },
   ];
 
   const startState = () => setState(makeInitialFormState(vinculoFields));
