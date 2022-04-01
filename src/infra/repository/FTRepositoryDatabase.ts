@@ -6,6 +6,9 @@ import {
   getDocs,
   where,
   query,
+  Query,
+  DocumentData,
+  collectionGroup,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 import { FTRepository } from '../../domain/repository/FTRepository';
@@ -30,8 +33,12 @@ export class FTRepositoryDatabase implements FTRepository {
 
   async getFTs(): Promise<FT[]> {
     const colRef = collection(this.db, 'fts');
-    const q = query(colRef);
-    const querySnapshot = await getDocs(q);
+    // const q = query(colRef);
+    return this.getFTsFromQuery(colRef);
+  }
+
+  async getFTsFromQuery(query: Query<DocumentData>) {
+    const querySnapshot = await getDocs(query);
     let fts: FT[] = [];
     querySnapshot.forEach((doc: any) => {
       const data = doc.data();
@@ -41,5 +48,15 @@ export class FTRepositoryDatabase implements FTRepository {
       fts.push(new FT(data));
     });
     return fts;
+  }
+
+  async adminGetAllFTs() {
+    const query = collectionGroup(this.db, 'fts');
+    return this.getFTsFromQuery(query);
+  }
+
+  async getFTsFromCompanyId(companyId: string) {
+    const query = collection(this.db, `companies/${companyId}/fts`);
+    return this.getFTsFromQuery(query);
   }
 }

@@ -6,9 +6,12 @@ import { store } from '../store/configureStore';
 export const listenUser = async (userId: string) => {
   const userRef = doc(db, 'users', userId);
   const user = await getDoc(userRef);
-  const { password, ...userData }: any = user.data();
-  if (userData) {
-    store.dispatch(setUser(userData));
+  let data = user.data();
+  if (data) {
+    const { password, ...userData }: any = user.data();
+    if (userData) {
+      store.dispatch(setUser(userData));
+    }
   } else {
     store.dispatch(setUser(null));
   }

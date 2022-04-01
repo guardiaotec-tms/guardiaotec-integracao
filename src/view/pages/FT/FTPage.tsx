@@ -9,15 +9,43 @@ import { useState } from 'react';
 import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryDatabase';
 import moment from 'moment';
 import { fetchFTs } from '../../../infra/services/fetchFTs';
+import { CompanyFilter } from '../../components/Filter/CompanyFilter';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
 
 type Props = {};
 
 export const FTPage: FunctionComponent<Props> = ({}) => {
   const [fts, setFTs] = useState<FT[]>([]);
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
+
+  const fetchFTs = async (shouldGetAll: boolean, userCompanyId?: string) => {
+    const repo = new FTRepositoryDatabase();
+
+    if (shouldGetAll) {
+      const fts = await repo.adminGetAllFTs();
+      setFTs(fts);
+    } else {
+      const fts = await repo.getFTsFromCompanyId(userCompanyId!);
+      setFTs(fts);
+    }
+  };
 
   useEffect(() => {
-    fetchFTs(setFTs);
-  }, []);
+    if (!isAdmin && userCompanyId) {
+      fetchFTs(false, userCompanyId);
+    }
+  }, [userCompanyId, userId]);
+
+  useEffect(() => {
+    if (isAdmin && adminSelectedCompanyId) {
+      const shouldGetAll = adminSelectedCompanyId === 'Todas';
+      fetchFTs(shouldGetAll, adminSelectedCompanyId);
+    }
+  }, [isAdmin, adminSelectedCompanyId]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -70,6 +98,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
+      {isAdmin && <CompanyFilter />}
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >

@@ -8,7 +8,6 @@ export const canRegister = () => {
   if (isAdmin) {
     return adminSelectedCompanyId !== 'Todas' && adminSelectedCompanyId !== '';
   } else {
-    console.log(user);
     const isCompanyAdmin = user?.accessType === 'Administrador';
     return isCompanyAdmin;
   }
