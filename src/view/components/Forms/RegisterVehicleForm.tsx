@@ -22,7 +22,10 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
-  const { userCompanyId } = useSelector((state: RootState) => state.companies);
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
   //MARCA	MODELO	COR 	ANO FABRICAÇÃO 	ANO MODELO 	PLACA 	CAPACIDADE DE CARGA  m3
   const driverFields: IFormField[] = [
     { label: 'Marca', type: 'Short Text', id: 0, index: 0 },
@@ -65,9 +68,19 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
 
       const vehicle = new Vehicle(state);
       const repo = new VehicleRepositoryDatabase();
-      await repo.addVehicle(vehicle, userCompanyId);
-      setSuccessMessage('Veículo cadastrado!');
-      startState();
+      // await repo.addVehicle(vehicle, userCompanyId);
+      // setSuccessMessage('Veículo cadastrado!');
+      if (isAdmin && adminSelectedCompanyId) {
+        await repo.addVehicle(vehicle, adminSelectedCompanyId);
+        setSuccessMessage('Motorista cadastrado!');
+        // resetState();
+        startState();
+      } else if (userCompanyId) {
+        await repo.addVehicle(vehicle, userCompanyId);
+        setSuccessMessage('Motorista cadastrado!');
+        // resetState();
+        startState();
+      }
     } catch (error: any) {
       setError(error.message);
     }

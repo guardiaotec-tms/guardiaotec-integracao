@@ -11,17 +11,17 @@ import {
   collectionGroup,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
-import { FTRepository } from '../../domain/repository/FTRepository';
 
-export class FTRepositoryDatabase implements FTRepository {
+export class FTRepositoryDatabase {
   db: Firestore;
 
   constructor() {
     this.db = db;
   }
 
-  async addFT(FT: FT): Promise<void> {
-    const colRef = collection(this.db, 'fts');
+  async addFT(FT: FT, companyId: string): Promise<void> {
+    const colRef = collection(this.db, `companies/${companyId}/fts`);
+
     const q = query(colRef, where('Nº da FT', '==', FT.values['Nº da FT']));
     const querySnapshot = await getDocs(q);
 
@@ -33,7 +33,6 @@ export class FTRepositoryDatabase implements FTRepository {
 
   async getFTs(): Promise<FT[]> {
     const colRef = collection(this.db, 'fts');
-    // const q = query(colRef);
     return this.getFTsFromQuery(colRef);
   }
 

@@ -5,7 +5,8 @@ import { AlertSnackbar } from '../Common/AlertSnackbar';
 import { RenderFormField } from '../FormField/RenderFormField';
 import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryDatabase';
 import { FT } from '../../../domain/entities/FT';
-import uuid from 'react-uuid';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
 
 type Props = {};
 
@@ -21,7 +22,10 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
-
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userCompanyId, adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
   const ftFields: IFormField[] = [
     { label: 'Origem/Destino', type: 'Short Text' },
     { label: 'Nº da FT', type: 'Short Text' },
@@ -65,9 +69,20 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
     try {
       const ft = new FT(state);
       const repo = new FTRepositoryDatabase();
-      await repo.addFT(ft);
-      setSuccessMessage('Ficha Técnica cadastrada!');
-      startState();
+      //await repo.addFT(ft);
+
+      //   startState();
+      if (isAdmin && adminSelectedCompanyId) {
+        await repo.addFT(ft, adminSelectedCompanyId);
+        setSuccessMessage('Ficha Técnica cadastrada!');
+        // resetState();
+        startState();
+      } else if (userCompanyId) {
+        await repo.addFT(ft, userCompanyId);
+        setSuccessMessage('Ficha Técnica cadastrada!');
+        // resetState();
+        startState();
+      }
     } catch (error: any) {
       setError(error.message);
     }
