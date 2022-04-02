@@ -74,6 +74,10 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
 
   const makeTableRows = () => {
     let rows: string[][] = [];
+    itineraries.sort(
+      (i1: any, i2: any) => i1.values.Sequencia - i2.values.Sequencia
+    );
+
     for (const itinerary of itineraries) {
       rows.push([
         itinerary.values['LTU Correspondente'],

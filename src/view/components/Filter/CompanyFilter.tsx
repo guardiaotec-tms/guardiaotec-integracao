@@ -26,7 +26,6 @@ export const CompanyFilter: FunctionComponent<Props> = ({}) => {
   }, []);
 
   const handleSelectCompany = (event: SelectChangeEvent) => {
-    console.log(event.target.value);
     const companyId = event.target.value;
     dispatchSetAdminSelectedCompanyId(companyId);
   };

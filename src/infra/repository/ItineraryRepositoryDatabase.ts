@@ -65,7 +65,6 @@ export class ItineraryRepositoryDatabase {
 
   async getItinerariesFromLTU(LTU: string) {
     const group = collectionGroup(this.db, 'itineraries');
-    console.log(LTU, 'LTU');
     const q = query(group, where('LTU Correspondente', '==', LTU));
     return this.getItinerariesFromQuery(q);
   }

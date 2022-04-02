@@ -51,6 +51,9 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
   );
   const [selectedCompanyId, setSelectedCompanyId] = useState('');
 
+  console.log(process.env.REACT_APP_DEV_MODE);
+  console.log(process.env.NODE_ENV);
+
   useEffect(() => {
     if (isAdmin && adminSelectedCompanyId) {
       setSelectedCompanyId(adminSelectedCompanyId);

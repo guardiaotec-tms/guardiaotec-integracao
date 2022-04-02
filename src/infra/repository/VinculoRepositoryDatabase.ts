@@ -11,7 +11,6 @@ import {
   collectionGroup,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
-import { VinculoRepository } from '../../domain/repository/VinculoRepository';
 
 export class VinculoRepositoryDatabase {
   db: Firestore;

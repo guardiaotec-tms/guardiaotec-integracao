@@ -11,7 +11,7 @@ export const listenIsLoggedIn = (setIsLoggedIn: any) => {
     if (user) {
       const uid = user.uid;
       setIsLoggedIn(true);
-      const isAdmin = uid === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
+      const isAdmin = uid === 'apylH29lhfghT8ccITg4PqXl4hg1';
       store.dispatch(setIsAdmin(isAdmin));
       store.dispatch(setUserId(uid));
       listenUser(uid);
