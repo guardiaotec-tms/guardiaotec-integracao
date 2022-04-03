@@ -84,6 +84,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
           targets={drivers}
           setFilteredTargets={setFilteredDrivers}
           filterField='nome'
+          filterName='Motorista'
         />
         <Box
           sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}

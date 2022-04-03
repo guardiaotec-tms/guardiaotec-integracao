@@ -14,12 +14,14 @@ type Props = {
   targets: any[];
   setFilteredTargets: (targets: any) => void;
   filterField: string;
+  filterName: string;
 };
 
 export const TargetFilter: FunctionComponent<Props> = ({
   targets,
   setFilteredTargets,
   filterField,
+  filterName,
 }) => {
   const [filterText, setFilterText] = useState('');
 
@@ -42,7 +44,7 @@ export const TargetFilter: FunctionComponent<Props> = ({
       <Box sx={{ mb: 1.3 }}>
         <TextField
           id='driverfilter'
-          label='Motorista'
+          label={filterName}
           value={filterText}
           onChange={handleChange}
         />

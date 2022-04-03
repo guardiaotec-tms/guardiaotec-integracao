@@ -11,11 +11,13 @@ import { RootState } from '../../../application/store/configureStore';
 import { useSelector } from 'react-redux';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
+import { TargetFilter } from '../Driver/DriverFilter';
 
 type Props = {};
 
 export const VehiclePage: FunctionComponent<Props> = ({}) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
   const { userId, isAdmin, user } = useSelector(
     (state: RootState) => state.auth
   );
@@ -59,7 +61,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
 
   const makeTableRows = () => {
     let rows: string[][] = [];
-    for (const vehicle of vehicles) {
+    for (const vehicle of filteredVehicles) {
       rows.push([
         vehicle.values.Marca,
         vehicle.values.Modelo,
@@ -98,6 +100,12 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       {isAdmin && <CompanyFilter />}
+      <TargetFilter
+        targets={vehicles}
+        setFilteredTargets={setFilteredVehicles}
+        filterField='Placa'
+        filterName='Placa'
+      />
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
