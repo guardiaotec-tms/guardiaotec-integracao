@@ -13,11 +13,13 @@ import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../application/store/configureStore';
 import { canRegister } from '../../../application/service/canRegister';
+import { TargetFilter } from '../Driver/DriverFilter';
 
 type Props = {};
 
 export const FTPage: FunctionComponent<Props> = ({}) => {
   const [fts, setFTs] = useState<FT[]>([]);
+  const [filteredFTs, setFilteredFTS] = useState<FT[]>([]);
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
@@ -31,7 +33,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
 
   const makeTableRows = () => {
     let rows: string[][] = [];
-    for (const ft of fts) {
+    for (const ft of filteredFTs) {
       rows.push([
         ft.values['Origem/Destino'],
         ft.values['Nº da FT'],
@@ -62,6 +64,12 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       {isAdmin && <CompanyFilter />}
+      <TargetFilter
+        targets={fts}
+        setFilteredTargets={setFilteredFTS}
+        filterField='Nº da FT'
+        filterName='Nº da FT'
+      />
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
