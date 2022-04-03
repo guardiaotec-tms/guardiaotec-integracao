@@ -9,11 +9,13 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
 import { RootState } from '../../../application/store/configureStore';
+import { TargetFilter } from '../Driver/DriverFilter';
 
 type Props = {};
 
 export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
 
   const makeTableRows = () => {
     let rows: string[][] = [];
-    for (const company of companies) {
+    for (const company of filteredCompanies) {
       rows.push([
         company.values['Numero de Contrato'],
         company.values['Código'],
@@ -59,6 +61,12 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
+      <TargetFilter
+        targets={companies}
+        setFilteredTargets={setFilteredCompanies}
+        filterField='Transportadora'
+        filterName='Filtrar por nome'
+      />
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
