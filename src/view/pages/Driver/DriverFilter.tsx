@@ -8,28 +8,30 @@ import {
   TextField,
 } from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Driver } from '../../../domain/entities/Driver';
+// import { Driver } from '../../../domain/entities/Driver';
 
 type Props = {
-  drivers: Driver[];
-  setFilteredDrivers: (drivers: Driver[]) => void;
+  targets: any[];
+  setFilteredTargets: (targets: any) => void;
+  filterField: string;
 };
 
-export const DriverFilter: FunctionComponent<Props> = ({
-  drivers,
-  setFilteredDrivers,
+export const TargetFilter: FunctionComponent<Props> = ({
+  targets,
+  setFilteredTargets,
+  filterField,
 }) => {
   const [filterText, setFilterText] = useState('');
 
   useEffect(() => {
-    if (!filterText) setFilteredDrivers(drivers);
-    let filteredDrivers = drivers.filter((d) => {
-      return d.values.nome
+    if (!filterText) setFilteredTargets(targets);
+    let filteredTargets = targets.filter((d: any) => {
+      return d.values[filterField]
         .toLowerCase()
         .includes(filterText.toLocaleLowerCase());
     });
-    setFilteredDrivers(filteredDrivers);
-  }, [filterText, drivers]);
+    setFilteredTargets(filteredTargets);
+  }, [filterText, targets]);
 
   const handleChange = (e: any) => {
     setFilterText(e.target.value);

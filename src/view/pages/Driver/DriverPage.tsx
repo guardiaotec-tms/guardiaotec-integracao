@@ -12,7 +12,7 @@ import moment from 'moment';
 import { RootState } from '../../../application/store/configureStore';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
-import { DriverFilter } from './DriverFilter';
+import { TargetFilter } from './DriverFilter';
 
 type Props = {};
 
@@ -80,9 +80,10 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
       <ResponsiveAppBar />
       <div>
         {isAdmin && <CompanyFilter />}
-        <DriverFilter
-          drivers={drivers}
-          setFilteredDrivers={setFilteredDrivers}
+        <TargetFilter
+          targets={drivers}
+          setFilteredTargets={setFilteredDrivers}
+          filterField='nome'
         />
         <Box
           sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
