@@ -8,11 +8,6 @@ import {
   TextField,
 } from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { dispatchSetSelectedLTU } from '../../../application/store/actions/company';
-import { RootState } from '../../../application/store/configureStore';
-import { useSelector } from 'react-redux';
-import { fetchFTs } from '../../../infra/services/fetchFTs';
-import { FT } from '../../../domain/entities/FT';
 import { Driver } from '../../../domain/entities/Driver';
 
 type Props = {
@@ -24,22 +19,17 @@ export const DriverFilter: FunctionComponent<Props> = ({
   drivers,
   setFilteredDrivers,
 }) => {
-  const [fts, setFTs] = useState<FT[]>([]);
   const [filterText, setFilterText] = useState('');
-  const { selectedLTU, adminSelectedCompanyId, userCompanyId } = useSelector(
-    (state: RootState) => state.companies
-  );
 
   useEffect(() => {
-    fetchFTs(setFTs);
-  }, [adminSelectedCompanyId, userCompanyId]);
-
-  useEffect(() => {
+    if (!filterText) setFilteredDrivers(drivers);
     let filteredDrivers = drivers.filter((d) => {
-      return d.nome.toLowerCase().includes(filterText.toLocaleLowerCase());
+      return d.values.nome
+        .toLowerCase()
+        .includes(filterText.toLocaleLowerCase());
     });
     setFilteredDrivers(filteredDrivers);
-  }, [filterText]);
+  }, [filterText, drivers]);
 
   const handleChange = (e: any) => {
     setFilterText(e.target.value);

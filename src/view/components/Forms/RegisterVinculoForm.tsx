@@ -95,7 +95,9 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
     {
       label: 'Motorista (CNH)',
       type: 'List Selection',
-      options: drivers.map((d) => d.nome.split(' ')[0] + ' ' + d.cnh),
+      options: drivers.map(
+        (d) => d.values.nome.split(' ')[0] + ' ' + d.values.cnh
+      ),
       id: 1,
       index: 1,
     },

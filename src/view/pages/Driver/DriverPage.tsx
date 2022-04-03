@@ -25,6 +25,8 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     (state: RootState) => state.companies
   );
 
+  console.log(drivers);
+
   const fetchDrivers = async (
     shouldGetAll: boolean,
     userCompanyId?: string
@@ -57,10 +59,10 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     let rows: string[][] = [];
     for (const driver of filteredDrivers) {
       rows.push([
-        driver.nome,
-        driver.contato,
-        driver.cnh,
-        moment(driver.vencimento).format('MM/YYYY'),
+        driver.values.nome,
+        driver.values.contato,
+        driver.values.cnh,
+        moment(driver.values.vencimento).format('MM/YYYY'),
       ]);
     }
     return rows;

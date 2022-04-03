@@ -60,12 +60,14 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({
       for (const key in state)
         if (!state[key]) throw new Error(`Campo ${key} inválido!`);
 
-      const driver = new Driver(
-        state.Nome,
-        state.CNH,
-        state.Contato,
-        state.Vencimento
-      );
+      const driverValues = {
+        nome: state.Nome,
+        cnh: state.CNH,
+        contato: state.Contato,
+        vencimento: state.Vencimento,
+      };
+
+      const driver = new Driver(driverValues);
       const repo = new DriverRepositoryDatabase();
 
       if (isAdmin && adminSelectedCompanyId) {

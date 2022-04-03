@@ -1,8 +1,10 @@
+type DriverValues = {
+  nome: string;
+  cnh: string;
+  contato: string;
+  vencimento: Date;
+};
+
 export class Driver {
-  constructor(
-    readonly nome: string,
-    readonly cnh: string,
-    readonly contato: string,
-    readonly vencimento: Date
-  ) {}
+  constructor(readonly values: DriverValues) {}
 }

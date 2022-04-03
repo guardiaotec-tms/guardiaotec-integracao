@@ -1,3 +1,4 @@
+import { Driver } from './../../domain/entities/Driver';
 import { SetDriversType } from './../../application/store/features/drivers/driversSlice';
 import { db } from './../../firebase/firebase';
 import {
@@ -13,7 +14,6 @@ import {
   DocumentData,
 } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
-import { Driver } from '../../domain/entities/Driver';
 import { DriverRepository } from './../../domain/repository/DriverRepository';
 
 // export class DriverRepositoryDatabase implements DriverRepository {
@@ -26,17 +26,17 @@ export class DriverRepositoryDatabase {
 
   async addDriver(driver: Driver, companyId: string): Promise<void> {
     const colRef = collection(this.db, `companies/${companyId}/drivers`);
-    const q = query(colRef, where('cnh', '==', driver.cnh));
+    const q = query(colRef, where('cnh', '==', driver.values.cnh));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.docs.length > 0)
       throw new Error('Motorista já cadastrado com essa cnh');
 
     const data = {
-      cnh: driver.cnh,
-      nome: driver.nome,
-      contato: driver.contato,
-      vencimento: driver.vencimento,
+      cnh: driver.values.cnh,
+      nome: driver.values.nome,
+      contato: driver.values.contato,
+      vencimento: driver.values.vencimento,
     };
 
     const driversCollectionRef = collection(
@@ -64,7 +64,7 @@ export class DriverRepositoryDatabase {
     querySnapshot.forEach((doc) => {
       const data: any = doc.data();
       data.vencimento = data.vencimento.toDate();
-      drivers.push(data);
+      drivers.push(new Driver(data));
     });
     return drivers;
   }
