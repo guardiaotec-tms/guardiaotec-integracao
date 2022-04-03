@@ -87,11 +87,11 @@ export const TableRowOptions: FunctionComponent<Props> = ({
         >
           <ListItemButton onClick={handleEdit}>
             <EditIcon></EditIcon>
-            <ListItemText primary='Edit Field' />
+            <ListItemText primary='Editar' />
           </ListItemButton>
           <ListItemButton onClick={handleDelete}>
             <DeleteIcon></DeleteIcon>
-            <ListItemText primary='Delete Field' />
+            <ListItemText primary='Deletar' />
           </ListItemButton>
         </List>
         {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}

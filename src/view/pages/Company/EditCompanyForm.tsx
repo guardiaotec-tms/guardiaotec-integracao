@@ -5,7 +5,7 @@ import { ResponsiveAppBar } from '../../components/Common/AppBar';
 
 type Props = {};
 
-export const RegisterCompanyPage: FunctionComponent<Props> = ({}) => {
+export const EditCompanyPage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
