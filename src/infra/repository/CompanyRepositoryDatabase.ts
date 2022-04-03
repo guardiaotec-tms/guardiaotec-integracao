@@ -6,6 +6,8 @@ import {
   query,
   getDocs,
   addDoc,
+  setDoc,
+  doc,
 } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { CompanyRepository } from './../../domain/repository/CompanyRepository';
@@ -26,6 +28,11 @@ export class CompanyRepositoryDatabase implements CompanyRepository {
       throw new Error('Transportadora com este CNPJ já foi cadastrada!');
 
     await addDoc(colRef, company.values);
+  }
+
+  async updateCompany(company: Company, companyId: string) {
+    const docRef = doc(this.db, `companies/${companyId}`);
+    await setDoc(docRef, company.values);
   }
 
   async getCompanies(): Promise<Company[]> {

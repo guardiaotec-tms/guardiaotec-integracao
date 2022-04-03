@@ -3,7 +3,11 @@ import TextField from '@mui/material/TextField';
 import { FormFieldStrategyProps } from './Types';
 import validator from 'validator';
 
-export const EmailFormField: FunctionComponent<FormFieldStrategyProps> = ({ label, onChange }) => {
+export const EmailFormField: FunctionComponent<FormFieldStrategyProps> = ({
+  value,
+  label,
+  onChange,
+}) => {
   const [helperText, setHelperText] = useState('');
 
   const handleChange = (event: any) => {
@@ -20,6 +24,7 @@ export const EmailFormField: FunctionComponent<FormFieldStrategyProps> = ({ labe
     <TextField
       helperText={helperText}
       error={!!helperText}
+      value={value || ''}
       label={label}
       onChange={handleChange}
       variant='outlined'

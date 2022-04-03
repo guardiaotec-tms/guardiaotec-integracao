@@ -23,6 +23,8 @@ const makeInitialFormState = (formFields: IFormField[], initialState?: any) => {
       state[field.label] = '';
     }
   }
+  console.log(state);
+
   return state;
 };
 

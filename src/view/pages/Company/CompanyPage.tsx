@@ -11,6 +11,7 @@ import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepo
 import { RootState } from '../../../application/store/configureStore';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
+import { EditCompanyForm } from '../../components/Forms/Company/EditCompanyForm';
 
 type Props = {};
 
@@ -18,13 +19,16 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const [inEdit, setInEdit] = useState(false);
+  const [targetCommandCompany, setTargetCommandCompany] = useState<Company>();
+
+  const fetchCompanies = async () => {
+    const repo = new CompanyRepositoryDatabase();
+    const companies = await repo.getCompanies();
+    setCompanies(companies);
+  };
 
   useEffect(() => {
-    const fetchCompanies = async () => {
-      const repo = new CompanyRepositoryDatabase();
-      const companies = await repo.getCompanies();
-      setCompanies(companies);
-    };
     fetchCompanies();
   }, []);
 
@@ -59,6 +63,15 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const onRowCommand = (command: RowCommand, row: string[]) => {
     console.log(command, row);
     console.log('onRowUpdate driverPage');
+    const company = companies.find((c) => c.values.CNPJ === row[3]);
+    if (!company) return;
+    setTargetCommandCompany(company);
+    if (command === 'edit') setInEdit(true);
+  };
+
+  const onEditClose = () => {
+    setInEdit(false);
+    fetchCompanies();
   };
 
   return (
@@ -89,6 +102,15 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
         tableRows={companiesTableRows}
         onRowCommand={onRowCommand}
       />
+      {inEdit && (
+        <EditCompanyForm
+          open={inEdit}
+          onClose={onEditClose}
+          company={targetCommandCompany!}
+          companyId={targetCommandCompany!.values.Id!}
+        />
+      )}
+      {/*// é uma dialog}*/}
     </div>
   );
 };

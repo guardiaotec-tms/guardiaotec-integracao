@@ -3,7 +3,11 @@ import TextField from '@mui/material/TextField';
 import { FormFieldStrategyProps } from './Types';
 import { isValidCNPJ } from './utils/isValidCNPJ';
 
-export const CNPJFormField: FunctionComponent<FormFieldStrategyProps> = ({ label, onChange }) => {
+export const CNPJFormField: FunctionComponent<FormFieldStrategyProps> = ({
+  value,
+  label,
+  onChange,
+}) => {
   const [helperText, setHelperText] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +26,7 @@ export const CNPJFormField: FunctionComponent<FormFieldStrategyProps> = ({ label
   return (
     <TextField
       label={label}
+      value={value || ''}
       variant='outlined'
       onChange={handleChange}
       helperText={helperText}
