@@ -12,11 +12,13 @@ import moment from 'moment';
 import { RootState } from '../../../application/store/configureStore';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
+import { DriverFilter } from './DriverFilter';
 
 type Props = {};
 
 export const DriverPage: FunctionComponent<Props> = ({}) => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [filteredDrivers, setFilteredDrivers] = useState<Driver[]>([]);
 
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
@@ -53,7 +55,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
 
   const makeTableRows = () => {
     let rows: string[][] = [];
-    for (const driver of drivers) {
+    for (const driver of filteredDrivers) {
       rows.push([
         driver.nome,
         driver.contato,
@@ -76,6 +78,10 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
       <ResponsiveAppBar />
       <div>
         {isAdmin && <CompanyFilter />}
+        <DriverFilter
+          drivers={drivers}
+          setFilteredDrivers={setFilteredDrivers}
+        />
         <Box
           sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
         >

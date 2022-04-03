@@ -34,7 +34,7 @@ import { Link } from 'react-router-dom';
 type Props = {};
 
 export const SignUpPage: FunctionComponent<Props> = ({}) => {
-  const userId = useSelector((state: RootState) => state.auth.userId);
+  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -108,7 +108,7 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
     setSuccessMessage(undefined);
   };
   //lovelove
-  const isAdmin = userId === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
+  //   const isAdmin = userId === '8apvlVyigrYY4cTJ9E2xl9LZvlS2';
 
   return (
     <>

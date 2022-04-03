@@ -8,7 +8,8 @@ export class UserRepositoryDatabase {
     };
 
     const serverUrl =
-      'https://us-central1-guardiaotec-tms-prototype.cloudfunctions.net/createUser';
+      //   'https://us-central1-guardiaotec-tms-prototype.cloudfunctions.net/createUser';
+      '';
 
     const response = await fetch(serverUrl, {
       method: 'POST',
