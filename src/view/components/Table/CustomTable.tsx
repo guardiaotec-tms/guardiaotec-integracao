@@ -9,6 +9,7 @@ import { CustomTableRow } from './CustomTableRow';
 import Paper from '@mui/material/Paper';
 // import { uid } from 'react-uid';
 import uuid from 'react-uuid';
+import { RowCommand } from './TableRowOptions';
 
 function createData(
   name: string,
@@ -31,13 +32,13 @@ const rows = [
 type Props = {
   tableHead: string[];
   tableRows: string[][];
-  onRowUpdate: (row: string[]) => void;
+  onRowCommand: (command: RowCommand, row: string[]) => void;
 };
 
 export const CustomTable: FunctionComponent<Props> = ({
   tableHead,
   tableRows,
-  onRowUpdate,
+  onRowCommand,
 }) => {
   return (
     <TableContainer component={Paper} sx={{ height: '100%' }}>
@@ -57,7 +58,7 @@ export const CustomTable: FunctionComponent<Props> = ({
         </TableHead>
         <TableBody>
           {tableRows.map((row, index) => (
-            <CustomTableRow row={row} key={index} onRowUpdate={onRowUpdate} />
+            <CustomTableRow row={row} key={index} onRowCommand={onRowCommand} />
             // <TableRow
             //   key={index}
             //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

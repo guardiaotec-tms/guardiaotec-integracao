@@ -11,7 +11,8 @@ import { RootState } from '../../../application/store/configureStore';
 import { useSelector } from 'react-redux';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
-import { TargetFilter } from '../Driver/DriverFilter';
+import { TargetFilter } from '../Common/TargetFilter';
+import { RowCommand } from '../../components/Table/TableRowOptions';
 
 type Props = {};
 
@@ -89,10 +90,12 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     'Renavam',
     'Capacidade(m3)',
     'Categoria',
+    '',
   ];
   const vehiclesTableRows = makeTableRows();
 
-  const onRowUpdate = () => {
+  const onRowCommand = (command: RowCommand, row: string[]) => {
+    console.log(command, row);
     console.log('onRowUpdate driverPage');
   };
 
@@ -122,7 +125,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
       <CustomTable
         tableHead={vehiclesTableHead}
         tableRows={vehiclesTableRows}
-        onRowUpdate={onRowUpdate}
+        onRowCommand={onRowCommand}
       />
     </div>
   );

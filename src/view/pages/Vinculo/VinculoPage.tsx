@@ -12,7 +12,8 @@ import { useSelector } from 'react-redux';
 import { fetchVinculos } from '../../../infra/services/fetchVinculos';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
-import { TargetFilter } from '../Driver/DriverFilter';
+import { TargetFilter } from '../Common/TargetFilter';
+import { RowCommand } from '../../components/Table/TableRowOptions';
 
 type Props = {};
 
@@ -60,12 +61,14 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
     'Veículo (Placa)',
     'LTU',
     'Nº da FT',
+    '',
   ];
 
   const vinculosTableRows = makeTableRows();
 
-  const onRowUpdate = () => {
-    console.log('onRowUpdate VinculoPage');
+  const onRowCommand = (command: RowCommand, row: string[]) => {
+    console.log(command, row);
+    console.log('onRowUpdate driverPage');
   };
 
   return (
@@ -94,7 +97,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
       <CustomTable
         tableHead={vinculosTableHead}
         tableRows={vinculosTableRows}
-        onRowUpdate={onRowUpdate}
+        onRowCommand={onRowCommand}
       />
     </div>
   );

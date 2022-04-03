@@ -17,19 +17,23 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // import { DeleteField } from '../../../../../../../NodeJS/Typescript/Formfy 2.0/client/src/views/components/FormFieldsManageTable/DeleteField';
 // import { IFormField } from '../../../../../../../NodeJS/Typescript/Formfy 2.0/client/src/domain/entities/FormField';
 
+export type RowCommand = 'edit' | 'delete';
+
 type Props = {
   // toggleOptionsPopover: () => void;
   // formId: number;
   // field: any;
+  onRowCommand: (command: RowCommand, row: string[]) => void;
+  row: string[];
 };
 
-export const TableRowOptions: FunctionComponent<Props> = (
-  {
-    // toggleOptionsPopover,
-    // formId,
-    // field,
-  }
-) => {
+export const TableRowOptions: FunctionComponent<Props> = ({
+  // toggleOptionsPopover,
+  // formId,
+  // field,
+  onRowCommand,
+  row,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -47,16 +51,14 @@ export const TableRowOptions: FunctionComponent<Props> = (
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const toggleInEditField = () => {
-    setInEditField((prev) => !prev);
+  const handleEdit = () => {
+    // setInEditField((prev) => !prev);
+    onRowCommand('edit', row);
   };
 
-  const onCloseEditField = () => {
-    setInEditField(false);
-    handleClose();
+  const handleDelete = () => {
+    onRowCommand('delete', row);
   };
-
-  const toggleInDeleteField = () => setInDeleteField((prev) => !prev);
 
   return (
     <div>
@@ -83,11 +85,11 @@ export const TableRowOptions: FunctionComponent<Props> = (
             </ListSubheader>
           }
         >
-          <ListItemButton onClick={toggleInEditField}>
+          <ListItemButton onClick={handleEdit}>
             <EditIcon></EditIcon>
             <ListItemText primary='Edit Field' />
           </ListItemButton>
-          <ListItemButton onClick={toggleInDeleteField}>
+          <ListItemButton onClick={handleDelete}>
             <DeleteIcon></DeleteIcon>
             <ListItemText primary='Delete Field' />
           </ListItemButton>

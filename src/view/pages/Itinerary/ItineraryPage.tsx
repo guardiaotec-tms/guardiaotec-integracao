@@ -13,6 +13,7 @@ import { RootState } from '../../../application/store/configureStore';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
 import { LTUFilter } from '../../components/Filter/LTUFilter';
+import { RowCommand } from '../../components/Table/TableRowOptions';
 
 type Props = {};
 
@@ -112,11 +113,13 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     'Horas',
     'Serviços',
     'Endereço',
+    '',
   ];
   const itinerariesTableRows = makeTableRows();
 
-  const onRowUpdate = () => {
-    console.log('onRowUpdate ItineraryPage');
+  const onRowCommand = (command: RowCommand, row: string[]) => {
+    console.log(command, row);
+    console.log('onRowUpdate driverPage');
   };
 
   return (
@@ -141,7 +144,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
       <CustomTable
         tableHead={itinerariesTableHead}
         tableRows={itinerariesTableRows}
-        onRowUpdate={onRowUpdate}
+        onRowCommand={onRowCommand}
       />
     </div>
   );

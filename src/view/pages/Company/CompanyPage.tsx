@@ -9,7 +9,8 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
 import { RootState } from '../../../application/store/configureStore';
-import { TargetFilter } from '../Driver/DriverFilter';
+import { TargetFilter } from '../Common/TargetFilter';
+import { RowCommand } from '../../components/Table/TableRowOptions';
 
 type Props = {};
 
@@ -51,10 +52,12 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
     'Contato',
     'Email',
     'Responsável',
+    '',
   ];
   const companiesTableRows = makeTableRows();
 
-  const onRowUpdate = (row: string[]) => {
+  const onRowCommand = (command: RowCommand, row: string[]) => {
+    console.log(command, row);
     console.log('onRowUpdate driverPage');
   };
 
@@ -84,7 +87,7 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
       <CustomTable
         tableHead={companiesTableHead}
         tableRows={companiesTableRows}
-        onRowUpdate={onRowUpdate}
+        onRowCommand={onRowCommand}
       />
     </div>
   );

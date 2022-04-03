@@ -1,17 +1,17 @@
 import { TableCell, TableRow } from '@mui/material';
 import React, { FunctionComponent } from 'react';
 import { uid } from 'react-uid';
-import { TableRowOptions } from './TableRowOptions';
+import { RowCommand, TableRowOptions } from './TableRowOptions';
 import uuid from 'react-uuid';
 
 type Props = {
   row: string[];
-  onRowUpdate: (row: string[]) => void;
+  onRowCommand: (command: RowCommand, row: string[]) => void;
 };
 
 export const CustomTableRow: FunctionComponent<Props> = ({
   row,
-  onRowUpdate,
+  onRowCommand,
 }) => {
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -22,9 +22,9 @@ export const CustomTableRow: FunctionComponent<Props> = ({
           </TableCell>
         );
       })}
-      {/* <TableCell align='center' sx={{ width: '10px' }}>
-        <TableRowOptions />
-      </TableCell> */}
+      <TableCell align='center' sx={{ width: '10px' }}>
+        <TableRowOptions onRowCommand={onRowCommand} row={row} />
+      </TableCell>
     </TableRow>
   );
 };

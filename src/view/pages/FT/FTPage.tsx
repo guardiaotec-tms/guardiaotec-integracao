@@ -13,7 +13,8 @@ import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../application/store/configureStore';
 import { canRegister } from '../../../application/service/canRegister';
-import { TargetFilter } from '../Driver/DriverFilter';
+import { TargetFilter } from '../Common/TargetFilter';
+import { RowCommand } from '../../components/Table/TableRowOptions';
 
 type Props = {};
 
@@ -53,11 +54,13 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     'Data de Vigencia Inicial',
     'Frequência',
     'Sentido',
+    '',
   ];
   const ftsTableRows = makeTableRows();
 
-  const onRowUpdate = () => {
-    console.log('onRowUpdate FTPage');
+  const onRowCommand = (command: RowCommand, row: string[]) => {
+    console.log(command, row);
+    console.log('onRowUpdate driverPage');
   };
 
   return (
@@ -86,7 +89,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
       <CustomTable
         tableHead={ftsTableHead}
         tableRows={ftsTableRows}
-        onRowUpdate={onRowUpdate}
+        onRowCommand={onRowCommand}
       />
     </div>
   );
