@@ -12,11 +12,13 @@ import { useSelector } from 'react-redux';
 import { fetchVinculos } from '../../../infra/services/fetchVinculos';
 import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
+import { TargetFilter } from '../Driver/DriverFilter';
 
 type Props = {};
 
 export const VinculoPage: FunctionComponent<Props> = ({}) => {
   const [vinculos, setVinculos] = useState<Vinculo[]>([]);
+  const [filteredVinculos, setFilteredVinculos] = useState<Vinculo[]>([]);
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
@@ -40,7 +42,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
 
   const makeTableRows = () => {
     let rows: string[][] = [];
-    for (const vinculo of vinculos) {
+    for (const vinculo of filteredVinculos) {
       rows.push([
         vinculo.values['Transportadora'],
         vinculo.values['Motorista (CNH)'],
@@ -70,6 +72,12 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       {isAdmin && <CompanyFilter />}
+      <TargetFilter
+        targets={vinculos}
+        setFilteredTargets={setFilteredVinculos}
+        filterField='LTU'
+        filterName='LTU'
+      />
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >
