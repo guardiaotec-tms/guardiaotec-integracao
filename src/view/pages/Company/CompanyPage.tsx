@@ -12,7 +12,7 @@ import { RootState } from '../../../application/store/configureStore';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditCompanyForm } from '../../components/Forms/Company/EditCompanyForm';
-import { DeleteConfirmDialog } from './DeleteConfirmDialog';
+import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
 
 type Props = {};
 
