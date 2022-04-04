@@ -8,6 +8,7 @@ import {
   addDoc,
   setDoc,
   doc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { CompanyRepository } from './../../domain/repository/CompanyRepository';
@@ -46,5 +47,11 @@ export class CompanyRepositoryDatabase implements CompanyRepository {
       companies.push(new Company(data));
     });
     return companies;
+  }
+
+  async deleteCompany(companyId: string) {
+    const docRef = doc(this.db, `companies/${companyId}`);
+    // await setDoc(docRef, company.values);
+    await deleteDoc(docRef);
   }
 }

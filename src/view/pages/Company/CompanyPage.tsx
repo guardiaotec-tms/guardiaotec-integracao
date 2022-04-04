@@ -20,6 +20,7 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const [inEdit, setInEdit] = useState(false);
+  const [inDelete, setInDelete] = useState(false);
   const [targetCommandCompany, setTargetCommandCompany] = useState<Company>();
 
   const fetchCompanies = async () => {
@@ -62,15 +63,20 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
     console.log(command, row);
-    console.log('onRowUpdate driverPage');
     const company = companies.find((c) => c.values.CNPJ === row[3]);
     if (!company) return;
     setTargetCommandCompany(company);
     if (command === 'edit') setInEdit(true);
+    if (command === 'delete') setInDelete(true);
   };
 
   const onEditClose = () => {
     setInEdit(false);
+    fetchCompanies();
+  };
+
+  const onDeleteClose = () => {
+    setInDelete(false);
     fetchCompanies();
   };
 
@@ -106,6 +112,14 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
         <EditCompanyForm
           open={inEdit}
           onClose={onEditClose}
+          company={targetCommandCompany!}
+          companyId={targetCommandCompany!.values.Id!}
+        />
+      )}
+      {inDelete && (
+        <DeleteCompanyConfirm
+          open={inDelete}
+          onClose={onDeleteClose}
           company={targetCommandCompany!}
           companyId={targetCommandCompany!.values.Id!}
         />
