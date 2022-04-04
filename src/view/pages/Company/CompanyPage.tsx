@@ -12,6 +12,7 @@ import { RootState } from '../../../application/store/configureStore';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditCompanyForm } from '../../components/Forms/Company/EditCompanyForm';
+import { DeleteConfirmDialog } from './DeleteConfirmDialog';
 
 type Props = {};
 
@@ -80,6 +81,12 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
     fetchCompanies();
   };
 
+  const onDelete = async (companyId: string) => {
+    const repo = new CompanyRepositoryDatabase();
+    console.log(companyId);
+    await repo.deleteCompany(companyId);
+  };
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -117,11 +124,12 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
         />
       )}
       {inDelete && (
-        <DeleteCompanyConfirm
+        <DeleteConfirmDialog
           open={inDelete}
           onClose={onDeleteClose}
-          company={targetCommandCompany!}
-          companyId={targetCommandCompany!.values.Id!}
+          targetId={targetCommandCompany!.values.Id!}
+          targetName={'Transportadora'}
+          onDelete={onDelete}
         />
       )}
       {/*// é uma dialog}*/}
