@@ -8,24 +8,11 @@ import { AlertSnackbar } from '../../Common/AlertSnackbar';
 import { RenderFormField } from '../../FormField/RenderFormField';
 import { CompanyRepositoryDatabase } from '../../../../infra/repository/CompanyRepositoryDatabase';
 import { Company } from '../../../../domain/entities/Company';
+import { makeInitialFormState } from '../Utils/makeInitialFormState';
 
 type Props = {
   onSave: (state: any) => void;
   initialState?: object;
-};
-
-const makeInitialFormState = (formFields: IFormField[], initialState?: any) => {
-  let state: any = {};
-  for (const field of formFields) {
-    if (initialState) {
-      state[field.label] = initialState[field.label];
-    } else {
-      state[field.label] = '';
-    }
-  }
-  console.log(state);
-
-  return state;
 };
 
 export const BaseCompayForm: FunctionComponent<Props> = ({
