@@ -11,6 +11,7 @@ import {
   collectionGroup,
   doc,
   setDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 
@@ -61,5 +62,10 @@ export class FTRepositoryDatabase {
   async getFTsFromCompanyId(companyId: string) {
     const query = collection(this.db, `companies/${companyId}/fts`);
     return this.getFTsFromQuery(query);
+  }
+
+  async deleteFT(companyId: string, ftId: string) {
+    const docRef = doc(this.db, `companies/${companyId}/fts/${ftId}`);
+    await deleteDoc(docRef);
   }
 }

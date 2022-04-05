@@ -16,6 +16,7 @@ import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditVehicleForm } from '../../components/Forms/Vehicle/EditVehicleForm';
 import { fetchVehicles } from '../../../infra/services/fetchVehicles';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
+import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
 
 type Props = {};
 
@@ -132,6 +133,15 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
           onClose={onEditClose}
           vehicle={targetCommandVehicle!}
           vehicleId={targetCommandVehicle!.values.Id!}
+        />
+      )}
+      {inDelete && (
+        <DeleteConfirmDialog
+          open={inDelete}
+          onClose={onDeleteClose}
+          targetId={targetCommandVehicle!.values.Id!}
+          targetName={'Veículo'}
+          onDelete={onDelete}
         />
       )}
     </div>

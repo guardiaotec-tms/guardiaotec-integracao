@@ -16,6 +16,8 @@ import { canRegister } from '../../../application/service/canRegister';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditFTForm } from '../../components/Forms/FT/EditFTForm';
+import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
+import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 
 type Props = {};
 
@@ -75,6 +77,21 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     fetchFTs(setFTs);
   };
 
+  const onDeleteClose = () => {
+    setInDelete(false);
+    fetchFTs(setFTs);
+  };
+
+  const onDelete = async (ftId: string) => {
+    const repo = new FTRepositoryDatabase();
+    let companyId = await selectCurrentRelatedCompanyId();
+    if (!companyId)
+      throw new Error(
+        'Id de transportadora não identificado! Impossível deletar Ficha Técnica!'
+      );
+    await repo.deleteFT(companyId, ftId);
+  };
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -109,6 +126,15 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
           onClose={onEditClose}
           ft={targetCommandFT!}
           ftId={targetCommandFT!.values.Id!}
+        />
+      )}
+      {inDelete && (
+        <DeleteConfirmDialog
+          open={inDelete}
+          onClose={onDeleteClose}
+          targetId={targetCommandFT!.values.Id!}
+          targetName={'Ficha Técnica'}
+          onDelete={onDelete}
         />
       )}
     </div>
