@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Box } from '@mui/material';
-import { RegisterItineraryForm } from '../../components/Forms/RegisterItineraryForm';
+import { RegisterItineraryForm } from '../../components/Forms/Itinerary/RegisterItineraryForm';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 
 type Props = {};

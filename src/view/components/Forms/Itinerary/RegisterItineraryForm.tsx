@@ -13,16 +13,9 @@ import { fetchFTs } from '../../../../infra/services/fetchFTs';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../application/store/configureStore';
 import { useItineraryFormFields } from './useItineraryFormFields';
+import { makeInitialFormState } from '../Utils/makeInitialFormState';
 
 type Props = {};
-
-const makeInitialFormState = (formFields: IFormField[]) => {
-  let state: any = {};
-  for (const field of formFields) {
-    state[field.label] = '';
-  }
-  return state;
-};
 
 export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});

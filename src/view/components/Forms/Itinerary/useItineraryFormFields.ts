@@ -58,4 +58,6 @@ export const useItineraryFormFields = () => {
     { label: 'Serviços', type: 'Short Text', id: 8, index: 8 },
     { label: 'Endereço', type: 'Short Text', id: 9, index: 9 },
   ];
+
+  return itineraryFields;
 };

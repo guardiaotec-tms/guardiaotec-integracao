@@ -9,9 +9,11 @@ import {
   Query,
   DocumentData,
   collectionGroup,
+  setDoc,
+  deleteDoc,
+  doc,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
-import { ItineraryRepository } from '../../domain/repository/ItineraryRepository';
 
 export class ItineraryRepositoryDatabase {
   db: Firestore;
@@ -22,14 +24,28 @@ export class ItineraryRepositoryDatabase {
 
   async addItinerary(itinerary: Itinerary, companyId: string): Promise<void> {
     const colRef = collection(this.db, `companies/${companyId}/itineraries`);
-    // // const q = query(colRef, where('Placa', '==', itinerary.values.Placa));
-    // const q = query(colRef);
-    // const querySnapshot = await getDocs(q);
-
-    // if (querySnapshot.docs.length > 0)
-    //   throw new Error('Itinerário já cadastrado!');
+    const q = query(
+      colRef,
+      where('LTU Correspondente', '==', itinerary.values['LTU Correspondente']),
+      where('Sequencia', '==', itinerary.values.Sequencia)
+    );
+    const qSnapshot = await getDocs(q);
+    if (qSnapshot.docs.length > 0)
+      throw new Error('Já existe um registro nessa LTU com essa sequência!');
 
     addDoc(colRef, itinerary.values);
+  }
+
+  async updateItinerary(
+    itinerary: Itinerary,
+    companyId: string,
+    itineraryId: string
+  ) {
+    const docRef = doc(
+      this.db,
+      `companies/${companyId}/itineraries/${itineraryId}`
+    );
+    await setDoc(docRef, itinerary.values);
   }
 
   async getItineraries(): Promise<Itinerary[]> {
@@ -40,14 +56,15 @@ export class ItineraryRepositoryDatabase {
   async getItinerariesFromQuery(query: Query<DocumentData>) {
     const querySnapshot = await getDocs(query);
     let itineraries: Itinerary[] = [];
-    querySnapshot.forEach((doc: any) => {
-      const data = doc.data();
+    querySnapshot.forEach((doc) => {
+      const data: any = doc.data();
       data['Chegada'] = data['Chegada'].toDate();
       data['Partida'] = data['Partida'].toDate();
       data['Serviço'] = data['Serviço'].toDate();
       data['Espera'] = data['Espera'].toDate();
       data['Livre'] = data['Livre'].toDate();
       data['Horas'] = data['Horas'].toDate();
+      data.Id = doc.id;
       itineraries.push(new Itinerary(data));
     });
     return itineraries;
@@ -67,5 +84,13 @@ export class ItineraryRepositoryDatabase {
     const group = collectionGroup(this.db, 'itineraries');
     const q = query(group, where('LTU Correspondente', '==', LTU));
     return this.getItinerariesFromQuery(q);
+  }
+
+  async deleteItinerary(companyId: string, itineraryId: string) {
+    const docRef = doc(
+      this.db,
+      `companies/${companyId}/itineraries/${itineraryId}`
+    );
+    await deleteDoc(docRef);
   }
 }

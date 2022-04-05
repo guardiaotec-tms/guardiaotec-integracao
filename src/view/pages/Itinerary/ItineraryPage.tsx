@@ -14,12 +14,18 @@ import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
 import { LTUFilter } from '../../components/Filter/LTUFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
+import { EditItineraryForm } from '../../components/Forms/Itinerary/EditItineraryForm';
+import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 
 type Props = {};
 
 export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+  const [inEdit, setInEdit] = useState(false);
+  const [inDelete, setInDelete] = useState(false);
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const [targetCommandItinerary, setTargetCommandItinerary] =
+    useState<Itinerary>();
   const { userCompanyId, adminSelectedCompanyId, selectedLTU } = useSelector(
     (state: RootState) => state.companies
   );
@@ -79,8 +85,31 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   const itinerariesTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    console.log(command, row);
-    console.log('onRowUpdate driverPage');
+    const itinerary = itineraries.find((i) => i.values.Sequencia === row[1]);
+    if (!itinerary) return;
+    setTargetCommandItinerary(itinerary);
+    if (command === 'edit') setInEdit(true);
+    if (command === 'delete') setInDelete(true);
+  };
+
+  const onEditClose = () => {
+    setInEdit(false);
+    fetchItinerariesFromLTU(selectedLTU);
+  };
+
+  const onDeleteClose = () => {
+    setInDelete(false);
+    fetchItinerariesFromLTU(selectedLTU);
+  };
+
+  const onDelete = async (ftId: string) => {
+    const repo = new ItineraryRepositoryDatabase();
+    let companyId = await selectCurrentRelatedCompanyId();
+    if (!companyId)
+      throw new Error(
+        'Id de transportadora não identificado! Impossível deletar Plano de Viagem!'
+      );
+    await repo.deleteItinerary(companyId, ftId);
   };
 
   return (
@@ -107,6 +136,14 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
         tableRows={itinerariesTableRows}
         onRowCommand={onRowCommand}
       />
+      {inEdit && (
+        <EditItineraryForm
+          open={inEdit}
+          onClose={onEditClose}
+          itinerary={targetCommandItinerary!}
+          itineraryId={targetCommandItinerary!.values.Id!}
+        />
+      )}
     </div>
   );
 };
