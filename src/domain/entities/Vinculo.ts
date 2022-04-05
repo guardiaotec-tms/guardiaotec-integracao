@@ -4,6 +4,7 @@ type VinculoValues = {
   'Veículo (Placa)': string;
   LTU: string;
   'Nº da FT': string;
+  Id?: string;
 };
 
 export class Vinculo {

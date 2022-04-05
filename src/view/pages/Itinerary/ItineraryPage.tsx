@@ -24,45 +24,6 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     (state: RootState) => state.companies
   );
 
-  // useEffect(() => {
-  //   const fetchItineraries = async () => {
-  //     const repo = new ItineraryRepositoryDatabase();
-  //     const itineraries = await repo.getItineraries();
-  //     setItineraries(itineraries);
-  //   };
-  //   fetchItineraries();
-  // }, []);
-
-  // const fetchItineraries = async (
-  //   shouldGetAll: boolean,
-  //   userCompanyId?: string
-  // ) => {
-  //   const repo = new ItineraryRepositoryDatabase();
-  //   //const itineraries = await repo.getItineraries();
-  //   if (shouldGetAll) {
-  //     const itineraries = await repo.adminGetAllItineraries();
-  //     setItineraries(itineraries);
-  //   } else {
-  //     const itineraries = await repo.getItinerariesFromCompanyId(
-  //       userCompanyId!
-  //     );
-  //     setItineraries(itineraries);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!isAdmin && userCompanyId) {
-  //     fetchItineraries(false, userCompanyId);
-  //   }
-  // }, [userCompanyId, userId]);
-
-  // useEffect(() => {
-  //   if (isAdmin && adminSelectedCompanyId) {
-  //     const shouldGetAll = adminSelectedCompanyId === 'Todas';
-  //     fetchItineraries(shouldGetAll, adminSelectedCompanyId);
-  //   }
-  // }, [isAdmin, adminSelectedCompanyId]);
-
   const fetchItinerariesFromLTU = async (LTU: string) => {
     const repo = new ItineraryRepositoryDatabase();
     const itineraries = await repo.getItinerariesFromLTU(LTU);

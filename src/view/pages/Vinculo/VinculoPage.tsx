@@ -14,26 +14,23 @@ import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
+import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
+import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
 
 type Props = {};
 
 export const VinculoPage: FunctionComponent<Props> = ({}) => {
   const [vinculos, setVinculos] = useState<Vinculo[]>([]);
   const [filteredVinculos, setFilteredVinculos] = useState<Vinculo[]>([]);
+  const [inEdit, setInEdit] = useState(false);
+  const [inDelete, setInDelete] = useState(false);
+  const [targetCommandVinculo, setTargetCommandVinculo] = useState<Vinculo>();
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
   const { userId, isAdmin, user } = useSelector(
     (state: RootState) => state.auth
   );
-  //   useEffect(() => {
-  //     const fetchVinculos = async () => {
-  //       const repo = new VinculoRepositoryDatabase();
-  //       const Vinculos = await repo.getVinculos();
-  //       setVinculos(Vinculos);
-  //     };
-  //     fetchVinculos();
-  //   }, []);
 
   useEffect(() => {
     if (adminSelectedCompanyId || userCompanyId) {
@@ -67,8 +64,31 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
   const vinculosTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    console.log(command, row);
-    console.log('onRowUpdate driverPage');
+    const vinculo = vinculos.find((v) => v.values['Nº da FT'] === row[4]);
+    if (!vinculo) return;
+    setTargetCommandVinculo(vinculo);
+    if (command === 'edit') setInEdit(true);
+    if (command === 'delete') setInDelete(true);
+  };
+
+  const onEditClose = () => {
+    setInEdit(false);
+    fetchVinculos(setVinculos);
+  };
+
+  const onDeleteClose = () => {
+    setInDelete(false);
+    fetchVinculos(setVinculos);
+  };
+
+  const onDelete = async (vinculoId: string) => {
+    const repo = new VinculoRepositoryDatabase();
+    let companyId = await selectCurrentRelatedCompanyId();
+    if (!companyId)
+      throw new Error(
+        'Id de transportadora não identificado! Impossível deletar veículo!'
+      );
+    await repo.deleteVinculo(companyId, vinculoId);
   };
 
   return (
@@ -99,6 +119,23 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
         tableRows={vinculosTableRows}
         onRowCommand={onRowCommand}
       />
+      {/* {inEdit && (
+        <EditVinculoForm
+          open={inEdit}
+          onClose={onEditClose}
+          vehicle={targetCommandVehicle!}
+          vehicleId={targetCommandVehicle!.values.Id!}
+        />
+      )} */}
+      {inDelete && (
+        <DeleteConfirmDialog
+          open={inDelete}
+          onClose={onDeleteClose}
+          targetId={targetCommandVinculo!.values.Id!}
+          targetName={'Vínculo'}
+          onDelete={onDelete}
+        />
+      )}
     </div>
   );
 };

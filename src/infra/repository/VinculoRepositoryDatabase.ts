@@ -9,6 +9,9 @@ import {
   DocumentData,
   Query,
   collectionGroup,
+  doc,
+  deleteDoc,
+  setDoc,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 
@@ -54,6 +57,11 @@ export class VinculoRepositoryDatabase {
     addDoc(vinculosColRef, vinculo.values);
   }
 
+  async updateVinculo(vinculo: Vinculo, companyId: string, vinculoId: string) {
+    const docRef = doc(this.db, `companies/${companyId}/vinculos/${vinculoId}`);
+    setDoc(docRef, vinculo.values);
+  }
+
   async getVinculos(): Promise<Vinculo[]> {
     const colRef = collection(this.db, 'vinculos');
     return this.getVinculosFromQuery(colRef);
@@ -62,8 +70,9 @@ export class VinculoRepositoryDatabase {
   async getVinculosFromQuery(query: Query<DocumentData>) {
     const querySnapshot = await getDocs(query);
     let vinculos: Vinculo[] = [];
-    querySnapshot.forEach((doc: any) => {
-      const data = doc.data();
+    querySnapshot.forEach((doc) => {
+      const data: any = doc.data();
+      data.Id = doc.id;
       vinculos.push(new Vinculo(data));
     });
     return vinculos;
@@ -77,5 +86,10 @@ export class VinculoRepositoryDatabase {
   async adminGetAllVinculos() {
     const group = collectionGroup(this.db, 'vinculos');
     return this.getVinculosFromQuery(group);
+  }
+
+  async deleteVinculo(companyId: string, vinculoId: string) {
+    const docRef = doc(this.db, `companies/${companyId}/vinculos/${vinculoId}`);
+    await deleteDoc(docRef);
   }
 }
