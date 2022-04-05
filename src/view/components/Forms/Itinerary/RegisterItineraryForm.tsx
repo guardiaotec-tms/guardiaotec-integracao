@@ -1,14 +1,18 @@
 import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
-import { AlertSnackbar } from '../Common/AlertSnackbar';
-import { RenderFormField } from '../FormField/RenderFormField';
-import { ItineraryRepositoryDatabase } from '../../../infra/repository/ItineraryRepositoryDatabase';
-import { Itinerary } from '../../../domain/entities/Itinerary';
-import { FT } from '../../../domain/entities/FT';
-import { fetchFTs } from '../../../infra/services/fetchFTs';
+import {
+  FormFieldValue,
+  IFormField,
+} from '../../../../domain/entities/FormField';
+import { AlertSnackbar } from '../../Common/AlertSnackbar';
+import { RenderFormField } from '../../FormField/RenderFormField';
+import { ItineraryRepositoryDatabase } from '../../../../infra/repository/ItineraryRepositoryDatabase';
+import { Itinerary } from '../../../../domain/entities/Itinerary';
+import { FT } from '../../../../domain/entities/FT';
+import { fetchFTs } from '../../../../infra/services/fetchFTs';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../application/store/configureStore';
+import { RootState } from '../../../../application/store/configureStore';
+import { useItineraryFormFields } from './useItineraryFormFields';
 
 type Props = {};
 
@@ -34,27 +38,7 @@ export const RegisterItineraryForm: FunctionComponent<Props> = ({}) => {
     fetchFTs(setFTs);
   }, []);
 
-  const itineraryFields: IFormField[] = [
-    {
-      label: 'LTU Correspondente',
-      type: 'List Selection',
-      options: fts.map((ft) => ft.values['Nº da Linha']),
-      id: 10,
-      index: 10,
-    },
-    { label: 'Sequencia', type: 'Short Text', id: 0, index: 0 },
-    { label: 'CTO', type: 'Short Text', id: 12, index: 0 },
-    { label: 'Ponto De Parada', type: 'Short Text', id: 11, index: 1 },
-    { label: 'KM', type: 'Short Text', id: 1, index: 1 },
-    { label: 'Chegada', type: 'Time', id: 2, index: 2 },
-    { label: 'Partida', type: 'Time', id: 3, index: 3 },
-    { label: 'Serviço', type: 'Time', id: 4, index: 4 },
-    { label: 'Espera', type: 'Time', id: 5, index: 5 },
-    { label: 'Livre', type: 'Time', id: 6, index: 6 },
-    { label: 'Horas', type: 'Time', id: 7, index: 7 },
-    { label: 'Serviços', type: 'Short Text', id: 8, index: 8 },
-    { label: 'Endereço', type: 'Short Text', id: 9, index: 9 },
-  ];
+  const itineraryFields = useItineraryFormFields();
 
   const startState = () => setState(makeInitialFormState(itineraryFields));
 
