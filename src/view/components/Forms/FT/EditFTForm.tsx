@@ -5,23 +5,24 @@ import { Driver } from '../../../../domain/entities/Driver';
 import { RootState } from '../../../../application/store/configureStore';
 import { useSelector } from 'react-redux';
 import { makeInitialFormState } from '../Utils/makeInitialFormState';
-import { BaseVehicleForm } from './BaseVehicleForm';
-import { vehicleFormFields } from './vehicleFormFields';
-import { VehicleRepositoryDatabase } from '../../../../infra/repository/VehicleRepositoryDatabase';
-import { Vehicle } from '../../../../domain/entities/Vehicle';
+import { ftFormFields } from './ftFormFields';
+import { FT } from '../../../../domain/entities/FT';
+import { BaseFTForm } from './BaseFTForm';
+import { selectCurrentRelatedCompanyId } from '../../../../infra/services/selectCurrentRelatedCompanyId';
+import { FTRepositoryDatabase } from '../../../../infra/repository/FTRepositoryDatabase';
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  vehicle: Vehicle;
-  vehicleId: string;
+  ft: FT;
+  ftId: string;
 };
 
-export const EditVehicleForm: FunctionComponent<Props> = ({
+export const EditFTForm: FunctionComponent<Props> = ({
   open,
   onClose,
-  vehicle,
-  vehicleId,
+  ft,
+  ftId,
 }) => {
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
@@ -32,17 +33,17 @@ export const EditVehicleForm: FunctionComponent<Props> = ({
   );
 
   const resetState = (setState: any) =>
-    setState(makeInitialFormState(vehicleFormFields()));
+    setState(makeInitialFormState(ftFormFields()));
 
   useEffect(() => {
     let initialState: any = {};
-    for (const field in vehicle.values) {
+    for (const field in ft.values) {
       //@ts-ignore
-      initialState[field] = vehicle.values[field];
+      initialState[field] = ft.values[field];
     }
     console.log(initialState);
     setInitialState(initialState);
-  }, [vehicle]);
+  }, [ft]);
 
   const onAlertClose = () => {
     setError(undefined);
@@ -53,26 +54,24 @@ export const EditVehicleForm: FunctionComponent<Props> = ({
     try {
       for (const key in state)
         if (!state[key]) throw new Error(`Campo ${key} inválido!`);
-
-      const vehicle = new Vehicle(state);
-      const repo = new VehicleRepositoryDatabase();
-      if (isAdmin && adminSelectedCompanyId) {
-        await repo.updateVehicle(vehicle, adminSelectedCompanyId, vehicleId);
-        setSuccessMessage('Veículo atualizado!');
-        resetState(setState);
-      } else if (userCompanyId) {
-        await repo.updateVehicle(vehicle, userCompanyId, vehicleId);
-        setSuccessMessage('Veículo atualizado!');
-        resetState(setState);
-      }
+      const ft = new FT(state);
+      const repo = new FTRepositoryDatabase();
+      const companyId = selectCurrentRelatedCompanyId();
+      if (!companyId)
+        throw new Error(
+          'Id de transportadora não identificado! Impossível salvar FT!'
+        );
+      await repo.updateFT(ft, adminSelectedCompanyId, ftId);
+      setSuccessMessage('Ficha Técnica atualizada!');
+      resetState(setState);
     } catch (error: any) {
       setError(error.message);
     }
   };
 
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby={'EditVehicleForm'}>
-      <BaseVehicleForm onSave={onSave} initialState={initialState} />
+    <Dialog open={open} onClose={onClose} aria-labelledby={'EditFTForm'}>
+      <BaseFTForm onSave={onSave} initialState={initialState} />
       <AlertSnackbar
         open={!!successMessage}
         onClose={onAlertClose}

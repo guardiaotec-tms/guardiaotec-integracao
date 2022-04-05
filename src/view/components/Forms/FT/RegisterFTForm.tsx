@@ -1,22 +1,19 @@
 import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
-import { AlertSnackbar } from '../Common/AlertSnackbar';
-import { RenderFormField } from '../FormField/RenderFormField';
-import { FTRepositoryDatabase } from '../../../infra/repository/FTRepositoryDatabase';
-import { FT } from '../../../domain/entities/FT';
+import {
+  FormFieldValue,
+  IFormField,
+} from '../../../../domain/entities/FormField';
+import { AlertSnackbar } from '../../Common/AlertSnackbar';
+import { RenderFormField } from '../../FormField/RenderFormField';
+import { FTRepositoryDatabase } from '../../../../infra/repository/FTRepositoryDatabase';
+import { FT } from '../../../../domain/entities/FT';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../application/store/configureStore';
+import { RootState } from '../../../../application/store/configureStore';
+import { ftFormFields } from './ftFormFields';
+import { makeInitialFormState } from '../Utils/makeInitialFormState';
 
 type Props = {};
-
-const makeInitialFormState = (formFields: IFormField[]) => {
-  let state: any = {};
-  for (const field of formFields) {
-    state[field.label] = '';
-  }
-  return state;
-};
 
 export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
@@ -26,29 +23,7 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
-  const ftFields: IFormField[] = [
-    { label: 'Origem/Destino', type: 'Short Text' },
-    { label: 'Nº da FT', type: 'Short Text' },
-    { label: 'Nº da Linha', type: 'Short Text' },
-    { label: 'Data de Vigencia Inicial', type: 'Date' },
-    {
-      label: 'Frequência',
-      type: 'Checkbox',
-      options: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-    },
-    { label: 'Sentido', type: 'Short Text' },
-    // { label: 'Sequencia', type: 'Short Text' },
-    // { label: 'Ponto De Parada', type: 'Short Text' },
-    // { label: 'Chegada', type: 'Date and Time' },
-    // { label: 'Partida', type: 'Date and Time' },
-    // { label: 'Serviço', type: 'Short Text' },
-    // { label: 'Espera', type: 'Short Text' },
-    // { label: 'Livre', type: 'Short Text' },
-    // { label: 'Horas', type: 'Short Text' },
-    // { label: 'Serviços', type: 'Short Text' },
-    // { label: 'Endereço', type: 'Short Text' },
-    // { label: 'LTU', type: 'Short Text' },
-  ];
+  const ftFields = ftFormFields();
 
   const startState = () => setState(makeInitialFormState(ftFields));
 

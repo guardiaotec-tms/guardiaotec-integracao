@@ -1,12 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import { Vehicle } from '../../../../domain/entities/Vehicle';
-import {
-  FormFieldValue,
-  IFormField,
-} from '../../../../domain/entities/FormField';
 import { AlertSnackbar } from '../../Common/AlertSnackbar';
-import { RenderFormField } from '../../FormField/RenderFormField';
 import { VehicleRepositoryDatabase } from '../../../../infra/repository/VehicleRepositoryDatabase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../application/store/configureStore';
@@ -17,7 +11,6 @@ import { makeInitialFormState } from '../Utils/makeInitialFormState';
 type Props = {};
 
 export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
-  const [state, setState] = useState<any>({});
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
@@ -33,7 +26,7 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
     setSuccessMessage(undefined);
   };
 
-  const onSave = async (state: any) => {
+  const onSave = async (state: any, setState: any) => {
     try {
       for (const key in state)
         if (!state[key]) throw new Error(`Campo ${key} inválido!`);

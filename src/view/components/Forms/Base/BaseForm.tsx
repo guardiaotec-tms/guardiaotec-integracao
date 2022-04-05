@@ -22,10 +22,6 @@ export const BaseForm: FunctionComponent<Props> = ({
 }) => {
   const [state, setState] = useState<any>({});
 
-  //   console.log(initialState);
-  console.log(state);
-  console.log(initialState);
-
   const startState = () =>
     setState(makeInitialFormState(formFields, initialState));
 

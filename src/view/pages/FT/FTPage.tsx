@@ -15,21 +15,25 @@ import { RootState } from '../../../application/store/configureStore';
 import { canRegister } from '../../../application/service/canRegister';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
+import { EditFTForm } from '../../components/Forms/FT/EditFTForm';
 
 type Props = {};
 
 export const FTPage: FunctionComponent<Props> = ({}) => {
   const [fts, setFTs] = useState<FT[]>([]);
   const [filteredFTs, setFilteredFTS] = useState<FT[]>([]);
+  const [inEdit, setInEdit] = useState(false);
+  const [inDelete, setInDelete] = useState(false);
+  const [targetCommandFT, setTargetCommandFT] = useState<FT>();
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
 
   useEffect(() => {
-    if (adminSelectedCompanyId || userCompanyId) {
-      fetchFTs(setFTs);
-    }
+    fetchFTs(setFTs);
+    // if (adminSelectedCompanyId || userCompanyId) {
+    // }
   }, [adminSelectedCompanyId, userCompanyId]);
 
   const makeTableRows = () => {
@@ -59,8 +63,16 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   const ftsTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    console.log(command, row);
-    console.log('onRowUpdate driverPage');
+    const ft = fts.find((ft) => ft.values['Nº da FT'] === row[1]);
+    if (!ft) return;
+    setTargetCommandFT(ft);
+    if (command === 'edit') setInEdit(true);
+    if (command === 'delete') setInDelete(true);
+  };
+
+  const onEditClose = () => {
+    setInEdit(false);
+    fetchFTs(setFTs);
   };
 
   return (
@@ -91,6 +103,14 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
         tableRows={ftsTableRows}
         onRowCommand={onRowCommand}
       />
+      {inEdit && (
+        <EditFTForm
+          open={inEdit}
+          onClose={onEditClose}
+          ft={targetCommandFT!}
+          ftId={targetCommandFT!.values.Id!}
+        />
+      )}
     </div>
   );
 };

@@ -32,31 +32,6 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     (state: RootState) => state.companies
   );
 
-  // const fetchVehicles = async (shouldGetAll: boolean, companyId?: string) => {
-  //   const repo = new VehicleRepositoryDatabase();
-  //   if (shouldGetAll) {
-  //     console.log('here');
-  //     const vehicles = await repo.adminGetAllVehicles();
-  //     setVehicles(vehicles);
-  //   } else {
-  //     const vehicles = await repo.getVehiclesFromCompanyId(companyId!);
-  //     setVehicles(vehicles);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!isAdmin && userCompanyId) {
-  //     fetchVehicles(false, userCompanyId);
-  //   }
-  // }, [userCompanyId, userId]);
-
-  // useEffect(() => {
-  //   if (isAdmin && adminSelectedCompanyId) {
-  //     const shouldGetAll = adminSelectedCompanyId === 'Todas';
-  //     fetchVehicles(shouldGetAll, adminSelectedCompanyId);
-  //   }
-  // }, [isAdmin, adminSelectedCompanyId]);
-
   useEffect(() => {
     fetchVehicles(setVehicles);
   }, [adminSelectedCompanyId, userCompanyId]);

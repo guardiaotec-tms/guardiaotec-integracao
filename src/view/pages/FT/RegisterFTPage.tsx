@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Box } from '@mui/material';
-import { RegisterFTForm } from '../../components/Forms/RegisterFTForm';
+import { RegisterFTForm } from '../../components/Forms/FT/RegisterFTForm';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 
 type Props = {};
