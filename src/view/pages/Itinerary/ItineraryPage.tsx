@@ -16,6 +16,7 @@ import { LTUFilter } from '../../components/Filter/LTUFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditItineraryForm } from '../../components/Forms/Itinerary/EditItineraryForm';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
+import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
 
 type Props = {};
 
@@ -107,7 +108,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
     let companyId = await selectCurrentRelatedCompanyId();
     if (!companyId)
       throw new Error(
-        'Id de transportadora não identificado! Impossível deletar Plano de Viagem!'
+        'Id de transportadora não identificado! Impossível deletar linha do Plano de Viagem!'
       );
     await repo.deleteItinerary(companyId, ftId);
   };
@@ -142,6 +143,15 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
           onClose={onEditClose}
           itinerary={targetCommandItinerary!}
           itineraryId={targetCommandItinerary!.values.Id!}
+        />
+      )}
+      {inDelete && (
+        <DeleteConfirmDialog
+          open={inDelete}
+          onClose={onDeleteClose}
+          targetId={targetCommandItinerary!.values.Id!}
+          targetName={'Linha do Plano de Viagem'}
+          onDelete={onDelete}
         />
       )}
     </div>
