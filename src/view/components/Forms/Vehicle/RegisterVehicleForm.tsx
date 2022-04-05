@@ -10,16 +10,11 @@ import { RenderFormField } from '../../FormField/RenderFormField';
 import { VehicleRepositoryDatabase } from '../../../../infra/repository/VehicleRepositoryDatabase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../application/store/configureStore';
+import { BaseVehicleForm } from './BaseVehicleForm';
+import { vehicleFormFields } from './vehicleFormFields';
+import { makeInitialFormState } from '../Utils/makeInitialFormState';
 
 type Props = {};
-
-const makeInitialFormState = (formFields: IFormField[]) => {
-  let state: any = {};
-  for (const field of formFields) {
-    state[field.label] = '';
-  }
-  return state;
-};
 
 export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
   const [state, setState] = useState<any>({});
@@ -29,60 +24,30 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
-  //MARCA	MODELO	COR 	ANO FABRICAÇÃO 	ANO MODELO 	PLACA 	CAPACIDADE DE CARGA  m3
-  const driverFields: IFormField[] = [
-    { label: 'Marca', type: 'Short Text', id: 0, index: 0 },
-    { label: 'Modelo', type: 'Short Text', id: 1, index: 1 },
-    { label: 'Cor', type: 'Short Text', id: 2, index: 2 },
-    { label: 'Ano Fabricação', type: 'Year', id: 3, index: 3 },
-    { label: 'Ano Modelo', type: 'Year', id: 4, index: 4 },
-    { label: 'Placa', type: 'Short Text', id: 5, index: 5 },
-    { label: 'Chassi', type: 'Short Text', id: 7, index: 7 },
-    { label: 'Renavam', type: 'Short Text', id: 8, index: 8 },
-    { label: 'Capacidade(m3)', type: 'Short Text', id: 6, index: 6 },
-    {
-      label: 'Categoria',
-      type: 'List Selection',
-      options: ['Leve', 'Pesado'],
-      id: 9,
-      index: 9,
-    },
-  ];
 
-  const startState = () => setState(makeInitialFormState(driverFields));
-
-  useEffect(() => {
-    startState();
-  }, []);
-
-  const onChange = (label: string, value: FormFieldValue) => {
-    setState({ ...state, [label]: value });
-  };
+  const resetState = (setState: any) =>
+    setState(makeInitialFormState(vehicleFormFields()));
 
   const onAlertClose = () => {
     setError(undefined);
     setSuccessMessage(undefined);
   };
 
-  const onSave = async () => {
+  const onSave = async (state: any) => {
     try {
       for (const key in state)
         if (!state[key]) throw new Error(`Campo ${key} inválido!`);
 
       const vehicle = new Vehicle(state);
       const repo = new VehicleRepositoryDatabase();
-      // await repo.addVehicle(vehicle, userCompanyId);
-      // setSuccessMessage('Veículo cadastrado!');
       if (isAdmin && adminSelectedCompanyId) {
         await repo.addVehicle(vehicle, adminSelectedCompanyId);
-        setSuccessMessage('Motorista cadastrado!');
-        // resetState();
-        startState();
+        setSuccessMessage('Veículo cadastrado!');
+        resetState(setState);
       } else if (userCompanyId) {
         await repo.addVehicle(vehicle, userCompanyId);
-        setSuccessMessage('Motorista cadastrado!');
-        // resetState();
-        startState();
+        setSuccessMessage('Veículo cadastrado!');
+        resetState(setState);
       }
     } catch (error: any) {
       setError(error.message);
@@ -90,30 +55,8 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
   };
 
   return (
-    <Card sx={{ width: '400px', padding: '10px' }}>
-      <CardHeader title='Cadastro de Veículo' subheader='' />
-      {driverFields.map((field: IFormField) => {
-        return (
-          <Box sx={{ mb: '10px' }} key={field.id}>
-            <RenderFormField
-              field={field}
-              onChange={onChange}
-              value={state[field.label]}
-            />
-          </Box>
-        );
-      })}
-
-      <CardActions>
-        <Button
-          variant='contained'
-          color='primary'
-          size='small'
-          onClick={onSave}
-        >
-          Salvar
-        </Button>
-      </CardActions>
+    <div>
+      <BaseVehicleForm onSave={onSave} />
       <AlertSnackbar open={!!error} onClose={onAlertClose} severity='warning'>
         {error}
       </AlertSnackbar>
@@ -124,6 +67,6 @@ export const RegisterVehicleForm: FunctionComponent<Props> = ({}) => {
       >
         {successMessage}
       </AlertSnackbar>
-    </Card>
+    </div>
   );
 };
