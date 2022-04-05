@@ -14,6 +14,7 @@ import {
   DocumentData,
   setDoc,
   doc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
 import { DriverRepository } from './../../domain/repository/DriverRepository';
@@ -86,5 +87,10 @@ export class DriverRepositoryDatabase {
   async adminGetAllDrivers() {
     const driversQuery = query(collectionGroup(db, 'drivers'));
     return this.getDriversFromQuery(driversQuery);
+  }
+
+  async deleteDriver(companyId: string, driverId: string) {
+    const docRef = doc(this.db, `companies/${companyId}/drivers/${driverId}`);
+    await deleteDoc(docRef);
   }
 }

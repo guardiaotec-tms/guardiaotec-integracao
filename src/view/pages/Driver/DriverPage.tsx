@@ -16,6 +16,8 @@ import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditDriverForm } from '../../components/Forms/Driver/EditDriverForm';
 import { fetchDrivers } from '../../../infra/services/fetchDrivers';
+import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
+import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 
 type Props = {};
 
@@ -69,6 +71,21 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     fetchDrivers(setDrivers);
   };
 
+  const onDeleteClose = () => {
+    setInDelete(false);
+    fetchDrivers(setDrivers);
+  };
+
+  const onDelete = async (driverId: string) => {
+    const repo = new DriverRepositoryDatabase();
+    let companyId = await selectCurrentRelatedCompanyId();
+    if (!companyId)
+      throw new Error(
+        'Id de transportadora não identificado! Impossível deletar motorista!'
+      );
+    await repo.deleteDriver(companyId, driverId);
+  };
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -107,15 +124,15 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
           driverId={targetCommandDriver!.values.Id!}
         />
       )}
-      {/* {inDelete && (
+      {inDelete && (
         <DeleteConfirmDialog
           open={inDelete}
           onClose={onDeleteClose}
-          targetId={targetCommandCompany!.values.Id!}
-          targetName={'Transportadora'}
+          targetId={targetCommandDriver!.values.Id!}
+          targetName={'Motorista'}
           onDelete={onDelete}
         />
-      )} */}
+      )}
     </div>
   );
 };
