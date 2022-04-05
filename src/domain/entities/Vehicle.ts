@@ -9,6 +9,7 @@ type VehicleInput = {
   Chassi: string;
   Renavam: string;
   Categoria: string;
+  Id?: string;
 };
 
 export class Vehicle {

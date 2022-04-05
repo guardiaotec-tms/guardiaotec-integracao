@@ -9,6 +9,9 @@ import {
   DocumentData,
   Query,
   collectionGroup,
+  deleteDoc,
+  doc,
+  setDoc,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 import { VehicleRepository } from '../../domain/repository/VehicleRepository';
@@ -31,6 +34,11 @@ export class VehicleRepositoryDatabase {
     addDoc(colRef, vehicle.values);
   }
 
+  async updateVehicle(vehicle: Vehicle, companyId: string, vehicleId: string) {
+    const docRef = doc(this.db, `companies/${companyId}/vehicles/${vehicleId}`);
+    setDoc(docRef, vehicle.values);
+  }
+
   async getVehicles(): Promise<Vehicle[]> {
     const colRef = collection(this.db, 'vehicles');
     // const q = query(colRef);
@@ -40,10 +48,11 @@ export class VehicleRepositoryDatabase {
   async getVehiclesFromQuery(query: Query<DocumentData>): Promise<Vehicle[]> {
     const querySnapshot = await getDocs(query);
     let vehicles: Vehicle[] = [];
-    querySnapshot.forEach((doc: any) => {
-      const data = doc.data();
+    querySnapshot.forEach((doc) => {
+      const data: any = doc.data();
       data['Ano Fabricação'] = data['Ano Fabricação'].toDate();
       data['Ano Modelo'] = data['Ano Modelo'].toDate();
+      data.Id = doc.id;
       vehicles.push(new Vehicle(data));
     });
     return vehicles;
@@ -57,5 +66,10 @@ export class VehicleRepositoryDatabase {
   async adminGetAllVehicles() {
     const q = collectionGroup(this.db, 'vehicles');
     return this.getVehiclesFromQuery(q);
+  }
+
+  async deleteVehicle(companyId: string, vehicleId: string) {
+    const docRef = doc(this.db, `companies/${companyId}/vehicles/${vehicleId}`);
+    await deleteDoc(docRef);
   }
 }

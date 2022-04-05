@@ -13,6 +13,9 @@ import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
+import { EditVehicleForm } from '../../components/Forms/Vehicle/EditVehicleForm';
+import { fetchVehicles } from '../../../infra/services/fetchVehicles';
+import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 
 type Props = {};
 
@@ -29,30 +32,34 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     (state: RootState) => state.companies
   );
 
-  const fetchVehicles = async (shouldGetAll: boolean, companyId?: string) => {
-    const repo = new VehicleRepositoryDatabase();
-    if (shouldGetAll) {
-      console.log('here');
-      const vehicles = await repo.adminGetAllVehicles();
-      setVehicles(vehicles);
-    } else {
-      const vehicles = await repo.getVehiclesFromCompanyId(companyId!);
-      setVehicles(vehicles);
-    }
-  };
+  // const fetchVehicles = async (shouldGetAll: boolean, companyId?: string) => {
+  //   const repo = new VehicleRepositoryDatabase();
+  //   if (shouldGetAll) {
+  //     console.log('here');
+  //     const vehicles = await repo.adminGetAllVehicles();
+  //     setVehicles(vehicles);
+  //   } else {
+  //     const vehicles = await repo.getVehiclesFromCompanyId(companyId!);
+  //     setVehicles(vehicles);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!isAdmin && userCompanyId) {
+  //     fetchVehicles(false, userCompanyId);
+  //   }
+  // }, [userCompanyId, userId]);
+
+  // useEffect(() => {
+  //   if (isAdmin && adminSelectedCompanyId) {
+  //     const shouldGetAll = adminSelectedCompanyId === 'Todas';
+  //     fetchVehicles(shouldGetAll, adminSelectedCompanyId);
+  //   }
+  // }, [isAdmin, adminSelectedCompanyId]);
 
   useEffect(() => {
-    if (!isAdmin && userCompanyId) {
-      fetchVehicles(false, userCompanyId);
-    }
-  }, [userCompanyId, userId]);
-
-  useEffect(() => {
-    if (isAdmin && adminSelectedCompanyId) {
-      const shouldGetAll = adminSelectedCompanyId === 'Todas';
-      fetchVehicles(shouldGetAll, adminSelectedCompanyId);
-    }
-  }, [isAdmin, adminSelectedCompanyId]);
+    fetchVehicles(setVehicles);
+  }, [adminSelectedCompanyId, userCompanyId]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -96,6 +103,26 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     if (command === 'delete') setInDelete(true);
   };
 
+  const onEditClose = () => {
+    setInEdit(false);
+    fetchVehicles(setVehicles);
+  };
+
+  const onDeleteClose = () => {
+    setInDelete(false);
+    fetchVehicles(setVehicles);
+  };
+
+  const onDelete = async (vehicleId: string) => {
+    const repo = new VehicleRepositoryDatabase();
+    let companyId = await selectCurrentRelatedCompanyId();
+    if (!companyId)
+      throw new Error(
+        'Id de transportadora não identificado! Impossível deletar veículo!'
+      );
+    await repo.deleteVehicle(companyId, vehicleId);
+  };
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -124,6 +151,14 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
         tableRows={vehiclesTableRows}
         onRowCommand={onRowCommand}
       />
+      {inEdit && (
+        <EditVehicleForm
+          open={inEdit}
+          onClose={onEditClose}
+          vehicle={targetCommandVehicle!}
+          vehicleId={targetCommandVehicle!.values.Id!}
+        />
+      )}
     </div>
   );
 };
