@@ -1,8 +1,6 @@
 import { store } from '../../application/store/configureStore';
 
-export const selectCurrentRelatedCompanyId = async (): Promise<
-  string | undefined
-> => {
+export const selectCurrentRelatedCompanyId = (): string | undefined => {
   const { user, isAdmin } = store.getState().auth;
   const { adminSelectedCompanyId, userCompanyId } = store.getState().companies;
 

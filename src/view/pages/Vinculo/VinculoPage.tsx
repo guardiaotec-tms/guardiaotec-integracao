@@ -16,6 +16,7 @@ import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
+import { EditVinculoForm } from '../../components/Forms/Vinculo/EditVinculoForm';
 
 type Props = {};
 
@@ -119,14 +120,14 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
         tableRows={vinculosTableRows}
         onRowCommand={onRowCommand}
       />
-      {/* {inEdit && (
+      {inEdit && (
         <EditVinculoForm
           open={inEdit}
           onClose={onEditClose}
-          vehicle={targetCommandVehicle!}
-          vehicleId={targetCommandVehicle!.values.Id!}
+          vinculo={targetCommandVinculo!}
+          vinculoId={targetCommandVinculo!.values.Id!}
         />
-      )} */}
+      )}
       {inDelete && (
         <DeleteConfirmDialog
           open={inDelete}
