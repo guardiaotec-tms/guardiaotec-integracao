@@ -1,25 +1,17 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import { Driver } from '../../../../domain/entities/Driver';
-import {
-  FormFieldValue,
-  IFormField,
-} from '../../../../domain/entities/FormField';
 import { DriverRepositoryDatabase } from '../../../../infra/repository/DriverRepositoryDatabase';
 import { AlertSnackbar } from '../../Common/AlertSnackbar';
 import { RenderFormField } from '../../FormField/RenderFormField';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../application/store/configureStore';
 import { makeInitialFormState } from '../Utils/makeInitialFormState';
+import { BaseDriverForm } from './BaseDriverForm';
+import { driverFormFields } from './driverFormFields';
 
-type Props = {
-  initialState?: object;
-};
+type Props = {};
 
-export const RegisterDriverForm: FunctionComponent<Props> = ({
-  initialState,
-}) => {
-  const [state, setState] = useState<any>({});
+export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
   const [error, setError] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
@@ -27,31 +19,15 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({
     (state: RootState) => state.companies
   );
 
-  const driverFields: IFormField[] = [
-    { label: 'Nome', type: 'Short Text', id: 0, index: 0 },
-    { label: 'Contato', type: 'Phone Number', id: 2, index: 2 },
-    { label: 'CNH', type: 'Short Text', id: 1, index: 1 },
-    { label: 'Vencimento', type: 'Date', id: 3, index: 3 },
-  ];
-
-  const startState = () =>
-    setState(initialState ? initialState : makeInitialFormState(driverFields));
-  const resetState = () => setState(makeInitialFormState(driverFields));
-
-  useEffect(() => {
-    startState();
-  }, []);
-
-  const onChange = (label: string, value: FormFieldValue) => {
-    setState({ ...state, [label]: value });
-  };
+  const resetState = (setState: any) =>
+    setState(makeInitialFormState(driverFormFields()));
 
   const onAlertClose = () => {
     setError(undefined);
     setSuccessMessage(undefined);
   };
 
-  const onSave = async () => {
+  const onSave = async (state: any, setState: any) => {
     try {
       for (const key in state)
         if (!state[key]) throw new Error(`Campo ${key} inválido!`);
@@ -69,11 +45,11 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({
       if (isAdmin && adminSelectedCompanyId) {
         await repo.addDriver(driver, adminSelectedCompanyId);
         setSuccessMessage('Motorista cadastrado!');
-        resetState();
+        resetState(setState);
       } else if (userCompanyId) {
         await repo.addDriver(driver, userCompanyId);
         setSuccessMessage('Motorista cadastrado!');
-        resetState();
+        resetState(setState);
       }
     } catch (error: any) {
       setError(error.message);
@@ -81,30 +57,8 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({
   };
 
   return (
-    <Card sx={{ width: '400px', padding: '10px' }}>
-      <CardHeader title='Cadastro de Motorista' subheader='' />
-      {driverFields.map((field: IFormField) => {
-        return (
-          <Box sx={{ mb: '10px' }} key={field.id}>
-            <RenderFormField
-              field={field}
-              onChange={onChange}
-              value={state[field.label]}
-            />
-          </Box>
-        );
-      })}
-
-      <CardActions>
-        <Button
-          variant='contained'
-          color='primary'
-          size='small'
-          onClick={onSave}
-        >
-          Salvar
-        </Button>
-      </CardActions>
+    <div>
+      <BaseDriverForm onSave={onSave} />
       <AlertSnackbar open={!!error} onClose={onAlertClose} severity='error'>
         {error}
       </AlertSnackbar>
@@ -115,6 +69,6 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({
       >
         {successMessage}
       </AlertSnackbar>
-    </Card>
+    </div>
   );
 };

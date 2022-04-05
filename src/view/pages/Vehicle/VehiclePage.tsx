@@ -19,21 +19,15 @@ type Props = {};
 export const VehiclePage: FunctionComponent<Props> = ({}) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
+  const [inEdit, setInEdit] = useState(false);
+  const [inDelete, setInDelete] = useState(false);
+  const [targetCommandVehicle, setTargetCommandVehicle] = useState<Vehicle>();
   const { userId, isAdmin, user } = useSelector(
     (state: RootState) => state.auth
   );
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
-
-  // useEffect(() => {
-  //   const fetchVehicles = async () => {
-  //     const repo = new VehicleRepositoryDatabase();
-  //     const vehicles = await repo.getVehicles();
-  //     setVehicles(vehicles);
-  //   };
-  //   fetchVehicles();
-  // }, []);
 
   const fetchVehicles = async (shouldGetAll: boolean, companyId?: string) => {
     const repo = new VehicleRepositoryDatabase();
@@ -95,8 +89,11 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
   const vehiclesTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    console.log(command, row);
-    console.log('onRowUpdate driverPage');
+    const vehicle = vehicles.find((v) => v.values.Placa === row[5]);
+    if (!vehicle) return;
+    setTargetCommandVehicle(vehicle);
+    if (command === 'edit') setInEdit(true);
+    if (command === 'delete') setInDelete(true);
   };
 
   return (
