@@ -12,6 +12,8 @@ import {
   collectionGroup,
   Query,
   DocumentData,
+  setDoc,
+  doc,
 } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
 import { DriverRepository } from './../../domain/repository/DriverRepository';
@@ -46,6 +48,17 @@ export class DriverRepositoryDatabase {
     addDoc(driversCollectionRef, data);
   }
 
+  async updateDriver(driver: Driver, companyId: string, driverId: string) {
+    const docRef = doc(this.db, `companies/${companyId}/drivers/${driverId}`);
+    const data = {
+      cnh: driver.values.cnh,
+      nome: driver.values.nome,
+      contato: driver.values.contato,
+      vencimento: driver.values.vencimento,
+    };
+    setDoc(docRef, data);
+  }
+
   async getDrivers(): Promise<Driver[]> {
     const colRef = collection(this.db, 'drivers');
     const q = query(colRef);
@@ -64,6 +77,7 @@ export class DriverRepositoryDatabase {
     querySnapshot.forEach((doc) => {
       const data: any = doc.data();
       data.vencimento = data.vencimento.toDate();
+      data.Id = doc.id;
       drivers.push(new Driver(data));
     });
     return drivers;

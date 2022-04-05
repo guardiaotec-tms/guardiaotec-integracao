@@ -14,45 +14,25 @@ import { CompanyFilter } from '../../components/Filter/CompanyFilter';
 import { canRegister } from '../../../application/service/canRegister';
 import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
+import { EditDriverForm } from '../../components/Forms/Driver/EditDriverForm';
+import { fetchDrivers } from '../../../infra/services/fetchDrivers';
 
 type Props = {};
 
 export const DriverPage: FunctionComponent<Props> = ({}) => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [filteredDrivers, setFilteredDrivers] = useState<Driver[]>([]);
-
+  const [inEdit, setInEdit] = useState(false);
+  const [inDelete, setInDelete] = useState(false);
+  const [targetCommandDriver, setTargetCommandDriver] = useState<Driver>();
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const { userCompanyId, adminSelectedCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
 
-  const fetchDrivers = async (
-    shouldGetAll: boolean,
-    userCompanyId?: string
-  ) => {
-    const repo = new DriverRepositoryDatabase();
-
-    if (shouldGetAll) {
-      const drivers = await repo.adminGetAllDrivers();
-      setDrivers(drivers);
-    } else {
-      const drivers = await repo.getDriversFromCompanyId(userCompanyId!);
-      setDrivers(drivers);
-    }
-  };
-
   useEffect(() => {
-    if (!isAdmin && userCompanyId) {
-      fetchDrivers(false, userCompanyId);
-    }
-  }, [userCompanyId, userId]);
-
-  useEffect(() => {
-    if (isAdmin && adminSelectedCompanyId) {
-      const shouldGetAll = adminSelectedCompanyId === 'Todas';
-      fetchDrivers(shouldGetAll, adminSelectedCompanyId);
-    }
-  }, [isAdmin, adminSelectedCompanyId]);
+    fetchDrivers(setDrivers);
+  }, [adminSelectedCompanyId, userCompanyId]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -77,8 +57,16 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   const driversTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    console.log(command, row);
-    console.log('onRowUpdate driverPage');
+    const driver = drivers.find((d) => d.values.cnh === row[2]);
+    if (!driver) return;
+    setTargetCommandDriver(driver);
+    if (command === 'edit') setInEdit(true);
+    if (command === 'delete') setInDelete(true);
+  };
+
+  const onEditClose = () => {
+    setInEdit(false);
+    fetchDrivers(setDrivers);
   };
 
   return (
@@ -111,6 +99,23 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
         tableRows={driversTableRows}
         onRowCommand={onRowCommand}
       />
+      {inEdit && (
+        <EditDriverForm
+          open={inEdit}
+          onClose={onEditClose}
+          driver={targetCommandDriver!}
+          driverId={targetCommandDriver!.values.Id!}
+        />
+      )}
+      {/* {inDelete && (
+        <DeleteConfirmDialog
+          open={inDelete}
+          onClose={onDeleteClose}
+          targetId={targetCommandCompany!.values.Id!}
+          targetName={'Transportadora'}
+          onDelete={onDelete}
+        />
+      )} */}
     </div>
   );
 };

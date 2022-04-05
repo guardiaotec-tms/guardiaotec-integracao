@@ -1,23 +1,19 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
-import { Driver } from '../../../domain/entities/Driver';
-import { FormFieldValue, IFormField } from '../../../domain/entities/FormField';
-import { DriverRepositoryDatabase } from '../../../infra/repository/DriverRepositoryDatabase';
-import { AlertSnackbar } from '../Common/AlertSnackbar';
-import { RenderFormField } from '../FormField/RenderFormField';
+import { Driver } from '../../../../domain/entities/Driver';
+import {
+  FormFieldValue,
+  IFormField,
+} from '../../../../domain/entities/FormField';
+import { DriverRepositoryDatabase } from '../../../../infra/repository/DriverRepositoryDatabase';
+import { AlertSnackbar } from '../../Common/AlertSnackbar';
+import { RenderFormField } from '../../FormField/RenderFormField';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../application/store/configureStore';
+import { RootState } from '../../../../application/store/configureStore';
+import { makeInitialFormState } from '../Utils/makeInitialFormState';
 
 type Props = {
   initialState?: object;
-};
-
-const makeInitialFormState = (formFields: IFormField[]) => {
-  let state: any = {};
-  for (const field of formFields) {
-    state[field.label] = '';
-  }
-  return state;
 };
 
 export const RegisterDriverForm: FunctionComponent<Props> = ({

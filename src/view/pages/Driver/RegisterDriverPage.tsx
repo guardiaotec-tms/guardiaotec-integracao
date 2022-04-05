@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { RegisterDriverForm } from '../../components/Forms/RegisterDriverForm';
+import { RegisterDriverForm } from '../../components/Forms/Driver/RegisterDriverForm';
 import { Box } from '@mui/material';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 

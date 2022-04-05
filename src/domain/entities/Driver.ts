@@ -3,6 +3,7 @@ type DriverValues = {
   cnh: string;
   contato: string;
   vencimento: Date;
+  Id?: string;
 };
 
 export class Driver {

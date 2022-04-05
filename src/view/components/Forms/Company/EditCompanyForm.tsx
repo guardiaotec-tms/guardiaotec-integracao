@@ -3,7 +3,7 @@ import { IFormField } from '../../../../domain/entities/FormField';
 import { AlertSnackbar } from '../../Common/AlertSnackbar';
 import { CompanyRepositoryDatabase } from '../../../../infra/repository/CompanyRepositoryDatabase';
 import { Company } from '../../../../domain/entities/Company';
-import { BaseCompayForm } from './BaseCompanyForm';
+import { BaseCompanyForm } from './BaseCompanyForm';
 import { Dialog } from '@mui/material';
 
 type Props = {
@@ -54,7 +54,7 @@ export const EditCompanyForm: FunctionComponent<Props> = ({
 
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby={'EditCompanyForm'}>
-      <BaseCompayForm onSave={onSave} initialState={initialState} />
+      <BaseCompanyForm onSave={onSave} initialState={initialState} />
       <AlertSnackbar
         open={!!successMessage}
         onClose={onAlertClose}

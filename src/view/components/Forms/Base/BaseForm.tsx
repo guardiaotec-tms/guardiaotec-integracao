@@ -4,24 +4,27 @@ import {
   FormFieldValue,
   IFormField,
 } from '../../../../domain/entities/FormField';
-import { AlertSnackbar } from '../../Common/AlertSnackbar';
 import { RenderFormField } from '../../FormField/RenderFormField';
-import { CompanyRepositoryDatabase } from '../../../../infra/repository/CompanyRepositoryDatabase';
-import { Company } from '../../../../domain/entities/Company';
 import { makeInitialFormState } from '../Utils/makeInitialFormState';
 
 type Props = {
-  onSave: (state: any) => void;
+  onSave: (state: any, setState?: React.Dispatch<any>) => void;
   initialState?: object;
   formFields: IFormField[];
+  formTitle: string;
 };
 
 export const BaseForm: FunctionComponent<Props> = ({
   onSave,
   initialState,
   formFields,
+  formTitle,
 }) => {
   const [state, setState] = useState<any>({});
+
+  //   console.log(initialState);
+  console.log(state);
+  console.log(initialState);
 
   const startState = () =>
     setState(makeInitialFormState(formFields, initialState));
@@ -36,7 +39,7 @@ export const BaseForm: FunctionComponent<Props> = ({
 
   return (
     <Card sx={{ width: '400px', padding: '10px' }}>
-      <CardHeader title='Cadastro de Transportadora' subheader='' />
+      <CardHeader title={formTitle} subheader='' />
       {formFields.map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>
@@ -54,7 +57,7 @@ export const BaseForm: FunctionComponent<Props> = ({
           variant='contained'
           color='primary'
           size='small'
-          onClick={() => onSave(state)}
+          onClick={() => onSave(state, setState)}
         >
           Salvar
         </Button>
