@@ -1,3 +1,5 @@
+import { serverUrl } from './serverUrl';
+
 export class UserRepositoryDatabase {
   constructor() {}
 
@@ -7,11 +9,7 @@ export class UserRepositoryDatabase {
       password,
     };
 
-    const serverUrl =
-      //   'https://us-central1-guardiaotec-tms-prototype.cloudfunctions.net/createUser';
-      '';
-
-    const response = await fetch(serverUrl, {
+    const response = await fetch(serverUrl(), {
       method: 'POST',
       body: JSON.stringify(body),
     }).then((res) => res.json());

@@ -1,36 +1,26 @@
 import React, { FunctionComponent, useState } from 'react';
 import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
 import {
-  Button,
   IconButton,
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   ListSubheader,
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import { EditField } from '../../../../../../../NodeJS/Typescript/Formfy 2.0/client/src/views/components/FormFieldsManageTable/EditField';
-// import { DeleteField } from '../../../../../../../NodeJS/Typescript/Formfy 2.0/client/src/views/components/FormFieldsManageTable/DeleteField';
-// import { IFormField } from '../../../../../../../NodeJS/Typescript/Formfy 2.0/client/src/domain/entities/FormField';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../application/store/configureStore';
 
 export type RowCommand = 'edit' | 'delete';
 
 type Props = {
-  // toggleOptionsPopover: () => void;
-  // formId: number;
-  // field: any;
   onRowCommand: (command: RowCommand, row: string[]) => void;
   row: string[];
 };
 
 export const TableRowOptions: FunctionComponent<Props> = ({
-  // toggleOptionsPopover,
-  // formId,
-  // field,
   onRowCommand,
   row,
 }) => {
@@ -39,6 +29,7 @@ export const TableRowOptions: FunctionComponent<Props> = ({
   );
   const [inEditField, setInEditField] = useState(false);
   const [inDeleteField, setInDeleteField] = useState(false);
+  const { isAdmin, user } = useSelector((state: RootState) => state.auth);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -89,10 +80,12 @@ export const TableRowOptions: FunctionComponent<Props> = ({
             <EditIcon></EditIcon>
             <ListItemText primary='Editar' />
           </ListItemButton>
-          <ListItemButton onClick={handleDelete}>
-            <DeleteIcon></DeleteIcon>
-            <ListItemText primary='Deletar' />
-          </ListItemButton>
+          {(user?.accessType === 'Administrador' || isAdmin) && (
+            <ListItemButton onClick={handleDelete}>
+              <DeleteIcon></DeleteIcon>
+              <ListItemText primary='Deletar' />
+            </ListItemButton>
+          )}
         </List>
         {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}
         {/* {inEditField && (

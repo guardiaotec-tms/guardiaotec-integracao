@@ -19,7 +19,6 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../application/store/configureStore';
-import { signUp } from '../../../firebase/signUp';
 import { AlertSnackbar } from '../../components/Common/AlertSnackbar';
 import { UserRepositoryDatabase } from '../../../infra/repository/UserRepositoryDatabase';
 import { CompanyRepositoryDatabase } from '../../../infra/repository/CompanyRepositoryDatabase';
@@ -85,7 +84,6 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
     if (!areSamePasswords()) return setError('Senhas digitadas são diferentes');
     if (!selectedAccessType) return setError('Selecione um tipo de acesso!');
     try {
-      //   await signUp(email, password);
       const userRepo = new UserRepositoryDatabase();
       const { userId } = await userRepo.createUser(email, password);
 
