@@ -21,7 +21,7 @@ export const AdminHomePage: FunctionComponent<Props> = ({}) => {
         <br />
 
         <Card>
-          <CardHeader title='GuardiaoTech' />
+          <CardHeader title='GuardiaoTec' />
           <CardContent>Administrador Geral</CardContent>
         </Card>
       </Box>

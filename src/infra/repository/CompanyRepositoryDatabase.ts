@@ -9,11 +9,12 @@ import {
   setDoc,
   doc,
   deleteDoc,
+  getDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { CompanyRepository } from './../../domain/repository/CompanyRepository';
 
-export class CompanyRepositoryDatabase implements CompanyRepository {
+export class CompanyRepositoryDatabase {
   db: Firestore;
 
   constructor() {
@@ -36,7 +37,16 @@ export class CompanyRepositoryDatabase implements CompanyRepository {
     await setDoc(docRef, company.values);
   }
 
-  async getCompanies(): Promise<Company[]> {
+  async getCompanyFromId(companyId: string) {
+    console.log(companyId);
+    const docRef = doc(this.db, `companies/${companyId}`);
+    const docSnapshot: any = await getDoc(docRef);
+    const data: any = docSnapshot.data();
+    data.Id = docSnapshot.id;
+    return new Company(data);
+  }
+
+  async adminGetAllCompanies() {
     const colRef = collection(this.db, 'companies');
     const q = query(colRef);
     const querySnapshot = await getDocs(q);

@@ -14,16 +14,20 @@ import { AppBarOptionsPopover } from './AppBarOptionsPopover';
 
 const pages = [
   {
-    name: 'Motorista',
-    path: '/driver',
+    name: 'Ficha Técnica',
+    path: '/workscale',
+  },
+  {
+    name: 'Transportadora',
+    path: '/company',
   },
   {
     name: 'Veículo',
     path: '/vehicle',
   },
   {
-    name: 'Ficha Técnica',
-    path: '/workscale',
+    name: 'Motorista',
+    path: '/driver',
   },
   {
     name: 'Plano de Viagem',
@@ -39,17 +43,17 @@ export const ResponsiveAppBar = () => {
   // const handleRedirect = (page) => {};
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
 
-  const makePages = () => {
-    if (isAdmin) {
-      return [
-        {
-          name: 'Transportadora',
-          path: '/company',
-        },
-      ].concat(pages);
-    }
-    return pages;
-  };
+  // const makePages = () => {
+  //   if (isAdmin) {
+  //     return [
+  //       {
+  //         name: 'Transportadora',
+  //         path: '/company',
+  //       },
+  //     ].concat(pages);
+  //   }
+  //   return pages;
+  // };
 
   return (
     <AppBar position='static' sx={{ marginBottom: '15px' }}>
@@ -72,7 +76,7 @@ export const ResponsiveAppBar = () => {
               LOGO
             </Typography> */}
 
-            {makePages().map((page) => (
+            {pages.map((page) => (
               <Button
                 component={Link}
                 to={`${page.path}`}

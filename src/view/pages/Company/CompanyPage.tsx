@@ -13,26 +13,36 @@ import { TargetFilter } from '../Common/TargetFilter';
 import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditCompanyForm } from '../../components/Forms/Company/EditCompanyForm';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
+import { fetchCompanies } from '../../../infra/services/fetchCompanies';
 
 type Props = {};
 
 export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
-  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
+  const { userId, isAdmin, user } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const { adminSelectedCompanyId } = useSelector(
+    (state: RootState) => state.companies
+  );
   const [inEdit, setInEdit] = useState(false);
   const [inDelete, setInDelete] = useState(false);
   const [targetCommandCompany, setTargetCommandCompany] = useState<Company>();
 
-  const fetchCompanies = async () => {
-    const repo = new CompanyRepositoryDatabase();
-    const companies = await repo.getCompanies();
-    setCompanies(companies);
-  };
+  // const fetchCompanies = async () => {
+  //   const repo = new CompanyRepositoryDatabase();
+  //   const companies = await repo.getCompanies();
+  //   setCompanies(companies);
+  // };
 
   useEffect(() => {
-    fetchCompanies();
-  }, []);
+    fetchCompanies(setCompanies);
+  }, [user?.companyId, adminSelectedCompanyId]);
+
+  useEffect(() => {
+    setFilteredCompanies(companies);
+  }, [companies]);
 
   const makeTableRows = () => {
     let rows: string[][] = [];
@@ -49,6 +59,8 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
     }
     return rows;
   };
+
+  console.log(companies);
 
   const companiesTableHead = [
     'Numero de Contrato',
@@ -73,12 +85,12 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
 
   const onEditClose = () => {
     setInEdit(false);
-    fetchCompanies();
+    fetchCompanies(setCompanies);
   };
 
   const onDeleteClose = () => {
     setInDelete(false);
-    fetchCompanies();
+    fetchCompanies(setCompanies);
   };
 
   const onDelete = async (companyId: string) => {
@@ -90,12 +102,14 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
-      <TargetFilter
-        targets={companies}
-        setFilteredTargets={setFilteredCompanies}
-        filterField='Transportadora'
-        filterName='Filtrar por nome'
-      />
+      {isAdmin && (
+        <TargetFilter
+          targets={companies}
+          setFilteredTargets={setFilteredCompanies}
+          filterField='Transportadora'
+          filterName='Filtrar por nome'
+        />
+      )}
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >

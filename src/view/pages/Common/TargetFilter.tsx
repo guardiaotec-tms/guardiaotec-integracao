@@ -26,7 +26,7 @@ export const TargetFilter: FunctionComponent<Props> = ({
   const [filterText, setFilterText] = useState('');
 
   useEffect(() => {
-    if (!filterText) setFilteredTargets(targets);
+    // if (!filterText) setFilteredTargets(targets);
     let filteredTargets = targets.filter((d: any) => {
       return d.values[filterField]
         .toLowerCase()
