@@ -39,33 +39,39 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
     }
   }, [adminSelectedCompanyId, userCompanyId]);
 
+  useEffect(() => {
+    setFilteredVinculos(vinculos);
+  }, [vinculos]);
+
   const makeTableRows = () => {
     let rows: string[][] = [];
+    console.log(filteredVinculos);
+
     for (const vinculo of filteredVinculos) {
       rows.push([
+        vinculo.values['Ficha Técnica'],
         vinculo.values['Transportadora'],
-        vinculo.values['Motorista (CNH)'],
-        vinculo.values['Veículo (Placa)'],
-        vinculo.values.LTU,
-        vinculo.values['Nº da FT'],
+        vinculo.values['Veículo'],
+        vinculo.values['Motorista'],
+        vinculo.values['Plano de Viagem'],
       ]);
     }
     return rows;
   };
 
   const vinculosTableHead = [
+    'Ficha Técnica',
     'Transportadora',
-    'Motorista (CNH)',
-    'Veículo (Placa)',
-    'LTU',
-    'Nº da FT',
+    'Veículo',
+    'Motorista',
+    'Plano de Viagem',
     '',
   ];
 
   const vinculosTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    const vinculo = vinculos.find((v) => v.values['Nº da FT'] === row[4]);
+    const vinculo = vinculos.find((v) => v.values['Ficha Técnica'] === row[4]);
     if (!vinculo) return;
     setTargetCommandVinculo(vinculo);
     if (command === 'edit') setInEdit(true);
@@ -96,12 +102,12 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       {isAdmin && <CompanyFilter />}
-      <TargetFilter
+      {/* <TargetFilter
         targets={vinculos}
         setFilteredTargets={setFilteredVinculos}
         filterField='LTU'
         filterName='LTU'
-      />
+      /> */}
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >

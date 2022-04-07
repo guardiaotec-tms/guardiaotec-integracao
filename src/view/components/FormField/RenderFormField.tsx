@@ -26,6 +26,7 @@ export const RenderFormField: FunctionComponent<Props> = ({
   field,
   onChange,
   value,
+  helpertText,
 }) => {
   const getStrategyComponent = (type: string) => {
     switch (type) {

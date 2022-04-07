@@ -2,8 +2,6 @@ import { isValidCNPJ } from '../service/ValidateCNPJ';
 import { isValidEmail } from '../service/ValidateEmail';
 
 type CompanyInput = {
-  'Numero de Contrato': string;
-  Código: string;
   Transportadora: string;
   CNPJ: string;
   Contato: string;

@@ -1,4 +1,6 @@
 type FTValues = {
+  'Numero de Contrato': string;
+  Código: string;
   'Origem/Destino': string;
   'Nº da FT': string;
   'Nº da Linha': string;

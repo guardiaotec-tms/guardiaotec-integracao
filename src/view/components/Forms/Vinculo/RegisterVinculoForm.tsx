@@ -113,6 +113,16 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
     <Card sx={{ width: '400px', padding: '10px' }}>
       <CardHeader title='Cadastro de Vínculo' subheader='' />
       <Box sx={{ mb: '10px' }}>
+        <RenderFormField
+          field={vinculoFields[0]}
+          onChange={onChange}
+          value={state[vinculoFields[0].label]}
+          helpertText={
+            !state[vinculoFields[0].label] ? vinculoFields[0].helpertText : ''
+          }
+        />
+      </Box>
+      <Box sx={{ mb: '10px' }}>
         <TextField
           id='transportadora'
           label='Transportadora'
@@ -122,13 +132,14 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
           fullWidth
         />
       </Box>
-      {vinculoFields.map((field: IFormField) => {
+      {vinculoFields.slice(1).map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>
             <RenderFormField
               field={field}
               onChange={onChange}
               value={state[field.label]}
+              helpertText={!state[field.label] ? field.helpertText : ''}
             />
           </Box>
         );

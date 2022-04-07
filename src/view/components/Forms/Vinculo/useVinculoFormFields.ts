@@ -67,6 +67,7 @@ export const useVinculoFormFields = () => {
       type: 'List Selection',
       options: fts.map((ft) => ft.values['Nº da FT']),
       id: 4,
+      helpertText: 'Inserir o número Ficha Técnica',
     },
     {
       label: 'Veículo',
@@ -74,21 +75,22 @@ export const useVinculoFormFields = () => {
       options: vehicles.map((v) => v.values.Placa),
       id: 2,
       index: 2,
+      helpertText: 'Inserir a placa do veículo',
     },
     {
       label: 'Motorista',
       type: 'List Selection',
-      options: drivers.map(
-        (d) => d.values.nome.split(' ')[0] + ' ' + d.values.cnh
-      ),
+      options: drivers.map((d) => d.values.nome),
       id: 1,
       index: 1,
+      helpertText: 'Inserir o nome do motorista',
     },
     {
-      label: 'Pano De Viagem',
+      label: 'Plano de Viagem',
       type: 'List Selection',
       options: fts.map((ft) => ft.values['Nº da Linha']),
       id: 3,
+      helpertText: 'Inserir a LTU do Plano de Viagem',
     },
   ];
 

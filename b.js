@@ -1,9 +1,5 @@
-let a = {
-  b: {
-    c: 'd',
-  },
-};
+const a = [1, 2, 3, 4];
 
-a['b.c'] = 'e';
+const b = a.slice(1);
 
-console.log(a);
+console.log(a, b);

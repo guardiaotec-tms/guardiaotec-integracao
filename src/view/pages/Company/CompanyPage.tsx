@@ -48,8 +48,6 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
     let rows: string[][] = [];
     for (const company of filteredCompanies) {
       rows.push([
-        company.values['Numero de Contrato'],
-        company.values['Código'],
         company.values['Transportadora'],
         company.values['CNPJ'],
         company.values['Contato'],
@@ -63,8 +61,6 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   console.log(companies);
 
   const companiesTableHead = [
-    'Numero de Contrato',
-    'Código',
     'Transportadora',
     'CNPJ',
     'Contato',

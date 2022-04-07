@@ -21,4 +21,5 @@ export type IFormField = {
   id?: number;
   index?: number;
   options?: string[];
+  helpertText?: string;
 };

@@ -23,8 +23,8 @@ export class VinculoRepositoryDatabase {
   }
 
   async addVinculo(vinculo: Vinculo, companyId: string): Promise<void> {
-    const numeroFT = vinculo.values['Nº da FT'];
-    const LTU = vinculo.values['LTU'];
+    const numeroFT = vinculo.values['Ficha Técnica'];
+    const LTU = vinculo.values['Plano de Viagem'];
     const colRef = collection(this.db, `companies/${companyId}/fts`);
     const q = query(colRef, where('Nº da FT', '==', numeroFT));
     const qSnapshot = await getDocs(q);
@@ -39,12 +39,12 @@ export class VinculoRepositoryDatabase {
     );
     const vinculosQuery = query(
       vinculosColRef,
-      where('Nº da FT', '==', numeroFT)
+      where('Ficha Técnica', '==', numeroFT)
     );
     const vinculosSnapshot = await getDocs(vinculosQuery);
     if (vinculosSnapshot.docs.length > 0)
       throw new Error(
-        'Impossivel adicionar vínculo! Nº da FT já possui vínculo relacionado!'
+        'Impossivel adicionar vínculo! Nº da Ficha Técnica já possui vínculo relacionado!'
       );
 
     // // const q = query(colRef, where('Placa', '==', Vinculo.values.Placa));
@@ -71,7 +71,9 @@ export class VinculoRepositoryDatabase {
     const querySnapshot = await getDocs(query);
     let vinculos: Vinculo[] = [];
     querySnapshot.forEach((doc) => {
+      console.log('1');
       const data: any = doc.data();
+      console.log('2');
       data.Id = doc.id;
       vinculos.push(new Vinculo(data));
     });

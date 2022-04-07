@@ -1,9 +1,9 @@
 type VinculoValues = {
   Transportadora: string;
-  'Motorista (CNH)': string;
-  'Veículo (Placa)': string;
-  LTU: string;
-  'Nº da FT': string;
+  Motorista: string;
+  Veículo: string;
+  'Plano de Viagem': string;
+  'Ficha Técnica': string;
   Id?: string;
 };
 
