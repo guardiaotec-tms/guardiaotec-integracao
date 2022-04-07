@@ -42,7 +42,6 @@ export const EditDriverForm: FunctionComponent<Props> = ({
       //   //@ts-ignore
       //   initialState[field] = driver.values[field];
       // }
-      // console.log(initialState);
       if (!driver) return;
       initialState.Nome = driver.values.nome;
       initialState.CNH = driver.values.cnh;

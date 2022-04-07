@@ -71,7 +71,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
   const vinculosTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    const vinculo = vinculos.find((v) => v.values['Ficha Técnica'] === row[4]);
+    const vinculo = vinculos.find((v) => v.values['Ficha Técnica'] === row[0]);
     if (!vinculo) return;
     setTargetCommandVinculo(vinculo);
     if (command === 'edit') setInEdit(true);

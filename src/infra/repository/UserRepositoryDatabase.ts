@@ -14,8 +14,6 @@ export class UserRepositoryDatabase {
       body: JSON.stringify(body),
     }).then((res) => res.json());
 
-    console.log(response, 'response');
-
     if (response.error) {
       throw new Error(response.error);
     }

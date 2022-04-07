@@ -13,8 +13,6 @@ export const RegularHomePage: FunctionComponent<Props> = ({}) => {
   const [companyInfo, setCompanyInfo] = useState<any>();
   const { user } = useSelector((state: RootState) => state.auth);
 
-  console.log(companyInfo);
-
   useEffect(() => {
     const getInfo = async (companyId: string) => {
       const info = await getCompanyInfo(companyId);

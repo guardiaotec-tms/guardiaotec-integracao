@@ -40,7 +40,6 @@ export const EditVehicleForm: FunctionComponent<Props> = ({
       //@ts-ignore
       initialState[field] = vehicle.values[field];
     }
-    console.log(initialState);
     setInitialState(initialState);
   }, [vehicle]);
 

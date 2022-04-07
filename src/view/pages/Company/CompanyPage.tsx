@@ -58,8 +58,6 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
     return rows;
   };
 
-  console.log(companies);
-
   const companiesTableHead = [
     'Transportadora',
     'CNPJ',
@@ -71,8 +69,7 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
   const companiesTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    console.log(command, row);
-    const company = companies.find((c) => c.values.CNPJ === row[3]);
+    const company = companies.find((c) => c.values.CNPJ === row[1]);
     if (!company) return;
     setTargetCommandCompany(company);
     if (command === 'edit') setInEdit(true);
@@ -91,7 +88,6 @@ export const CompanyPage: FunctionComponent<Props> = ({}) => {
 
   const onDelete = async (companyId: string) => {
     const repo = new CompanyRepositoryDatabase();
-    console.log(companyId);
     await repo.deleteCompany(companyId);
   };
 

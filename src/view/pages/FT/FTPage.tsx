@@ -69,7 +69,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   const ftsTableRows = makeTableRows();
 
   const onRowCommand = (command: RowCommand, row: string[]) => {
-    const ft = fts.find((ft) => ft.values['Nº da FT'] === row[1]);
+    const ft = fts.find((ft) => ft.values['Nº da FT'] === row[3]);
     if (!ft) return;
     setTargetCommandFT(ft);
     if (command === 'edit') setInEdit(true);
