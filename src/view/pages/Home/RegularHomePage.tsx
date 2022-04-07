@@ -4,6 +4,7 @@ import { ResponsiveAppBar } from '../../components/Common/AppBar';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../application/store/configureStore';
 import { getCompanyInfo } from '../../../application/service/getUserCompanyInfo';
+import { GuardiaoTecInfoBox } from './GuardiaoTecInfoBox';
 // import { RootState } from '../application/store/configureStore';
 
 type Props = {};
@@ -34,18 +35,23 @@ export const RegularHomePage: FunctionComponent<Props> = ({}) => {
           fontSize: '2rem',
           fontWeight: '600',
           letterSpacing: 1.5,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 1,
         }}
       >
         {/* <Typography variant='h1'>GuardiaoTech</Typography> */}
         <br />
 
-        <Card>
+        <Card sx={{ width: 600 }}>
           <CardHeader title={companyInfo?.Transportadora} />
           <CardContent>
             Responsável: {companyInfo && companyInfo['Responsável']}
           </CardContent>
         </Card>
       </Box>
+      <GuardiaoTecInfoBox />
     </div>
   );
 };
