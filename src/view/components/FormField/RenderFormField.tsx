@@ -19,6 +19,7 @@ type Props = {
   field: IFormField;
   onChange: (label: string, value: FormFieldValue) => void;
   value?: any;
+  helpertText?: string;
 };
 
 export const RenderFormField: FunctionComponent<Props> = ({
@@ -26,14 +27,6 @@ export const RenderFormField: FunctionComponent<Props> = ({
   onChange,
   value,
 }) => {
-  const [state, setState] = useState<any>({});
-
-  // const onChange = (label: string, value: FormFieldValue) => {
-  //   setState({ ...state, [label]: value });
-
-  //   console.log(state);
-  // };
-
   const getStrategyComponent = (type: string) => {
     switch (type) {
       case 'Short Text':
@@ -71,6 +64,7 @@ export const RenderFormField: FunctionComponent<Props> = ({
       field={field}
       onChange={onChange}
       value={value}
+      helpertText={helpertText}
     />
   );
 };

@@ -28,30 +28,31 @@ export const RegularHomePage: FunctionComponent<Props> = ({}) => {
   return (
     <div>
       <ResponsiveAppBar />
+      <GuardiaoTecInfoBox />
       <Box
         sx={{
           flexGrow: 1,
-          textAlign: 'center',
+          //   textAlign: 'center',
           fontSize: '2rem',
           fontWeight: '600',
           letterSpacing: 1.5,
           display: 'flex',
-          alignItems: 'center',
+          //   alignItems: 'center',
           justifyContent: 'center',
           marginBottom: 1,
+          marginTop: 1,
         }}
       >
         {/* <Typography variant='h1'>GuardiaoTech</Typography> */}
         <br />
 
-        <Card sx={{ width: 600 }}>
+        <Card sx={{ width: 600, backgroundColor: '#ddddff' }}>
           <CardHeader title={companyInfo?.Transportadora} />
           <CardContent>
             Responsável: {companyInfo && companyInfo['Responsável']}
           </CardContent>
         </Card>
       </Box>
-      <GuardiaoTecInfoBox />
     </div>
   );
 };

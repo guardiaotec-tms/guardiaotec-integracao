@@ -5,4 +5,5 @@ export type FormFieldStrategyProps = {
   options: string[] | undefined;
   onChange: (label: string, value: FormFieldValue) => void;
   value?: any;
+  helperText?: string;
 };

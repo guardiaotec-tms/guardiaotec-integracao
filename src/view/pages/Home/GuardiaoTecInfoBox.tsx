@@ -3,6 +3,7 @@ import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { ResponsiveAppBar } from '../../components/Common/AppBar';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import { GuardiaoLogotype } from './GuardiaoLogotype';
 
 type Props = {};
 
@@ -12,31 +13,34 @@ export const GuardiaoTecInfoBox: FunctionComponent<Props> = ({}) => {
       <Box
         sx={{
           flexGrow: 1,
-          //   textAlign: 'center',
-          //   fontSize: '3rem',
-          //   fontWeight: '600',
           display: 'flex',
           justifyContent: 'center',
-          //   letterSpacing: 1.5,
         }}
       >
-        {/* <Typography variant='h1'>GuardiaoTech</Typography> */}
-        <br />
-
+        <GuardiaoLogotype />
+        <Typography variant='h2' color='initial'>
+          GuardiaoTec
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Card
           sx={{
             width: 600,
             backgroundColor: '#eeeeff',
           }}
         >
-          <CardHeader title='GuardiaoTec' />
           <CardContent>
             <Box
               sx={{
                 border: '1px solid #ccccff',
                 borderRadius: '5px',
                 boxSizing: 'border-box',
-                // width: 500,
                 width: '100%',
                 padding: 1,
               }}

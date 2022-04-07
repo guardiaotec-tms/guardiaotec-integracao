@@ -63,7 +63,20 @@ export const useVinculoFormFields = () => {
 
   const vinculoFields: IFormField[] = [
     {
-      label: 'Motorista (CNH)',
+      label: 'Ficha Técnica',
+      type: 'List Selection',
+      options: fts.map((ft) => ft.values['Nº da FT']),
+      id: 4,
+    },
+    {
+      label: 'Veículo',
+      type: 'List Selection',
+      options: vehicles.map((v) => v.values.Placa),
+      id: 2,
+      index: 2,
+    },
+    {
+      label: 'Motorista',
       type: 'List Selection',
       options: drivers.map(
         (d) => d.values.nome.split(' ')[0] + ' ' + d.values.cnh
@@ -72,23 +85,10 @@ export const useVinculoFormFields = () => {
       index: 1,
     },
     {
-      label: 'Veículo (Placa)',
-      type: 'List Selection',
-      options: vehicles.map((v) => v.values.Placa),
-      id: 2,
-      index: 2,
-    },
-    {
-      label: 'LTU',
+      label: 'Pano De Viagem',
       type: 'List Selection',
       options: fts.map((ft) => ft.values['Nº da Linha']),
       id: 3,
-    },
-    {
-      label: 'Nº da FT',
-      type: 'List Selection',
-      options: fts.map((ft) => ft.values['Nº da FT']),
-      id: 4,
     },
   ];
 

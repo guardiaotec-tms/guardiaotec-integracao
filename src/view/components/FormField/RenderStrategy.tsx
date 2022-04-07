@@ -11,6 +11,7 @@ type Props = {
   field: IFormField;
   onChange: (label: string, value: FormFieldValue) => void;
   value?: any;
+  helpertText?: string;
 };
 
 export const RenderStrategy: FunctionComponent<Props> = ({
@@ -18,6 +19,7 @@ export const RenderStrategy: FunctionComponent<Props> = ({
   field,
   onChange,
   value,
+  helpertText,
 }) => {
   return (
     <Component
@@ -25,6 +27,7 @@ export const RenderStrategy: FunctionComponent<Props> = ({
       options={field.options}
       onChange={onChange}
       value={value}
+      helperText={helpertText}
     />
   );
 };

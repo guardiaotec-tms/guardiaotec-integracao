@@ -9,7 +9,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export const ListSelectionFormField: FunctionComponent<
   FormFieldStrategyProps
-> = ({ label, options, onChange, value }) => {
+> = ({ label, options, onChange, value, helperText }) => {
   // const [value, setValue] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -37,7 +37,7 @@ export const ListSelectionFormField: FunctionComponent<
             );
           })}
       </Select>
-      {/* <FormHelperText>With label + helper text</FormHelperText> */}
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
 };
