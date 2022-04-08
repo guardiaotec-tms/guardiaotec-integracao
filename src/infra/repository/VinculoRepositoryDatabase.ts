@@ -71,9 +71,7 @@ export class VinculoRepositoryDatabase {
     const querySnapshot = await getDocs(query);
     let vinculos: Vinculo[] = [];
     querySnapshot.forEach((doc) => {
-      console.log('1');
       const data: any = doc.data();
-      console.log('2');
       data.Id = doc.id;
       vinculos.push(new Vinculo(data));
     });

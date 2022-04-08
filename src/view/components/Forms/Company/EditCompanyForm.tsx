@@ -38,11 +38,9 @@ export const EditCompanyForm: FunctionComponent<Props> = ({
   };
 
   const onSave = async (state: any) => {
-    console.log(state);
     try {
       const company = new Company(state);
       const repo = new CompanyRepositoryDatabase();
-      console.log(companyId);
       await repo.updateCompany(company, companyId);
       //   await repo.addCompany(company);
       setSuccessMessage('Transportadora atualizada!');

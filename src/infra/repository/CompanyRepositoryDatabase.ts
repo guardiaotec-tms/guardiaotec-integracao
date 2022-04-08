@@ -38,7 +38,6 @@ export class CompanyRepositoryDatabase {
   }
 
   async getCompanyFromId(companyId: string) {
-    console.log(companyId);
     const docRef = doc(this.db, `companies/${companyId}`);
     const docSnapshot: any = await getDoc(docRef);
     const data: any = docSnapshot.data();

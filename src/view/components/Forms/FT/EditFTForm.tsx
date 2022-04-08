@@ -41,7 +41,6 @@ export const EditFTForm: FunctionComponent<Props> = ({
       //@ts-ignore
       initialState[field] = ft.values[field];
     }
-    console.log(initialState);
     setInitialState(initialState);
   }, [ft]);
 

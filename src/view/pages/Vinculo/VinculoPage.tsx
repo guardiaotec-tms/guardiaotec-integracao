@@ -45,8 +45,6 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
 
   const makeTableRows = () => {
     let rows: string[][] = [];
-    console.log(filteredVinculos);
-
     for (const vinculo of filteredVinculos) {
       rows.push([
         vinculo.values['Ficha Técnica'],

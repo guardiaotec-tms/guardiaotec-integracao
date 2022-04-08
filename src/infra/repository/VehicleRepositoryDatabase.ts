@@ -46,7 +46,6 @@ export class VehicleRepositoryDatabase {
   async getVehiclesFromQuery(query: Query<DocumentData>): Promise<Vehicle[]> {
     const querySnapshot = await getDocs(query);
     let vehicles: Vehicle[] = [];
-    console.log(querySnapshot.docs.length);
     querySnapshot.forEach((doc) => {
       const data: any = doc.data();
       data['Ano Fabricação'] = data['Ano Fabricação'].toDate();
@@ -58,13 +57,11 @@ export class VehicleRepositoryDatabase {
   }
 
   async getVehiclesFromCompanyId(companyId: string): Promise<Vehicle[]> {
-    console.log(companyId);
     const q = collection(this.db, `companies/${companyId}/vehicles`);
     return this.getVehiclesFromQuery(q);
   }
 
   async adminGetAllVehicles() {
-    console.log('to aqui');
     const q = collectionGroup(this.db, 'vehicles');
     return this.getVehiclesFromQuery(q);
   }

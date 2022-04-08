@@ -9,6 +9,7 @@ export const canRegister = () => {
     return adminSelectedCompanyId !== 'Todas' && adminSelectedCompanyId !== '';
   } else {
     const isCompanyAdmin = user?.accessType === 'Administrador';
-    return isCompanyAdmin;
+    const isCompanyEditor = user?.accessType === 'Editor';
+    return isCompanyAdmin || isCompanyEditor;
   }
 };

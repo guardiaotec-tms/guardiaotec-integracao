@@ -11,7 +11,6 @@ export const fetchCompanies = async (setCompanies: any) => {
     setCompanies(companies);
   } else if (!isAdmin && userCompanyId) {
     const company = await repo.getCompanyFromId(userCompanyId!);
-    console.log(company);
     setCompanies([company]);
   }
 };
