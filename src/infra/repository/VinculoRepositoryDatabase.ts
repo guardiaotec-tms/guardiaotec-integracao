@@ -42,10 +42,13 @@ export class VinculoRepositoryDatabase {
       where('Ficha Técnica', '==', numeroFT)
     );
     const vinculosSnapshot = await getDocs(vinculosQuery);
-    if (vinculosSnapshot.docs.length > 0)
-      throw new Error(
-        'Impossivel adicionar vínculo! Nº da Ficha Técnica já possui vínculo relacionado!'
-      );
+
+    /************************** */
+    /**Comentário nesse if aqui por conta da nova regra de ficha técnica com tipos A ou B, e o design da unicidade de vínculos com FTS ficou mais complexo. Mas é um if muito importante! */
+    // if (vinculosSnapshot.docs.length > 0)
+    //   throw new Error(
+    //     'Impossivel adicionar vínculo! Nº da Ficha Técnica já possui vínculo relacionado!'
+    //   );
 
     // // const q = query(colRef, where('Placa', '==', Vinculo.values.Placa));
     // const q = query(colRef);

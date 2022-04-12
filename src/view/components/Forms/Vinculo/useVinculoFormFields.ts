@@ -18,8 +18,8 @@ export const useVinculoFormFields = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [fts, setFTs] = useState<FT[]>([]);
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
-  const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
-  const { selectedLTU, adminSelectedCompanyId, userCompanyId } = useSelector(
+  const { isAdmin } = useSelector((state: RootState) => state.auth);
+  const { adminSelectedCompanyId, userCompanyId } = useSelector(
     (state: RootState) => state.companies
   );
   const [selectedCompanyId, setSelectedCompanyId] = useState('');
@@ -68,6 +68,13 @@ export const useVinculoFormFields = () => {
       options: fts.map((ft) => ft.values['Nº da FT']),
       id: 4,
       helpertText: 'Inserir o número Ficha Técnica',
+    },
+    {
+      label: 'Tipo De Ficha',
+      type: 'List Selection',
+      options: ['A', 'B'],
+      id: 5,
+      helpertText: 'Inserir o tipo de Ficha Técnica',
     },
     {
       label: 'Veículo',

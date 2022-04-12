@@ -5,6 +5,7 @@ type VinculoValues = {
   'Plano de Viagem': string;
   'Ficha Técnica': string;
   Id?: string;
+  'Tipo De Ficha': 'A' | 'B';
 };
 
 export class Vinculo {
