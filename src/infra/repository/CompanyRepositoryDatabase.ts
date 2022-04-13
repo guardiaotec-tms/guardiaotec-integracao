@@ -12,7 +12,6 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
-import { CompanyRepository } from './../../domain/repository/CompanyRepository';
 
 export class CompanyRepositoryDatabase {
   db: Firestore;
@@ -60,7 +59,6 @@ export class CompanyRepositoryDatabase {
 
   async deleteCompany(companyId: string) {
     const docRef = doc(this.db, `companies/${companyId}`);
-    // await setDoc(docRef, company.values);
     await deleteDoc(docRef);
   }
 }

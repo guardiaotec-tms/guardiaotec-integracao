@@ -35,7 +35,7 @@ export const RegisterDriverForm: FunctionComponent<Props> = ({}) => {
     try {
       const companyId = selectCurrentRelatedCompanyId();
       //@ts-ignore
-      if (!companyId) return (window.location = '/vehicle');
+      if (!companyId) return (window.location = '/driver');
 
       for (const key in state)
         if (!state[key]) throw new Error(`Campo ${key} inválido!`);

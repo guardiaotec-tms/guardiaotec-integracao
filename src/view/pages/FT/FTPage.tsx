@@ -18,6 +18,7 @@ import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditFTForm } from '../../components/Forms/FT/EditFTForm';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
+import { DocumentButtonDialog } from '../Common/DocumentButtonDialog';
 
 type Props = {};
 
@@ -41,6 +42,16 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const ft of filteredFTs) {
+      const hasDocumentFile = !!ft.values.ftDocumentFileData;
+      const ftFileComponent = hasDocumentFile ? (
+        <DocumentButtonDialog
+          documentFileData={ft.values.ftDocumentFileData}
+          alt='Arquivo da Ficha Técnica'
+        />
+      ) : (
+        ''
+      );
+
       rows.push([
         ft.values['Numero de Contrato'],
         ft.values['Código'],
@@ -50,6 +61,8 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
         moment(ft.values['Data de Vigencia Inicial']).format('DD/MM/YY'),
         ft.values['Frequência'].join(','),
         ft.values.Sentido,
+        //@ts-ignore
+        ftFileComponent,
       ]);
     }
     return rows;
@@ -64,6 +77,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     'Data de Vigencia Inicial',
     'Frequência',
     'Sentido',
+    'Arquivo da Ficha Técnica',
     '',
   ];
   const ftsTableRows = makeTableRows();

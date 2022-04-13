@@ -12,6 +12,7 @@ import {
   doc,
   setDoc,
   deleteDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 
@@ -33,7 +34,7 @@ export class FTRepositoryDatabase {
 
   async updateFT(ft: FT, companyId: string, ftId: string) {
     const docRef = doc(this.db, `companies/${companyId}/fts/${ftId}`);
-    setDoc(docRef, ft.values);
+    updateDoc(docRef, ft.values);
   }
 
   async getFTs(): Promise<FT[]> {

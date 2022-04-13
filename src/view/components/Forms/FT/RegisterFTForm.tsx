@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardActions, CardHeader } from '@mui/material';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import {
   FormFieldValue,
   IFormField,
@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../application/store/configureStore';
 import { ftFormFields } from './ftFormFields';
 import { makeInitialFormState } from '../Utils/makeInitialFormState';
+import { FileUploader } from '../../Common/FileUploader';
+import { selectCurrentRelatedCompanyId } from '../../../../infra/services/selectCurrentRelatedCompanyId';
 
 type Props = {};
 
@@ -24,6 +26,7 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
     (state: RootState) => state.companies
   );
   const ftFields = ftFormFields();
+  const fileUploaderHandleSaveRef = useRef<any>();
 
   const startState = () => setState(makeInitialFormState(ftFields));
 
@@ -42,11 +45,18 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
 
   const onSave = async () => {
     try {
-      const ft = new FT(state);
-      const repo = new FTRepositoryDatabase();
-      //await repo.addFT(ft);
+      const companyId = selectCurrentRelatedCompanyId();
+      //@ts-ignore
+      if (!companyId) return (window.location = '/workscale');
 
-      //   startState();
+      for (const key in state)
+        if (!state[key]) throw new Error(`Campo ${key} inválido!`);
+
+      const uploadResult = await fileUploaderHandleSaveRef.current();
+
+      const ft = new FT({ ftDocumentFileData: { ...uploadResult }, ...state });
+
+      const repo = new FTRepositoryDatabase();
       if (isAdmin && adminSelectedCompanyId) {
         await repo.addFT(ft, adminSelectedCompanyId);
         setSuccessMessage('Ficha Técnica cadastrada!');
@@ -75,7 +85,14 @@ export const RegisterFTForm: FunctionComponent<Props> = ({}) => {
           </Box>
         );
       })}
-
+      <Box sx={{ mb: '10px' }}>
+        <FileUploader
+          handleSaveRef={fileUploaderHandleSaveRef}
+          uploadLabel={'Upload do arquivo de Ficha Técnica'}
+          folderName='vehicles'
+        />
+      </Box>
+      ,
       <CardActions>
         <Button
           variant='contained'

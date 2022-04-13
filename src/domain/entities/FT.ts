@@ -8,6 +8,10 @@ type FTValues = {
   Frequência: string[];
   Sentido: string;
   Id?: string;
+  ftDocumentFileData: {
+    filename: string;
+    filenameInStorage: string;
+  };
 };
 
 export class FT {
