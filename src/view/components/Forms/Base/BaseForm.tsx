@@ -12,6 +12,7 @@ type Props = {
   initialState?: object;
   formFields: IFormField[];
   formTitle: string;
+  injectedFormFieldsComponents?: any[];
 };
 
 export const BaseForm: FunctionComponent<Props> = ({
@@ -19,6 +20,7 @@ export const BaseForm: FunctionComponent<Props> = ({
   initialState,
   formFields,
   formTitle,
+  injectedFormFieldsComponents,
 }) => {
   const [state, setState] = useState<any>({});
 
@@ -47,7 +49,7 @@ export const BaseForm: FunctionComponent<Props> = ({
           </Box>
         );
       })}
-
+      {injectedFormFieldsComponents}
       <CardActions>
         <Button
           variant='contained'

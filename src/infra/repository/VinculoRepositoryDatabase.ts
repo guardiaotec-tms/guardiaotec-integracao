@@ -12,6 +12,7 @@ import {
   doc,
   deleteDoc,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from './../../firebase/firebase';
 
@@ -62,7 +63,7 @@ export class VinculoRepositoryDatabase {
 
   async updateVinculo(vinculo: Vinculo, companyId: string, vinculoId: string) {
     const docRef = doc(this.db, `companies/${companyId}/vinculos/${vinculoId}`);
-    setDoc(docRef, vinculo.values);
+    updateDoc(docRef, vinculo.values);
   }
 
   async getVinculos(): Promise<Vinculo[]> {

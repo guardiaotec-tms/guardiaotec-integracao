@@ -5,7 +5,7 @@ import { RowCommand, TableRowOptions } from './TableRowOptions';
 import uuid from 'react-uuid';
 
 type Props = {
-  row: string[];
+  row: (string | Element)[];
   onRowCommand: (command: RowCommand, row: string[]) => void;
 };
 
@@ -23,6 +23,7 @@ export const CustomTableRow: FunctionComponent<Props> = ({
         );
       })}
       <TableCell align='center' sx={{ width: '10px' }}>
+        {/* @ts-ignore */}
         <TableRowOptions onRowCommand={onRowCommand} row={row} />
       </TableCell>
     </TableRow>

@@ -17,6 +17,10 @@ import { EditVehicleForm } from '../../components/Forms/Vehicle/EditVehicleForm'
 import { fetchVehicles } from '../../../infra/services/fetchVehicles';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
+// import { FileUploader } from '../../components/Common/FileUploader';
+import { VehicleDocumentButtonDialog } from './VehicleDocumentButtonDialog';
+import { DocumentButtonDialog } from '../Common/DocumentButtonDialog';
+
 import moment from 'moment';
 
 type Props = {};
@@ -38,10 +42,28 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     fetchVehicles(setVehicles);
   }, [adminSelectedCompanyId, userCompanyId]);
 
+  // const carDocumentTableComponent = (
+  //   <Button variant='text' color='primary'>
+
+  //   </Button>
+  // );
+
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const vehicle of filteredVehicles) {
       console.log(vehicle);
+
+      const hasDocumentFile = !!vehicle.values.vehicleDocumentFileData;
+
+      const vehicleFileComponent = hasDocumentFile ? (
+        <DocumentButtonDialog
+          documentFileData={vehicle.values.vehicleDocumentFileData}
+          alt='Documento do Veículo'
+        />
+      ) : (
+        ''
+      );
+
       rows.push([
         vehicle.values.Marca,
         vehicle.values.Modelo,
@@ -56,6 +78,8 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
         vehicle.values['Último Licenciamento']
           ? moment(vehicle.values['Último Licenciamento']).format('DD/MM/YYYY')
           : '',
+        //@ts-ignore
+        vehicleFileComponent,
       ]);
     }
     return rows;
@@ -73,6 +97,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     'Capacidade(m3)',
     'Categoria',
     'Último Licenciamento',
+    'Documento do Carro',
     '',
   ];
   const vehiclesTableRows = makeTableRows();
@@ -133,6 +158,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
         tableRows={vehiclesTableRows}
         onRowCommand={onRowCommand}
       />
+      {/* <FileUploader /> */}
       {inEdit && (
         <EditVehicleForm
           open={inEdit}

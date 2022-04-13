@@ -11,6 +11,10 @@ type VehicleInput = {
   Categoria: string;
   'Último Licenciamento': string;
   Id?: string;
+  vehicleDocumentFileData: {
+    filename: string;
+    filenameInStorage: string;
+  };
 };
 
 export class Vehicle {

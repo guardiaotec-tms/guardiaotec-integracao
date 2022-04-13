@@ -16,7 +16,7 @@ import { RootState } from '../../../application/store/configureStore';
 export type RowCommand = 'edit' | 'delete';
 
 type Props = {
-  onRowCommand: (command: RowCommand, row: string[]) => void;
+  onRowCommand: (command: RowCommand, row: (string | Element)[]) => void;
   row: string[];
 };
 
