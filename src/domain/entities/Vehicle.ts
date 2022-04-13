@@ -9,6 +9,7 @@ type VehicleInput = {
   Chassi: string;
   Renavam: string;
   Categoria: string;
+  'Último Licenciamento': string;
   Id?: string;
 };
 

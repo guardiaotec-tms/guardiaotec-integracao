@@ -17,6 +17,7 @@ import { EditVehicleForm } from '../../components/Forms/Vehicle/EditVehicleForm'
 import { fetchVehicles } from '../../../infra/services/fetchVehicles';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
+import moment from 'moment';
 
 type Props = {};
 
@@ -40,6 +41,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const vehicle of filteredVehicles) {
+      console.log(vehicle);
       rows.push([
         vehicle.values.Marca,
         vehicle.values.Modelo,
@@ -51,6 +53,9 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
         vehicle.values.Renavam,
         vehicle.values['Capacidade(m3)'].toString(),
         vehicle.values.Categoria,
+        vehicle.values['Último Licenciamento']
+          ? moment(vehicle.values['Último Licenciamento']).format('DD/MM/YYYY')
+          : '',
       ]);
     }
     return rows;
@@ -67,6 +72,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
     'Renavam',
     'Capacidade(m3)',
     'Categoria',
+    'Último Licenciamento',
     '',
   ];
   const vehiclesTableRows = makeTableRows();

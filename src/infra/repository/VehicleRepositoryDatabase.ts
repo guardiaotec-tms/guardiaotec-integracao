@@ -50,6 +50,8 @@ export class VehicleRepositoryDatabase {
       const data: any = doc.data();
       data['Ano Fabricação'] = data['Ano Fabricação'].toDate();
       data['Ano Modelo'] = data['Ano Modelo'].toDate();
+      if (data['Último Licenciamento'])
+        data['Último Licenciamento'] = data['Último Licenciamento'].toDate();
       data.Id = doc.id;
       vehicles.push(new Vehicle(data));
     });

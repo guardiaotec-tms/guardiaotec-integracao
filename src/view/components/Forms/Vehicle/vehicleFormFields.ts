@@ -18,6 +18,7 @@ export const vehicleFormFields = () => {
       id: 9,
       index: 9,
     },
+    { label: 'Último Licenciamento', type: 'Date', id: 10, index: 10 },
   ];
   return vehicleFields;
 };
