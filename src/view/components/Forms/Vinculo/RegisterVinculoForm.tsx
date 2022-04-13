@@ -1,3 +1,4 @@
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -6,7 +7,6 @@ import {
   CardHeader,
   TextField,
 } from '@mui/material';
-import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   FormFieldValue,
   IFormField,
@@ -15,15 +15,6 @@ import { AlertSnackbar } from '../../Common/AlertSnackbar';
 import { RenderFormField } from '../../FormField/RenderFormField';
 import { VinculoRepositoryDatabase } from '../../../../infra/repository/VinculoRepositoryDatabase';
 import { Vinculo } from '../../../../domain/entities/Vinculo';
-import { Company } from '../../../../domain/entities/Company';
-import { VehicleRepositoryDatabase } from '../../../../infra/repository/VehicleRepositoryDatabase';
-import { Vehicle } from '../../../../domain/entities/Vehicle';
-import { Itinerary } from '../../../../domain/entities/Itinerary';
-import { ItineraryRepositoryDatabase } from '../../../../infra/repository/ItineraryRepositoryDatabase';
-import { DriverRepositoryDatabase } from '../../../../infra/repository/DriverRepositoryDatabase';
-import { Driver } from '../../../../domain/entities/Driver';
-import { FTRepositoryDatabase } from '../../../../infra/repository/FTRepositoryDatabase';
-import { FT } from '../../../../domain/entities/FT';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../application/store/configureStore';
 import { getCompanyInfo } from '../../../../application/service/getUserCompanyInfo';
@@ -122,7 +113,7 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
           }
         />
       </Box>
-      <Box sx={{ mb: '10px' }}>
+      {/* <Box sx={{ mb: '10px' }}>
         <RenderFormField
           field={vinculoFields[1]}
           onChange={onChange}
@@ -131,7 +122,7 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
             !state[vinculoFields[1].label] ? vinculoFields[1].helpertText : ''
           }
         />
-      </Box>
+      </Box> */}
       <Box sx={{ mb: '10px' }}>
         <TextField
           id='transportadora'
@@ -142,7 +133,7 @@ export const RegisterVinculoForm: FunctionComponent<Props> = ({}) => {
           fullWidth
         />
       </Box>
-      {vinculoFields.slice(2).map((field: IFormField) => {
+      {vinculoFields.slice(1).map((field: IFormField) => {
         return (
           <Box sx={{ mb: '10px' }} key={field.id}>
             <RenderFormField

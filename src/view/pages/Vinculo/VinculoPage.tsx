@@ -49,7 +49,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
       console.log(vinculo);
       rows.push([
         vinculo.values['Ficha Técnica'],
-        vinculo.values['Tipo De Ficha'],
+        // vinculo.values['Tipo De Ficha'],
         vinculo.values['Transportadora'],
         vinculo.values['Veículo'],
         vinculo.values['Motorista'],
@@ -61,7 +61,7 @@ export const VinculoPage: FunctionComponent<Props> = ({}) => {
 
   const vinculosTableHead = [
     'Ficha Técnica',
-    'Tipo De Ficha',
+    // 'Tipo De Ficha',
     'Transportadora',
     'Veículo',
     'Motorista',

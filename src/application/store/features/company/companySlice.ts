@@ -4,6 +4,7 @@ export interface CompanyState {
   userCompanyId: string;
   adminSelectedCompanyId: string;
   selectedLTU: string;
+  selectedFTType: 'A' | 'B' | '';
   companyInfo: { nome: string } | null;
 }
 
@@ -11,6 +12,7 @@ const initialState: CompanyState = {
   userCompanyId: '',
   adminSelectedCompanyId: '',
   selectedLTU: '',
+  selectedFTType: '',
   companyInfo: null,
 };
 
@@ -31,6 +33,10 @@ export const companySlice = createSlice({
       const selectedLTU = action.payload;
       state.selectedLTU = selectedLTU;
     },
+    setSelectedFTType: (state, action: PayloadAction<'A' | 'B'>) => {
+      const selectedFTType = action.payload;
+      state.selectedFTType = selectedFTType;
+    },
     setCompanyInfo: (state, action: PayloadAction<any>) => {
       const companyInfo = action.payload;
       state.companyInfo = companyInfo;
@@ -46,5 +52,6 @@ export const {
   setAdminSelectedCompanyId,
   setSelectedLTU,
   setCompanyInfo,
+  setSelectedFTType,
 } = companyActions;
 export default companySlice.reducer;

@@ -17,6 +17,7 @@ import { RowCommand } from '../../components/Table/TableRowOptions';
 import { EditItineraryForm } from '../../components/Forms/Itinerary/EditItineraryForm';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
+import { FTTypeFilter } from '../../components/Filter/FTTypeFilter';
 
 type Props = {};
 
@@ -27,13 +28,16 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   const { userId, isAdmin } = useSelector((state: RootState) => state.auth);
   const [targetCommandItinerary, setTargetCommandItinerary] =
     useState<Itinerary>();
-  const { userCompanyId, adminSelectedCompanyId, selectedLTU } = useSelector(
+  const { selectedLTU, selectedFTType } = useSelector(
     (state: RootState) => state.companies
   );
 
   const fetchItinerariesFromLTU = async (LTU: string) => {
     const repo = new ItineraryRepositoryDatabase();
     const itineraries = await repo.getItinerariesFromLTU(LTU);
+    // const filtered = itineraries.filter(
+    //   (i) => i.values.FtType === selectedFTType
+    // );
     setItineraries(itineraries);
   };
 
@@ -119,6 +123,7 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
       {isAdmin && <CompanyFilter />}
       {/* {isAdmin && <LTUFilter />} */}
       <LTUFilter />
+      {/* <FTTypeFilter /> */}
       <Box
         sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mb: 2 }}
       >

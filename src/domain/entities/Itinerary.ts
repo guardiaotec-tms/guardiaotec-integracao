@@ -12,6 +12,7 @@ type ItineraryValues = {
   Horas: string;
   Serviços: string;
   Endereço: string;
+  FtType: 'A' | 'B';
   Id?: string;
   // LTU: string;
 };

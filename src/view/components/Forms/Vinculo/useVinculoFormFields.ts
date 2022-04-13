@@ -69,13 +69,13 @@ export const useVinculoFormFields = () => {
       id: 4,
       helpertText: 'Inserir o número Ficha Técnica',
     },
-    {
-      label: 'Tipo De Ficha',
-      type: 'List Selection',
-      options: ['A', 'B'],
-      id: 5,
-      helpertText: 'Inserir o tipo de Ficha Técnica',
-    },
+    // {
+    //   label: 'Tipo De Ficha',
+    //   type: 'List Selection',
+    //   options: ['A', 'B'],
+    //   id: 5,
+    //   helpertText: 'Inserir o tipo de Ficha Técnica',
+    // },
     {
       label: 'Veículo',
       type: 'List Selection',
