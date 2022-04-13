@@ -39,11 +39,15 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
     // }
   }, [adminSelectedCompanyId, userCompanyId]);
 
+  const hasDocumentFile = (ft: FT) => {
+    const { filename, filenameInStorage } = ft.values.ftDocumentFileData;
+    return !!filename && !!filenameInStorage;
+  };
+
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const ft of filteredFTs) {
-      const hasDocumentFile = !!ft.values.ftDocumentFileData;
-      const ftFileComponent = hasDocumentFile ? (
+      const ftFileComponent = hasDocumentFile(ft) ? (
         <DocumentButtonDialog
           documentFileData={ft.values.ftDocumentFileData}
           alt='Arquivo da Ficha Técnica'

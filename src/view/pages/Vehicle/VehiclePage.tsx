@@ -47,11 +47,16 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
   //   </Button>
   // );
 
+  const hasDocumentFile = (vehicle: Vehicle) => {
+    const { filename, filenameInStorage } =
+      vehicle.values.vehicleDocumentFileData;
+    return !!filename && !!filenameInStorage;
+  };
+
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const vehicle of filteredVehicles) {
-      const hasDocumentFile = !!vehicle.values.vehicleDocumentFileData;
-      const vehicleFileComponent = hasDocumentFile ? (
+      const vehicleFileComponent = hasDocumentFile(vehicle) ? (
         <DocumentButtonDialog
           documentFileData={vehicle.values.vehicleDocumentFileData}
           alt='Documento do Veículo'

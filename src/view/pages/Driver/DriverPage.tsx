@@ -37,11 +37,16 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     fetchDrivers(setDrivers);
   }, [adminSelectedCompanyId, userCompanyId]);
 
+  const hasDocumentFile = (driver: Driver) => {
+    const { filename, filenameInStorage } =
+      driver.values.driverDocumentFileData;
+    return !!filename && !!filenameInStorage;
+  };
+
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const driver of filteredDrivers) {
-      const hasDocumentFile = !!driver.values.driverDocumentFileData;
-      const driverFileComponent = hasDocumentFile ? (
+      const driverFileComponent = hasDocumentFile(driver) ? (
         <DocumentButtonDialog
           documentFileData={driver.values.driverDocumentFileData}
           alt='Imagem da CNH do Motorista'
