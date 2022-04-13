@@ -18,6 +18,7 @@ import { EditDriverForm } from '../../components/Forms/Driver/EditDriverForm';
 import { fetchDrivers } from '../../../infra/services/fetchDrivers';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
+import { DocumentButtonDialog } from '../Common/DocumentButtonDialog';
 
 type Props = {};
 
@@ -39,11 +40,23 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const driver of filteredDrivers) {
+      const hasDocumentFile = !!driver.values.driverDocumentFileData;
+      const driverFileComponent = hasDocumentFile ? (
+        <DocumentButtonDialog
+          documentFileData={driver.values.driverDocumentFileData}
+          alt='Imagem da CNH do Motorista'
+        />
+      ) : (
+        ''
+      );
+
       rows.push([
         driver.values.nome,
         driver.values.contato,
         driver.values.cnh,
         moment(driver.values.vencimento).format('MM/YYYY'),
+        //@ts-ignore
+        driverFileComponent,
       ]);
     }
     return rows;
@@ -54,6 +67,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
     'Contato',
     'CNH',
     'Vencimento CNH',
+    'Arquivo da CNH',
     '', // necessário para a simetria da tabela
   ];
   const driversTableRows = makeTableRows();

@@ -15,6 +15,7 @@ import {
   setDoc,
   doc,
   deleteDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
 import { DriverRepository } from './../../domain/repository/DriverRepository';
@@ -35,18 +36,11 @@ export class DriverRepositoryDatabase {
     if (querySnapshot.docs.length > 0)
       throw new Error('Motorista já cadastrado com essa cnh');
 
-    const data = {
-      cnh: driver.values.cnh,
-      nome: driver.values.nome,
-      contato: driver.values.contato,
-      vencimento: driver.values.vencimento,
-    };
-
     const driversCollectionRef = collection(
       this.db,
       `companies/${companyId}/drivers`
     );
-    addDoc(driversCollectionRef, data);
+    addDoc(driversCollectionRef, driver.values);
   }
 
   async updateDriver(driver: Driver, companyId: string, driverId: string) {
@@ -57,7 +51,7 @@ export class DriverRepositoryDatabase {
       contato: driver.values.contato,
       vencimento: driver.values.vencimento,
     };
-    setDoc(docRef, data);
+    updateDoc(docRef, data);
   }
 
   async getDrivers(): Promise<Driver[]> {

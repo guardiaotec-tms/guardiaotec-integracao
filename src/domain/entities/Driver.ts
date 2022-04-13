@@ -4,6 +4,10 @@ type DriverValues = {
   contato: string;
   vencimento: Date;
   Id?: string;
+  driverDocumentFileData: {
+    filename: string;
+    filenameInStorage: string;
+  };
 };
 
 export class Driver {

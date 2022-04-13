@@ -70,6 +70,7 @@ export const EditDriverForm: FunctionComponent<Props> = ({
         vencimento: state.Vencimento,
       };
 
+      //@ts-ignore
       const driver = new Driver(driverValues);
       const repo = new DriverRepositoryDatabase();
 

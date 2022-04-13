@@ -6,11 +6,13 @@ import { driverFormFields } from './driverFormFields';
 type Props = {
   onSave: (state: any, setState?: any) => void;
   initialState?: object;
+  injectedFormFieldsComponents?: any;
 };
 
 export const BaseDriverForm: FunctionComponent<Props> = ({
   onSave,
   initialState,
+  injectedFormFieldsComponents,
 }) => {
   return (
     <div>
@@ -18,7 +20,8 @@ export const BaseDriverForm: FunctionComponent<Props> = ({
         onSave={onSave}
         initialState={initialState}
         formFields={driverFormFields()}
-        formTitle='Editar Motorista'
+        formTitle='Cadastrar Motorista'
+        injectedFormFieldsComponents={injectedFormFieldsComponents}
       />
     </div>
   );

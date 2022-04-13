@@ -18,7 +18,6 @@ import { fetchVehicles } from '../../../infra/services/fetchVehicles';
 import { selectCurrentRelatedCompanyId } from '../../../infra/services/selectCurrentRelatedCompanyId';
 import { DeleteConfirmDialog } from '../Common/DeleteConfirmDialog';
 // import { FileUploader } from '../../components/Common/FileUploader';
-import { VehicleDocumentButtonDialog } from './VehicleDocumentButtonDialog';
 import { DocumentButtonDialog } from '../Common/DocumentButtonDialog';
 
 import moment from 'moment';
@@ -51,10 +50,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
   const makeTableRows = () => {
     let rows: string[][] = [];
     for (const vehicle of filteredVehicles) {
-      console.log(vehicle);
-
       const hasDocumentFile = !!vehicle.values.vehicleDocumentFileData;
-
       const vehicleFileComponent = hasDocumentFile ? (
         <DocumentButtonDialog
           documentFileData={vehicle.values.vehicleDocumentFileData}
