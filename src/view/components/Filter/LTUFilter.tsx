@@ -45,16 +45,26 @@ export const LTUFilter: FunctionComponent<Props> = ({}) => {
           >
             {
               fts &&
-                fts.map((ft: FT) => {
-                  return (
-                    <MenuItem
-                      key={ft.values['Nº da FT']}
-                      value={ft.values['Nº da Linha']}
-                    >
-                      {ft.values['Nº da Linha']}
-                    </MenuItem>
-                  );
-                })
+                fts
+                  .sort(function (a, b) {
+                    if (a.values['Nº da Linha'] < b.values['Nº da Linha']) {
+                      return -1;
+                    }
+                    if (a.values['Nº da Linha'] > b.values['Nº da Linha']) {
+                      return 1;
+                    }
+                    return 0;
+                  })
+                  .map((ft: FT) => {
+                    return (
+                      <MenuItem
+                        key={ft.values['Nº da FT']}
+                        value={ft.values['Nº da Linha']}
+                      >
+                        {ft.values['Nº da Linha']}
+                      </MenuItem>
+                    );
+                  })
               // .concat([
               //   <MenuItem key={'unique'} value={'Todas'}>
               //     Todas
