@@ -42,7 +42,8 @@ export const ItineraryPage: FunctionComponent<Props> = ({}) => {
   };
 
   useEffect(() => {
-    fetchItinerariesFromLTU(selectedLTU);
+    if (selectedLTU) fetchItinerariesFromLTU(selectedLTU);
+    else setItineraries([]);
   }, [selectedLTU]);
 
   const makeTableRows = () => {

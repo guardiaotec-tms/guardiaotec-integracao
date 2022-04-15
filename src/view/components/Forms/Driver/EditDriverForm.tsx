@@ -8,6 +8,7 @@ import { RootState } from '../../../../application/store/configureStore';
 import { useSelector } from 'react-redux';
 import { makeInitialFormState } from '../Utils/makeInitialFormState';
 import { driverFormFields } from './driverFormFields';
+import { selectCurrentRelatedCompanyId } from '../../../../infra/services/selectCurrentRelatedCompanyId';
 
 type Props = {
   open: boolean;
@@ -73,18 +74,14 @@ export const EditDriverForm: FunctionComponent<Props> = ({
       //@ts-ignore
       const driver = new Driver(driverValues);
       const repo = new DriverRepositoryDatabase();
-
-      if (isAdmin && adminSelectedCompanyId) {
-        await repo.updateDriver(driver, adminSelectedCompanyId, driverId);
-        setSuccessMessage('Motorista atualizado!');
-        resetState(setState);
-        // onClose();
-      } else if (userCompanyId) {
-        await repo.updateDriver(driver, userCompanyId, driverId);
-        setSuccessMessage('Motorista atualizado!');
-        resetState(setState);
-        // onClose();
-      }
+      const companyId = selectCurrentRelatedCompanyId();
+      if (!companyId)
+        throw new Error(
+          'Id de transportadora não identificado! Impossível salvar Motorista!'
+        );
+      await repo.updateDriver(driver, companyId, driverId);
+      setSuccessMessage('Motorista atualizado!');
+      resetState(setState);
     } catch (error: any) {
       setError(error.message);
     }

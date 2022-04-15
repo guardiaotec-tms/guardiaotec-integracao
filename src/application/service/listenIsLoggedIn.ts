@@ -1,3 +1,4 @@
+import { resetStore } from './resetStore';
 import { listenUser } from './listenUser';
 import { store } from '../store/configureStore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -17,6 +18,7 @@ export const listenIsLoggedIn = (setIsLoggedIn: any) => {
     } else {
       setIsLoggedIn(false);
       store.dispatch(setUserId(''));
+      resetStore();
     }
   });
 };

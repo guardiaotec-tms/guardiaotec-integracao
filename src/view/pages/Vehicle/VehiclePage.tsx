@@ -48,6 +48,7 @@ export const VehiclePage: FunctionComponent<Props> = ({}) => {
   // );
 
   const hasDocumentFile = (vehicle: Vehicle) => {
+    if (!vehicle.values.vehicleDocumentFileData) return false;
     const { filename, filenameInStorage } =
       vehicle.values.vehicleDocumentFileData;
     return !!filename && !!filenameInStorage;

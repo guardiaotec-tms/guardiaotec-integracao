@@ -9,6 +9,7 @@ import { BaseVehicleForm } from './BaseVehicleForm';
 import { vehicleFormFields } from './vehicleFormFields';
 import { VehicleRepositoryDatabase } from '../../../../infra/repository/VehicleRepositoryDatabase';
 import { Vehicle } from '../../../../domain/entities/Vehicle';
+import { selectCurrentRelatedCompanyId } from '../../../../infra/services/selectCurrentRelatedCompanyId';
 
 type Props = {
   open: boolean;
@@ -55,15 +56,14 @@ export const EditVehicleForm: FunctionComponent<Props> = ({
 
       const vehicle = new Vehicle(state);
       const repo = new VehicleRepositoryDatabase();
-      if (isAdmin && adminSelectedCompanyId) {
-        await repo.updateVehicle(vehicle, adminSelectedCompanyId, vehicleId);
-        setSuccessMessage('Veículo atualizado!');
-        resetState(setState);
-      } else if (userCompanyId) {
-        await repo.updateVehicle(vehicle, userCompanyId, vehicleId);
-        setSuccessMessage('Veículo atualizado!');
-        resetState(setState);
-      }
+      const companyId = selectCurrentRelatedCompanyId();
+      if (!companyId)
+        throw new Error(
+          'Id de transportadora não identificado! Impossível salvar Veículo!'
+        );
+      await repo.updateVehicle(vehicle, companyId, vehicleId);
+      setSuccessMessage('Veículo atualizado!');
+      resetState(setState);
     } catch (error: any) {
       setError(error.message);
     }

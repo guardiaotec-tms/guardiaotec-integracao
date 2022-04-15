@@ -38,6 +38,7 @@ export const DriverPage: FunctionComponent<Props> = ({}) => {
   }, [adminSelectedCompanyId, userCompanyId]);
 
   const hasDocumentFile = (driver: Driver) => {
+    if (!driver.values.driverDocumentFileData) return false;
     const { filename, filenameInStorage } =
       driver.values.driverDocumentFileData;
     return !!filename && !!filenameInStorage;

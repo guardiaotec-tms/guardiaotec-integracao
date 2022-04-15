@@ -60,7 +60,7 @@ export const EditFTForm: FunctionComponent<Props> = ({
         throw new Error(
           'Id de transportadora não identificado! Impossível salvar FT!'
         );
-      await repo.updateFT(ft, adminSelectedCompanyId, ftId);
+      await repo.updateFT(ft, companyId, ftId);
       setSuccessMessage('Ficha Técnica atualizada!');
       resetState(setState);
     } catch (error: any) {

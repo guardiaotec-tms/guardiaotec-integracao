@@ -39,11 +39,14 @@ export const authSlice = createSlice({
       const user = action.payload;
       state.user = user;
     },
+    reset: () => {
+      return initialState;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
 // export const { setUserId } = counterSlice.actions;
 export const authActions = authSlice.actions;
-export const { setUserId, setIsAdmin, setUser } = authActions;
+export const { setUserId, setIsAdmin, setUser, reset } = authActions;
 export default authSlice.reducer;

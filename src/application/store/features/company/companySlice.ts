@@ -41,6 +41,9 @@ export const companySlice = createSlice({
       const companyInfo = action.payload;
       state.companyInfo = companyInfo;
     },
+    reset: () => {
+      return initialState;
+    },
   },
 });
 
@@ -53,5 +56,6 @@ export const {
   setSelectedLTU,
   setCompanyInfo,
   setSelectedFTType,
+  reset,
 } = companyActions;
 export default companySlice.reducer;

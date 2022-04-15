@@ -54,21 +54,18 @@ export const EditItineraryForm: FunctionComponent<Props> = ({
 
   const onSave = async (state: any, setState: any) => {
     try {
-      for (const key in state)
-        if (!state[key]) throw new Error(`Campo ${key} inválido!`);
+      // for (const key in state)
+      //   if (!state[key]) throw new Error(`Campo ${key} inválido!`);
       const itinerary = new Itinerary(state);
       const repo = new ItineraryRepositoryDatabase();
       const companyId = selectCurrentRelatedCompanyId();
+      console.log(companyId);
       if (!companyId)
         throw new Error(
           'Id de transportadora não identificado! Impossível salvar atualização no Plano de Viagem!'
         );
-      await repo.updateItinerary(
-        itinerary,
-        adminSelectedCompanyId,
-        itineraryId
-      );
-      setSuccessMessage('Plano de Viagem atualizada!');
+      await repo.updateItinerary(itinerary, companyId, itineraryId);
+      setSuccessMessage('Plano de Viagem atualizado!');
       resetState(setState);
     } catch (error: any) {
       setError(error.message);

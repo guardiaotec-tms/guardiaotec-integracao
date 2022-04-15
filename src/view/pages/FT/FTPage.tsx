@@ -40,6 +40,7 @@ export const FTPage: FunctionComponent<Props> = ({}) => {
   }, [adminSelectedCompanyId, userCompanyId]);
 
   const hasDocumentFile = (ft: FT) => {
+    if (!ft.values.ftDocumentFileData) return false;
     const { filename, filenameInStorage } = ft.values.ftDocumentFileData;
     return !!filename && !!filenameInStorage;
   };
