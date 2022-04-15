@@ -91,6 +91,7 @@ export const SignUpPage: FunctionComponent<Props> = ({}) => {
         userId,
         selectedCompany,
         password,
+        email,
         selectedAccessType
       );
 

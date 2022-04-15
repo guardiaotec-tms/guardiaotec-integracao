@@ -1,3 +1,6 @@
+import { User } from './../../domain/entities/User';
+import { db } from './../../firebase/firebase';
+import { getDocs, collection } from 'firebase/firestore';
 import { serverUrl } from './serverUrl';
 
 export class UserRepositoryDatabase {
@@ -19,5 +22,18 @@ export class UserRepositoryDatabase {
     }
 
     return response;
+  }
+
+  async getUsers() {
+    const usersCollection = collection(db, 'users');
+    const querySnapshot = await getDocs(usersCollection);
+
+    const users: User[] = [];
+    querySnapshot.forEach((doc) => {
+      const data: any = doc.data();
+      data.Id = doc.id;
+      users.push(new User(data));
+    });
+    return users;
   }
 }

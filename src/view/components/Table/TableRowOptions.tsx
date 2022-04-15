@@ -80,7 +80,9 @@ export const TableRowOptions: FunctionComponent<Props> = ({
             <EditIcon></EditIcon>
             <ListItemText primary='Editar' />
           </ListItemButton>
-          {(user?.accessType === 'Administrador' || isAdmin) && (
+          {(user?.accessType === 'Administrador' ||
+            user?.accessType === 'Editor' ||
+            isAdmin) && (
             <ListItemButton onClick={handleDelete}>
               <DeleteIcon></DeleteIcon>
               <ListItemText primary='Deletar' />

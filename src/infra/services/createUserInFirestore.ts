@@ -7,11 +7,12 @@ export const createFirestoreUser = async (
   userId: string,
   companyId: string,
   password: string,
+  email: string,
   accessType: CompanyAccessType
 ) => {
   try {
     const docRef = doc(db, 'users', userId);
-    const data = { companyId, accessType, password };
+    const data = { companyId, accessType, password, email };
     const response = await setDoc(docRef, data);
     return response;
   } catch (error: any) {

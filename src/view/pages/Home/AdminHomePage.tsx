@@ -4,6 +4,7 @@ import { ResponsiveAppBar } from '../../components/Common/AppBar';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import { GuardiaoTecInfoBox } from './GuardiaoTecInfoBox';
+import { ListOfUsers } from './ListOfUsers';
 
 type Props = {};
 
@@ -12,6 +13,7 @@ export const AdminHomePage: FunctionComponent<Props> = ({}) => {
     <div>
       <ResponsiveAppBar />
       <GuardiaoTecInfoBox />
+      <ListOfUsers />
     </div>
   );
 };
